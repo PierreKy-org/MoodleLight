@@ -59,7 +59,7 @@ public class DeleteToModuleStepdefs {
     }
     @Then("{string} has no longer {string} in his modules")
     public void teacherCantAccess(){
-        assertFalse(teacherToDelete.getModules().stream().anyMatch(module1 -> module1 == module));
+        assertFalse(teacherToDelete.getModules().contains(module));
     }
 
 
@@ -69,7 +69,7 @@ public class DeleteToModuleStepdefs {
     }
     @Then("{string} is unavailable for {int}")
     public void studentCantAccess(){
-        assertFalse(student.getModules().stream().anyMatch(module1 -> module1 == module));
+        assertFalse(student.getModules().contains(module));
     }
 
 
