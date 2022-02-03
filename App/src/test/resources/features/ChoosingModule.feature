@@ -11,3 +11,10 @@ Feature: Choosing module.
     Given A Module with a Teacher registered to it
     When I choose this Module
     Then I can't register to it
+
+  Scenario: Teacher delete a teacher
+    Given a teacher "Cinzia" and a teacher "Phillipe"
+    Given a Module with "Phillipe" registered to it
+    When "Cinzia" delete "Phillipe" to the Module
+    Then "Phillipe" is delete on the Module
+    And the Module is unavailable for "Phillipe"
