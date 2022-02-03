@@ -26,4 +26,8 @@ public class Module {
     public void addAUser(User u){
         this.usersList.add(u);
     }
+
+    public void addUserList(User user){
+        usersList.add(user);
+    }
 }

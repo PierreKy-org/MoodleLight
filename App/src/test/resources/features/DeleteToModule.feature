@@ -1,20 +1,20 @@
 Feature: Delete to Module
 
   Background:
-    Given a teacher named "Cinzia"
+    Given a Teacher named "Cinzia"
     And a Module named "Math"
     And a teacher named "Phillipe" registered on "Math"
-    And a Student named "Pierre" registered on "Math"
+    And a Student with the id 123 is registered on "Math"
 
-  Scenario: "Cinzia" delete "Phillipe" from "Math"
-    When "Cinzia" delete "Phillipe" from "Math"
-    Then "Phillipe" is delete from "Math"
+  Scenario: "Cinzia" delete "Phillipe" from the module
+    Given "Cinzia"
+    When "Cinzia" delete "Phillipe" from the module
+    Then "Phillipe" has no longer "Math" in his modules
 
-  Scenario: "Phillipe" who doesn't have module try to access to "Math"
+  """Scenario: "Phillipe" who doesn't have module
     When "Philippe" try to access to "Math"
-    And "Math" is unavailable for "Phillipe"
+    Then "Math" is unavailable for "Phillipe"*/"""
 
   Scenario: "Cinzia" delete "Pierre" from "Math"
-    When "Cinzia" delete "Pierre" from "Math"
-    Then "Pierre" is delete from "Math"
-    And "Math" is unavailable for "Pierre"
+    When "Cinzia" delete the student with the id 123 from "Math"
+    Then "Math" is unavailable for 123
