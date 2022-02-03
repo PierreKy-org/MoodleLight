@@ -1,4 +1,9 @@
-Feature: Choosing module.
+Feature: Add a un course
+
+  Scenario : Adding a student to a course
+    When «Cinzia» add «Pierre» at the course «Genie Logiciel»
+    Then There is 1 in his number of course
+    And There is «Genre Logiciel» in his list of courses
 
   Scenario: Choosing an empty module as a teacher.
     Given As a Teacher
