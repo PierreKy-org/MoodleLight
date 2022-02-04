@@ -1,4 +1,5 @@
 Feature: Add/Delete Resources to a Module
+
   Background:
     Given a Teacher named "Cinzia"
     And a Resource named "MCQ"
@@ -17,7 +18,7 @@ Feature: Add/Delete Resources to a Module
     When "Cinzia" delete "MCQ" from "Math"
     Then "Math" no longer contains "MCQ"
 
-    Scenario: Delete MCQ of a Module with 1 resource as Cinzia
-      When "Cinzia" delete "MCQ" to "Math"
-      Then "Math" no longer contains "MCQ"
-      And "Math" no longer contains Resource
+  Scenario: Delete MCQ of a Module with 1 resource as Cinzia
+    When "Cinzia" delete "MCQ" to "Math"
+    Then "Math" no longer contains "MCQ"
+    And "Math" no longer contains Resource
