@@ -38,9 +38,7 @@ public abstract class User {
         this.login = login;
     }
 
-    public Set<Module> getModules() {
-        return modules;
-    }
+    public Set<Module> getModules() { return modules;}
 
     public void setModules(Set<Module> modules) {
         this.modules = modules;

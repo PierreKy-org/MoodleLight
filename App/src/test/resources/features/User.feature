@@ -7,6 +7,5 @@ Feature: Knowing the Modules i'm in
     When Matthieu is in modules Maths and Computer Science
     Then Matthieu can knows that he is registered in Maths and Computer Science modules
 
-    Scenario : "Mathieu" try to
 
 
