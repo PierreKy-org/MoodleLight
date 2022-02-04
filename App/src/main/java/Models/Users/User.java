@@ -2,17 +2,27 @@ package Models.Users;
 
 import Models.Module;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 
+
+@Entity
+@Table(name = "users")
 public abstract class User {
-    private int id;
+    @Id
+    @GeneratedValue
+    private Long id;
+    @Column(nullable = false,length = 100)
     protected String firstName;
+    @Column(nullable = false,length = 100)
     protected String lastName;
+    @Column(nullable = false,length = 100)
     protected String login;
+    @Column(nullable = false,length = 100)
     protected String password;
 
 
-    public User(int id, String firstName, String lastName, String login, String password) {
+    public User(Long id, String firstName, String lastName, String login, String password) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -20,7 +30,7 @@ public abstract class User {
         this.password = password;
     }
 
-    private ArrayList<Module> modules;
+    protected ArrayList<Module> modules = new ArrayList<>();
 
     public String getLogin() {
         return login;
@@ -34,12 +44,5 @@ public abstract class User {
         this.login = login;
     }
 
-    public void addModules(Module module) {
-        modules.add(module);
-    }
 
-    public void removeUserFromModule(User user, Module module) {
-        user.modules.remove(module);
-        module.getUsersList().remove(user);
-    }
 }

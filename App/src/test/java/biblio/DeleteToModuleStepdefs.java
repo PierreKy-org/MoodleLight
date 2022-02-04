@@ -19,7 +19,7 @@ public class DeleteToModuleStepdefs {
 
 
     @Given("a Teacher named {string}")
-    public void initaliseTeacher(int id,String nameTeacher,String lastName,String login,String password) {
+    public void initaliseTeacher(Long id, String nameTeacher, String lastName, String login, String password) {
         teacher = new Teacher(id,nameTeacher,lastName,login,password);
 
     }
@@ -30,17 +30,16 @@ public class DeleteToModuleStepdefs {
 
     }
     @And("a teacher named {string} registered on {string}")
-    public void initialiseTeacherToRemove(int id,String nameTeacher,String lastName,String login,String password){
+    public void initialiseTeacherToRemove(Long id, String nameTeacher, String lastName, String login, String password){
         teacherToDelete = new Teacher(id,nameTeacher,lastName,login,password);
-        teacherToDelete.addModules(module);
-        module.addUserList(teacherToDelete);
+        teacherToDelete.register(module);
+        module.addUsertoTheList(teacherToDelete);
 
     }
     @And("a Student with the id {int} is registered on {string}")
-    public void initialiseStudent(int id,String nameTeacher,String lastName,String login,String password){
+    public void initialiseStudent(Long id, String nameTeacher, String lastName, String login, String password){
         student = new Student(id,nameTeacher,lastName,login,password);
-        student.addModules(module);
-        module.addUserList(student);
+        module.addUsertoTheList(student);
 
     }
 
