@@ -8,7 +8,6 @@ import org.springframework.context.annotation.ComponentScan;
 @SpringBootApplication
 public class RestServiceApplication {
     public static void main(String[] args) {
-
         SpringApplication.run(RestServiceApplication.class, args);
         System.out.println("Running on http://localhost:8080");
     }
