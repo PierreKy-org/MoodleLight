@@ -14,3 +14,11 @@ Feature: Try to Access to a Module
     When "Pierre" try to access to "Math"
     Then the last request status is 400
     And "Pierre" is not allowed to acces to "Math"
+
+  Scenario: "Cinzia" want to knows her number of module
+    When "Cinzia" want to know her number of the modules her follows
+    Then There is 0
+
+  Scenario: "Pierre" want to knows his number of module
+    When "Pierre" want to know his number of the modules his follows
+    Then There is 0
