@@ -1,6 +1,5 @@
 package Models;
 
-import Models.Users.Student;
 import Models.Users.User;
 
 import java.util.ArrayList;
@@ -27,7 +26,10 @@ public class Module {
         this.usersList.add(u);
     }
 
-    public void addUserList(User user){
+    public void addUsertoTheList(User user){
         usersList.add(user);
+    }
+    public void removeUserFromTheList(User user){
+        usersList.remove(user);
     }
 }
