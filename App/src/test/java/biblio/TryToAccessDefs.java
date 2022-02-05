@@ -14,7 +14,7 @@ import java.util.HashSet;
 
 import static org.junit.Assert.*;
 
-public class TryToAccess {
+public class TryToAccessDefs {
 
 
     @Autowired
@@ -32,23 +32,8 @@ public class TryToAccess {
     @Autowired
     PasswordEncoder encoder;
 
-    @Given("a User with the login {string} and the role {string} with no Module")
+    @Given("A User with the login {string} and the role {string} with no Module")
     public void aTeacherNamedWithNoModule(String login,String role) {
-        User user = userRepository.findUserName(login).orElse(new User(login));
-        user.setRoles(new HashSet<BeanDefinitionDsl.Role>(){{ add(roleRepository.findByName(role).orElseThrow(() -> new RuntimeException("Error: Role is not found."))); }});
-        userRepository.save(user);
-    }
-
-
-    @And("a Module named {string}")
-    public void aModuleNamed(String name) {
-        Module module = moduleRepository.findByName(name).orElse(new Module(name));
-        module.setParticipants(new HashSet<>());
-        moduleRepository.save(module);
-    }
-
-    @And("a User with the in {string} and the role {string} with no Module")
-    public void aStudentNamedWithNoModule(String login,String role) {
         User user = userRepository.findUserName(login).orElse(new User(login));
         user.setRoles(new HashSet<BeanDefinitionDsl.Role>(){{ add(roleRepository.findByName(role).orElseThrow(() -> new RuntimeException("Error: Role is not found."))); }});
         userRepository.save(user);
@@ -103,4 +88,5 @@ public class TryToAccess {
         Module module = moduleRepository.FindByName(moduleName).orElseThrow(() -> new RuntimeException("Error: Module is not found."));
         assertFalse(user.getModules().contains(module));
     }
+
 }

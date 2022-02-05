@@ -1,9 +1,8 @@
 Feature: Try to Access to a Module
 
   Background:
-    Given a User with the login "Cinzia" and the role "Teacher" with no Module
-    Given a Module named "Math"
-    Given a User with the in "Pierre" and the role "Student" with no Module
+    Given A User with the login "Cinzia" and the role "Teacher" with no Module
+    Given A Module named "Math"
 
   Scenario: A teacher with no module try to access to "Math"
     When "Cinzia" try to access to "Math"

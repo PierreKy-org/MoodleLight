@@ -2,16 +2,13 @@ package biblio;
 
 import Models.Users.User;
 import io.cucumber.java.en.And;
-import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.support.BeanDefinitionDsl.Role;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import Models.Module;
 import org.junit.Assert;
 
-import java.util.HashSet;
 
 public class ModuleStepDefs extends SpringIntegration {
     private static final String PASSWORD = "password";
@@ -30,21 +27,6 @@ public class ModuleStepDefs extends SpringIntegration {
 
     @Autowired
     PasswordEncoder encoder;
-
-
-    @Given("A User with the login {string} and the role {string}")
-    public void aTeacherWithLogin(String login,String role){
-        User user = userRepository.findByUsername(login).orElse(new User(login));
-        user.setRoles(new HashSet<Role>(){{ add(roleRepository.findByName(role).orElseThrow(() -> new RuntimeException("Error: Role is not found."))); }});
-        userRepository.save(user);
-    }
-
-    @And("A Module named {string}")
-    public void aModuleNamed(String name) {
-        Module module = moduleRepository.findByName(name).orElse(new Module(name));
-        module.setParticipants(new HashSet<>());
-        moduleRepository.save(module);
-    }
 
     @When("{string} is removed from the Module {string}")
     public void aUserdeleteAnotherFromTheModule(String login, String moduleName) {
