@@ -1,4 +1,5 @@
 Feature: Logging as a User
+
   Background :
     Given Authentication Service
     And A Student named "Mathieu"
@@ -36,4 +37,3 @@ Feature: Logging as a User
     When "Matthieu" try to enter the good password "azertyuiop"
     Then the last request status is 200
     And "Mathieu" is login
-
