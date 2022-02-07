@@ -6,7 +6,7 @@ Feature: Add/Delete Resources to a Module
     And a Module named "Math"
 
   Scenario Add MCQ to a Math as a Cinzia
-    When "Cinzia" add the "MCQ" to the "Math"
+    When "Cinzia" add "MCQ" to "Math"
     Then "Math" contains "MCQ"
 
   Scenario: Add MCQ to a Math with no Resource as a Cinzia

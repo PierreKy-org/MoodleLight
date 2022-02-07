@@ -37,11 +37,6 @@ public class ChoosingModule {
         Assert.assertTrue(module.getUsersList().contains(user));
     }
 
-    @Then("last request status is {int}")
-    public void lastRequestStatusIs(int answerRequest) {
-        //TODO refaire le gherkin car on ne sait pas qui renvoit le status
-    }
-
     @And("{string} can register to {string}")
     public void iCanRegisterTo(String userName, String moduleName) {
         User user = userRepository.findByUsername(userName).orElseThrow(() -> new RuntimeException("Error: User is not found."));
