@@ -20,7 +20,7 @@ Feature: Choosing module.
       And "Renevier" can't register to "Math"
 
   Scenario: Teacher add a a student to a module
-    When "Cinzia" add "Mathieu" to "Math"
+    When "Cinzia" add Student "Mathieu" to "Math"
     Then the last request status is 200
       And "Mathieu" is added to the Module "Math"
       And "Math" is available for "Mathieu"

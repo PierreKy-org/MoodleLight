@@ -51,7 +51,7 @@ public class ChoosingModule {
         Assert.assertFalse(module.availableFor.contains(user));
     }
 
-    @When("{string} add {string} to {string}")
+    @When("{string} add Student {string} to {string}")
     public void addTo(String teacherName, String studentName, String moduleName) {
         Teacher teacher = teacherRepository.findByUsername(teacherName).orElseThrow(() -> new RuntimeException("Error: User is not found."));
         Student student = studentRepository.findByUsername(studentName).orElseThrow(() -> new RuntimeException("Error: User is not found."));
