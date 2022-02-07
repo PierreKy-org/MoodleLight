@@ -1,8 +1,8 @@
 Feature : Register Teacher
 
   Background:
-    Given A User with the login "steve" and the role "teacher"
-    And A User with the login "sarah" and the role "teacher"
+    Given An User with the login "steve" and the role "teacher"
+    And An User with the login "sarah" and the role "teacher"
     And A Module named "Gestion de projet"
 
   Scenario: Register Teacher

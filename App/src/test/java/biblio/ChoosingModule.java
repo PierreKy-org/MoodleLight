@@ -22,11 +22,6 @@ public class ChoosingModule {
     @Autowired
     UserRepository userRepository;
 
-    @Given("A Teacher {string}")
-    public void asATeacher(String teacherName) {
-        Teacher teacher = teacherRepository.findByUsername(teacherName).orElseThrow(() -> new RuntimeException("Error: User is not found."));
-    }
-
 
     @When("{string} chooses the module {string}")
     public void iChooseTheModule(String userName, String moduleName) {
@@ -66,18 +61,6 @@ public class ChoosingModule {
         User user = userRepository.findByUsername(userName).orElseThrow(() -> new RuntimeException("Error: User is not found."));
         Module module = moduleRepository.findByName(moduleName).orElseThrow(() -> new RuntimeException("Error: Module is not found."));
         Assert.assertTrue(module.availableFor.contains(user));
-    }
-
-    @Given("A Student named {string}")
-    public void anUserNamed(String studentName) {
-        Student student = studentRepository.findByUsername(studentName).orElseThrow(() -> new RuntimeException("Error: User is not found."));
-
-    }
-
-    @Given("A Module {string}")
-    public void aModule(String moduleName) {
-        Module module = moduleRepository.findByName(moduleName).orElseThrow(() -> new RuntimeException("Error: Module is not found."));
-
     }
 
     @And("{string} has {int} teacher registered")

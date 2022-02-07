@@ -19,21 +19,21 @@ Feature: Logging as a User
 
   Scenario: "Matthieu" enter a wrong login
     When "Matthieu" try to enter the wrong login "falseLogin"
-    Then last request status is 400
+    Then the last request status is 400
     And "Mathieu" is don't login
 
   Scenario: "Matthieu" enter a wrong password
     When "Matthieu" try to enter the wrong password "poiuytreza"
-    Then last request status is 400
+    Then the last request status is 400
     And "Mathieu" is don't login
 
   Scenario: "Matthieu" enter a good login
     When "Matthieu" try to enter the good login "mathieu01"
-    Then last request status is 200
+    Then the last request status is 200
     And his login is accepted
 
   Scenario: "Matthieu" enter a good password
     When "Matthieu" try to enter the good password "azertyuiop"
-    Then last request status is 200
+    Then the last request status is 200
     And "Mathieu" is login
 

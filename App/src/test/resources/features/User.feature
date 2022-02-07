@@ -1,7 +1,7 @@
 Feature: Knowing the Modules i'm in
 
   Background :
-    Given An User "Mathieu"
+    Given An User with the login "Mathieu" and the role "student"
     Given A Module "Math"
     And A Module "Computer Science"
 
