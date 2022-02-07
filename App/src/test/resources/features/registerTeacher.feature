@@ -11,8 +11,8 @@ Feature : Register Teacher
     And "steve" is registered to the Module "Gestion de projet"
 
   Scenario: Register Second Teacher
-    When "sarah" registers to module "Gestion de projet"
-    And "steve" registers to module "Gestion de projet"
+    When "sarah" registers to the Module "Gestion de projet"
+    And "steve" registers to the Module "Gestion de projet"
     Then the last request status is 400
     And "sarah" is registered to the Module "Gestion de projet"
     And "steve" is not registered to the Module "Gestion de projet"
