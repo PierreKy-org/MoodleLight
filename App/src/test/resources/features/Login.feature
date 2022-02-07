@@ -1,7 +1,7 @@
 Feature: Logging as a User
   Background :
     Given Authentication Service
-    And A User named "Mathieu"
+    And An User named "Mathieu"
     And his login is "mathieu01"
     And his password is "azertyuiop"
 
