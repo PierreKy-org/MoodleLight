@@ -32,7 +32,7 @@ public class TryToAccessDefs {
     @Autowired
     PasswordEncoder encoder;
 
-    @Given("A User with the login {string} and the role {string} with no Module")
+    @Given("An User with the login {string} and the role {string} with no Module")
     public void aTeacherNamedWithNoModule(String login,String role) {
         User user = userRepository.findUserName(login).orElse(new User(login));
         user.setRoles(new HashSet<BeanDefinitionDsl.Role>(){{ add(roleRepository.findByName(role).orElseThrow(() -> new RuntimeException("Error: Role is not found."))); }});
@@ -45,11 +45,6 @@ public class TryToAccessDefs {
         Module module = moduleRepository.findByName(name).orElseThrow(() -> new RuntimeException("Error: Module is not found."));
 
         executePost("http://localhost:8080/api/module/"+module.getModuleName()+"/participants/"+user.getLogin());
-    }
-
-    @Then("the last request status is {int}")
-    public void theLastRequestStatusIs(int status) {
-        assertEquals(status, latestHttpResponse.getStatusLine().getStatusCode());
     }
 
     @And("{string} is not allowed to access to {string}")
@@ -88,5 +83,4 @@ public class TryToAccessDefs {
         Module module = moduleRepository.FindByName(moduleName).orElseThrow(() -> new RuntimeException("Error: Module is not found."));
         assertFalse(user.getModules().contains(module));
     }
-
 }

@@ -5,6 +5,7 @@ import Models.Resssource.Resource;
 import Models.Users.User;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.BeanDefinitionDsl;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -48,5 +49,10 @@ public class GeneralStepDefs {
     public void aResourceNamed(String name) {
         Resource resource = ressourceRepository.findByName(name).orElse(new Resource(name));
         resourceRepository.save(resource);
+    }
+
+    @Then("the last request status is {int}")
+    public void theLastRequestStatusIs(int status) {
+        assertEquals(status, latestHttpResponse.getStatusLine().getStatusCode());
     }
 }

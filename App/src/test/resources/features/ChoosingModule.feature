@@ -8,9 +8,9 @@ Feature: Choosing module.
     And A Module named "Math"
 
   Scenario: Choosing an empty module as a teacher.
-    Given A Module "Math" with no Teacher registered
+    Given A Module named "Math" with no Teacher registered
     When I choose the module "Math"
-    Then last request status is 200
+    Then the last request status is 200
     And I can register to "Math"
     When "Cinzia" chooses the module "Math"
       And "Math" has 0 teacher registered
