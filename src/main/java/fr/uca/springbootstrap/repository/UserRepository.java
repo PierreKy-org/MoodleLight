@@ -1,7 +1,9 @@
 package fr.uca.springbootstrap.repository;
 
+import java.util.List;
 import java.util.Optional;
 
+import fr.uca.springbootstrap.models.Role;
 import fr.uca.springbootstrap.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

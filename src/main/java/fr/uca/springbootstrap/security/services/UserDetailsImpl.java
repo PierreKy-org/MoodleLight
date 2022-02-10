@@ -1,5 +1,6 @@
 package fr.uca.springbootstrap.security.services;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;

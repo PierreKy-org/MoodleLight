@@ -51,11 +51,11 @@ public class AuthTokenFilter extends OncePerRequestFilter {
         String password = request.getParameter(params.get(1));
         System.out.println("username: "+username + "; password: " + password);
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null,
+        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, userDetails.getPassword(),
                 userDetails.getAuthorities());
         authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-
         SecurityContextHolder.getContext().setAuthentication(authentication);
+        System.out.println("AUTHENTIFIED");
       }
     } catch (Exception e) {
       logger.error("Cannot set user authentication: {}", e);

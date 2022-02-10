@@ -1,7 +1,6 @@
 package fr.uca.springbootstrap.security.services;
 
 import fr.uca.springbootstrap.models.User;
-import fr.uca.springbootstrap.repository.RoleRepository;
 import fr.uca.springbootstrap.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,9 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserDetailsServiceImpl implements UserDetailsService {
   @Autowired
   UserRepository users;
-
-  @Autowired
-  RoleRepository user_roles;
 
   @Override
   @Transactional
