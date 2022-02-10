@@ -1,7 +1,7 @@
 package fr.uca.springbootstrap.models;
 
 public enum ERole {
-  STUDENT,
-  TEACHER,
-  ADMIN
+  ROLE_STUDENT,
+  ROLE_TEACHER,
+  ROLE_ADMIN
 }
