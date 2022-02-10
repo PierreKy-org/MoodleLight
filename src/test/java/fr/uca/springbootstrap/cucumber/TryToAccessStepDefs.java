@@ -1,5 +1,6 @@
 package fr.uca.springbootstrap.cucumber;
 
+import fr.uca.springbootstrap.SpringIntegration;
 import fr.uca.springbootstrap.controllers.AuthController;
 import fr.uca.springbootstrap.models.ERole;
 import fr.uca.springbootstrap.models.Module;
@@ -15,12 +16,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.BeanDefinitionDsl;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.io.IOException;
 import java.util.HashSet;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
 public class TryToAccessStepDefs {
+    private SpringIntegration springIntegration = new SpringIntegration();
+    private static final String PASSWORD = "password";
     @Autowired
     ModuleRepository moduleRepository;
 
@@ -44,11 +48,11 @@ public class TryToAccessStepDefs {
     }
 
     @When("{string} try to access to {string}")
-    public void tryToAccessTo(Long login, String name) {
+    public void tryToAccessTo(Long login, String name) throws IOException {
         User user = userRepository.findById(login).orElseThrow(() -> new RuntimeException("Error: User is not found."));
         Module module = moduleRepository.findByName(name).orElseThrow(() -> new RuntimeException("Error: Module is not found."));
-
-        executePost("http://localhost:8080/api/module/"+name+"/participants/"+login); // TODO do the function
+        String jwt = authController.generateJwt(user.getUsername(), PASSWORD);
+        springIntegration.executePost("http://localhost:8080/api/module/"+name+"/participants/"+login,jwt); // TODO do the function
     }
 
     @And("{string} is not allowed to access to {string}")

@@ -25,7 +25,7 @@ public class SpringIntegration {
         latestHttpResponse = httpClient.execute(request);
     }
 
-    protected void executePost(String url, String jwt) throws IOException {
+    public void executePost(String url, String jwt) throws IOException {
         HttpPost request = new HttpPost(url);
         request.addHeader("content-type", "application/json");
         if (jwt != null) {
