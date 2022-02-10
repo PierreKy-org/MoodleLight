@@ -58,6 +58,7 @@ public class AuthController {
 
 	@PostMapping("/signin")
 	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+		System.out.println("SIGNIN");
 		String jwt = generateJwt(loginRequest.getUsername(), loginRequest.getPassword());
 		UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();		
 		List<String> roles = userDetails.getAuthorities().stream()
@@ -76,26 +77,26 @@ public class AuthController {
 		Set<Role> roles = new HashSet<>();
 
 		if (strRoles == null) {
-			Role userRole = roleRepository.findByName(ERole.ROLE_STUDENT)
+			Role userRole = roleRepository.findByName(ERole.STUDENT)
 					.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
 			roles.add(userRole);
 		} else {
 			strRoles.forEach(role -> {
 				switch (role) {
 					case "admin":
-						Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
+						Role adminRole = roleRepository.findByName(ERole.ADMIN)
 								.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
 						roles.add(adminRole);
 
 						break;
 					case "teacher":
-						Role modRole = roleRepository.findByName(ERole.ROLE_TEACHER)
+						Role modRole = roleRepository.findByName(ERole.TEACHER)
 								.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
 						roles.add(modRole);
 
 						break;
 					default:
-						Role userRole = roleRepository.findByName(ERole.ROLE_STUDENT)
+						Role userRole = roleRepository.findByName(ERole.STUDENT)
 								.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
 						roles.add(userRole);
 				}
