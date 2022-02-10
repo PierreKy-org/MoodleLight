@@ -1,25 +1,22 @@
 package fr.uca.springbootstrap.controllers;
 
-import fr.uca.springbootstrap.models.ERole;
+
 import fr.uca.springbootstrap.models.Module;
-import fr.uca.springbootstrap.models.Role;
 import fr.uca.springbootstrap.models.User;
-import fr.uca.springbootstrap.payload.request.SignupRequest;
 import fr.uca.springbootstrap.payload.response.MessageResponse;
 import fr.uca.springbootstrap.repository.ModuleRepository;
 import fr.uca.springbootstrap.repository.RoleRepository;
 import fr.uca.springbootstrap.repository.UserRepository;
 import fr.uca.springbootstrap.security.jwt.JwtUtils;
+import io.cucumber.core.resource.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
 import java.security.Principal;
-import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -75,6 +72,29 @@ public class ModuleController {
 					.body(new MessageResponse("Error: Not allowed to add user!"));
 		}
 		moduleRepository.save(module);
+		module.getParticipants().add(user);
 		return ResponseEntity.ok(new MessageResponse("User successfully added to module!"));
 	}
+
+	@GetMapping("/{moduleName}")
+	public Long getId(@PathVariable String moduleName) {
+		Module module = moduleRepository.findById(moduleName).orElseThrow(() -> new RuntimeException("Error: Module is not found."));
+		return module.getId();
+	}
+	@GetMapping("{moduleName}/allUsers")
+	public Set<User> getUsersList(@PathVariable String moduleName) {
+		Module module = moduleRepository.findById(moduleName).orElseThrow(() ->new RuntimeException("Error: Module is not found."));
+		return module.getParticipants();
+	}
+
+	@PostMapping("/{moduleName}/participants/{userid}")
+	@PreAuthorize("hasRole('TEACHER')")
+	public void removeUserFromTheList(@PathVariable Long moduleName, @PathVariable Long userId) {
+		Module module = moduleRepository.findById(moduleName).orElseThrow(() ->new RuntimeException("Error: Module is not found."));
+		User user = userRepository.findById(userId).orElseThrow(() ->new RuntimeException("Error: User is not found."));
+		module.getParticipants().remove(user);
+	}
+
+
+
 }

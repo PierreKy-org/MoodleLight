@@ -94,6 +94,20 @@ public class User {
 		this.roles = roles;
 	}
 
+	public Set<Module> getModules() {return modules;}
+
+	public void setModules(Set<Module> newModules) {modules=newModules;}
+
+	public void addModule(Module module){
+		modules.add(module);
+		module.getParticipants().add(this);
+	}
+
+	public void addUserToModule(User user,Module module){
+		user.addModule(module);
+		module.getParticipants().add(user);
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;

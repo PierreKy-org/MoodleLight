@@ -1,5 +1,6 @@
-package fr.uca.springbootstrap;
+package fr.uca.springbootstrap.cucumber;
 
+import fr.uca.springbootstrap.SpringIntegration;
 import fr.uca.springbootstrap.controllers.AuthController;
 import fr.uca.springbootstrap.models.ERole;
 import fr.uca.springbootstrap.models.Module;
@@ -14,15 +15,13 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.test.context.support.WithUserDetails;
 
 import java.util.HashSet;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class RegisterTeacherStepDefs extends SpringIntegration {
+public class RegisterTeacherStepDefs {
     private static final String PASSWORD = "password";
-
     @Autowired
     ModuleRepository moduleRepository;
 
@@ -38,12 +37,15 @@ public class RegisterTeacherStepDefs extends SpringIntegration {
     @Autowired
     PasswordEncoder encoder;
 
+
     @Given("a teacher with login {string}")
     public void aTeacherWithLogin(String arg0) {
         User user = userRepository.findByUsername(arg0).
                 orElse(new User(arg0, arg0 + "@test.fr", encoder.encode(PASSWORD)));
-        user.setRoles(new HashSet<Role>(){{ add(roleRepository.findByName(ERole.ROLE_TEACHER).
-                orElseThrow(() -> new RuntimeException("Error: Role is not found."))); }});
+        user.setRoles(new HashSet<Role>() {{
+            add(roleRepository.findByName(ERole.ROLE_TEACHER).
+                    orElseThrow(() -> new RuntimeException("Error: Role is not found.")));
+        }});
         userRepository.save(user);
     }
 
@@ -60,11 +62,12 @@ public class RegisterTeacherStepDefs extends SpringIntegration {
         User user = userRepository.findByUsername(arg0).get();
         String jwt = authController.generateJwt(arg0, PASSWORD);
 
-       executePost("http://localhost:8080/api/module/"+module.getId()+"/participants/"+user.getId(), jwt);
+        executePost("http://localhost:8080/api/module/" + module.getId() + "/participants/" + user.getId(), jwt); //TODO do the function
     }
+
     @Then("last request status is {int}")
     public void isRegisteredToModule(int status) {
-        assertEquals(status, latestHttpResponse.getStatusLine().getStatusCode());
+        assertEquals(status, latestHttpResponse.getStatusLine().getStatusCode()); //TODO recuperer la derniere reponse http
     }
 
     @Then("{string} is registered to module {string}")
@@ -80,4 +83,5 @@ public class RegisterTeacherStepDefs extends SpringIntegration {
         User user = userRepository.findByUsername(arg0).get();
         assertFalse(module.getParticipants().contains(user));
     }
+}
 }
