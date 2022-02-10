@@ -4,6 +4,9 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.Set;
 
+import static fr.uca.springbootstrap.models.ERole.ROLE_STUDENT;
+import static fr.uca.springbootstrap.models.ERole.ROLE_TEACHER;
+
 @Entity
 @Table(	name = "modules")
 public class Module {
@@ -41,6 +44,14 @@ public class Module {
 
     public void setParticipants(Set<User> participants) {
         this.participants = participants;
+    }
+
+    public int getNbrOfTeacher(){
+        int nbrOfTeacher = 0;
+        for (User user : participants) {
+            if (user.getRoles().contains(ROLE_TEACHER)) nbrOfTeacher+=1;
+        }
+        return nbrOfTeacher;
     }
 
     public Long getId() {
