@@ -21,6 +21,7 @@ import java.util.HashSet;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class RegisterTeacherStepDefs {
+    private SpringIntegration springIntegration = new SpringIntegration();
     private static final String PASSWORD = "password";
     @Autowired
     ModuleRepository moduleRepository;
@@ -62,7 +63,7 @@ public class RegisterTeacherStepDefs {
         User user = userRepository.findByUsername(arg0).get();
         String jwt = authController.generateJwt(arg0, PASSWORD);
 
-        executePost("http://localhost:8080/api/module/" + module.getId() + "/participants/" + user.getId(), jwt); //TODO do the function
+        springIntegration.executePost("http://localhost:8080/api/module/" + module.getId() + "/participants/" + user.getId(), jwt); //TODO do the function
     }
 
     @Then("last request status is {int}")
@@ -84,4 +85,4 @@ public class RegisterTeacherStepDefs {
         assertFalse(module.getParticipants().contains(user));
     }
 }
-}
+
