@@ -1,8 +1,6 @@
-package fr.uca.springbootstrap.cucumber;
-
+package CucumberSteps;
 import fr.uca.springbootstrap.SpringIntegration;
 import fr.uca.springbootstrap.controllers.AuthController;
-import fr.uca.springbootstrap.models.User;
 import fr.uca.springbootstrap.repository.UserRepository;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
