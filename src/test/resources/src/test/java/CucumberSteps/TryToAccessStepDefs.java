@@ -1,10 +1,7 @@
-package fr.uca.springbootstrap.cucumber;
-
+package CucumberSteps;
 import fr.uca.springbootstrap.SpringIntegration;
 import fr.uca.springbootstrap.controllers.AuthController;
-import fr.uca.springbootstrap.models.ERole;
 import fr.uca.springbootstrap.models.Module;
-import fr.uca.springbootstrap.models.Role;
 import fr.uca.springbootstrap.repository.ModuleRepository;
 import fr.uca.springbootstrap.repository.RoleRepository;
 import fr.uca.springbootstrap.repository.UserRepository;
@@ -14,7 +11,6 @@ import fr.uca.springbootstrap.models.User;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.support.BeanDefinitionDsl;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.io.IOException;
@@ -46,7 +42,7 @@ public class TryToAccessStepDefs {
         User user = userRepository.findById(login).orElse(new User());
         user.setRoles(new HashSet<>() {{
             add(roleRepository.findById(roleId).orElseThrow(() -> new RuntimeException("Error: Role is not found.")));
-        }}); //TODO do the function add
+        }});
         userRepository.save(user);
     }
 
