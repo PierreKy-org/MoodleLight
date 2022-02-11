@@ -1,0 +1,17 @@
+article {
+    background-color: lightgrey;
+    padding: 0.2rem 1rem 0.2rem  1rem;
+    margin-bottom: 2rem;
+}
+
+code {
+    padding: 0.5rem;
+    background-color : white;
+    border: 1px dashed black;
+}
+
+.json {
+    padding: 0.5rem;
+    background-color : white;
+    border: 1px dashed black;
+}
