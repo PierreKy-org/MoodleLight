@@ -50,14 +50,19 @@ public class Module {
                 if (role.getName().equals(ROLE_TEACHER)) nbrOfTeacher.addAndGet(1);
             });
         }
-            return nbrOfTeacher.get();
-        }
-
-        public Long getId () {
-            return id;
-        }
-
-        public void setId (Long id){
-            this.id = id;
-        }
+        return nbrOfTeacher.get();
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return "{\"id\":" + id + ", \"name\":" + name + "}";
+    }
+}
