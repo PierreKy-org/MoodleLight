@@ -2,6 +2,7 @@ package fr.uca.springbootstrap.models;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -29,10 +30,13 @@ public class Module {
     private Set<User> participants;
 
     public Module() {
+        participants = new HashSet<>();
     }
 
     public Module(String name) {
+
         this.name = name;
+        participants = new HashSet<>();
     }
 
     public Set<User> getParticipants() {

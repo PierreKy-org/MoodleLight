@@ -1,30 +1,29 @@
 #noinspection SpellCheckingInspection
 Feature: Choosing module.
 
-  Background :
-    Given a teacher with login "Cinzia"
-    And a teacher with login "Renevier"
-    And An User with the login "Mathieu" and the role "student"
-    And A Module named "Math"
-
-  Scenario: Choosing an empty module as a teacher.
-    Given A Module named "Math" with no Teacher registered
-    When "Mathieu" registers to module "Math"
-    Then the last request status is 200
-    And "Mathieu" can register to "Math"
-    When "Math" has 0 teacher registered
-    And "Cinzia" registers to module "Math"
-    Then the last request status is 200
-    And "Cinzia" can register to "Math"
-
-  Scenario: Choosing a module that already has a teacher registered to it as a teacher.
-    When "Renevier" registers to module "Math"
-    And "Cinzia" is registered to the Module "Math"
-    Then  the last request status is 400
-    And "Renevier" can't register to "Math"
 
   Scenario: Teacher add a a student to a module
+    Given a Teacher with the login "Cinzia"
+    And a Student with the login "Mathieu"
+    And A Module named "Math"
     When "Cinzia" add Student "Mathieu" to "Math"
-    Then the last request status is 200
     And "Mathieu" is added to the Module "Math"
-    And "Math" is available for "Mathieu"
+    Then "Math" is available for "Mathieu"
+
+  Scenario: Choosing an empty module as a teacher.
+    Given A Module named "Genie-Logiciel" with no Teacher registered
+    And a Teacher with the login "Cinzia"
+    And a Student with the login "Mathieu"
+    When the student "Mathieu" choose the module "Genie-Logiciel"
+    And "Genie-Logiciel" has 0 teacher registered
+    And "Cinzia" chooses the module "Genie-Logiciel"
+    Then "Genie-Logiciel" is available for "Cinzia"
+
+  Scenario: Choosing a module that already has a teacher registered to it as a teacher.
+    Given a Teacher with the login "Renevier"
+    And a Teacher with the login "Sid"
+    And A Module named "Francais"
+    When "Sid" chooses the module "Francais"
+    When "Renevier" chooses the module "Francais"
+    And "Francais" is available for "Sid"
+    And "Renevier" can't register to "Francais"

@@ -3,11 +3,12 @@ package fr.uca.springbootstrap.models;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
-
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+
+import static fr.uca.springbootstrap.models.ERole.ROLE_TEACHER;
 
 @Entity
 @Table(	name = "users", 
@@ -99,8 +100,11 @@ public class User {
 	public void setModules(Set<Module> newModules) {modules=newModules;}
 
 	public void addModule(Module module){
-		modules.add(module);
-		module.getParticipants().add(this);
+		boolean areTeacher = this.getRoles().stream().anyMatch(role -> role.getName().equals(ROLE_TEACHER));
+		if(!areTeacher || module.getNbrOfTeacher()==0) {
+			modules.add(module);
+			module.getParticipants().add(this);
+		}
 	}
 
 	public void addUserToModule(User user,Module module){

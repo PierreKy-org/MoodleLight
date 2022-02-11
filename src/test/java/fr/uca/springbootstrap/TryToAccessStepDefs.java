@@ -39,14 +39,6 @@ public class TryToAccessStepDefs {
     @Autowired
     PasswordEncoder encoder;
 
-    @Given("a teacher with login {string}")
-    public void aTeacherWithLogin(String arg0) {
-        User user = userRepository.findByUsername(arg0).
-                orElse(new User(arg0, arg0 + "@test.fr", encoder.encode(PASSWORD)));
-        user.setRoles(new HashSet<Role>(){{ add(roleRepository.findByName(ERole.ROLE_TEACHER).
-                orElseThrow(() -> new RuntimeException("Error: Role is not found."))); }});
-        userRepository.save(user);
-    }
 
     //TODO: do controller
     @When("{string} try to access to {string}")
@@ -54,7 +46,7 @@ public class TryToAccessStepDefs {
         User user = userRepository.findByUsername(login).orElseThrow(() -> new RuntimeException("Error: User is not found."));
         Module module = moduleRepository.findByName(name).orElseThrow(() -> new RuntimeException("Error: Module is not found."));
         String jwt = authController.generateJwt(user.getUsername(), PASSWORD);
-        springIntegration.executePost("http://localhost:8080/api/module/"+name+"/participants/"+login,jwt); // TODO do the function
+        springIntegration.executePost("http://localhost:8080/api/module/"+name+"/participants/"+login,jwt);
     }
 
     @And("{string} is not allowed to access to {string}")
