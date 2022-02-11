@@ -1,4 +1,4 @@
-package src.test.java.CucumberSteps;
+package fr.uca.springbootstrap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
