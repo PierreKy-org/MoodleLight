@@ -1,5 +1,4 @@
-package fr.uca.springbootstrap.cucumber;
-
+package CucumberSteps;
 import fr.uca.springbootstrap.controllers.AuthController;
 import fr.uca.springbootstrap.models.User;
 import fr.uca.springbootstrap.models.Module;
@@ -10,13 +9,10 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.support.BeanDefinitionDsl;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.HashSet;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 public class GeneralStepDefs {
     @Autowired
