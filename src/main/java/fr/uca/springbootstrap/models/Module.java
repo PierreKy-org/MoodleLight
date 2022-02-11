@@ -3,12 +3,12 @@ package fr.uca.springbootstrap.models;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
 
-import static fr.uca.springbootstrap.models.ERole.ROLE_STUDENT;
 import static fr.uca.springbootstrap.models.ERole.ROLE_TEACHER;
 
 @Entity
-@Table(	name = "modules")
+@Table(name = "modules")
 public class Module {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,19 +43,21 @@ public class Module {
         this.participants = participants;
     }
 
-    public int getNbrOfTeacher(){
-        int nbrOfTeacher = 0;
+    public int getNbrOfTeacher() {
+        AtomicInteger nbrOfTeacher = new AtomicInteger();
         for (User user : participants) {
-            if (user.getRoles().contains(ROLE_TEACHER)) nbrOfTeacher+=1;
+            user.getRoles().forEach(role -> {
+                if (role.getName().equals(ROLE_TEACHER)) nbrOfTeacher.addAndGet(1);
+            });
         }
-        return nbrOfTeacher;
-    }
+            return nbrOfTeacher.get();
+        }
 
-    public Long getId() {
-        return id;
-    }
+        public Long getId () {
+            return id;
+        }
 
-    public void setId(Long id) {
-        this.id = id;
+        public void setId (Long id){
+            this.id = id;
+        }
     }
-}
