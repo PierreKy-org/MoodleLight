@@ -1,23 +1,22 @@
-package biblio;
+/*package fr.uca.springbootstrap;
 
-import Models.Module;
-import Models.Resssource.Resource;
-import Models.Users.Teacher;
-import Models.Users.User;
+import fr.uca.springbootstrap.controllers.AuthController;
+import fr.uca.springbootstrap.models.User;
+import fr.uca.springbootstrap.repository.ModuleRepository;
+import fr.uca.springbootstrap.repository.RoleRepository;
+import fr.uca.springbootstrap.repository.UserRepository;
 import io.cucumber.java.en.And;
-import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.util.ArrayList;
+
 import java.util.List;
 
 import static org.junit.Assert.*;
 
-public class AddOrDeleteRessourcesStepDefs {
-
+public class AddOrDeleteResourcesStepDefs {
     @Autowired
     ModuleRepository moduleRepository;
 
@@ -31,7 +30,7 @@ public class AddOrDeleteRessourcesStepDefs {
     ResourceRepository resourceRepository;
 
     @Autowired
-    AuthController authController;
+     AuthController authController;
 
     @Autowired
     PasswordEncoder encoder;
@@ -42,8 +41,8 @@ public class AddOrDeleteRessourcesStepDefs {
         Module module = moduleRepository.findByName(moduleName).orElse(new RuntimeException("Error: Module is not found."));
         Resource resource = resourceRepository.findByUsername(resourceName).orElse(new RuntimeException("Error: Resource@ is not found."));
 
-        List<Module> userModules = user.getModules().stream().toList();
-        userModules.get(userModules.indexOf(module)).addResource(resource); //TODO changer ca c'est horrible mais je vois pas comment ajouter a partir du user pour l'instant
+        List<Module> userModules = user.getModules(login).stream().toList();
+        userModules.get(userModules.indexOf(module)).addResource(resourceName,moduleName); //TODO changer ca c'est horrible mais je vois pas comment ajouter a partir du user pour l'instant
         module.getResourcesList().add(resource);
     }
 
@@ -59,8 +58,8 @@ public class AddOrDeleteRessourcesStepDefs {
         Module module = moduleRepository.findByName(moduleName).orElse(new RuntimeException("Error: Module is not found."));
         Resource resource = resourceRepository.findByUsername(resourceName).orElse(new RuntimeException("Error: Resource@ is not found."));
 
-        List<Module> userModules = user.getModules().stream().toList();
-        userModules.get(userModules.indexOf(module)).removeResourceFromTheList(resource); //TODO changer ca c'est horrible mais je vois pas comment ajouter a partir du user pour l'instant
+        List<Module> userModules = user.getModules(login).stream().toList();
+        userModules.get(userModules.indexOf(module)).removeResourceFromTheList(resourceName,moduleName); //TODO changer ca c'est horrible mais je vois pas comment ajouter a partir du user pour l'instant
         module.getResourcesList().remove(resource);
 
     }
@@ -85,3 +84,4 @@ public class AddOrDeleteRessourcesStepDefs {
         assertTrue(module.getResourcesList().contains(resource));
     }
 }
+*/
