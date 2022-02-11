@@ -1,5 +1,7 @@
 package fr.uca.springbootstrap;
 import fr.uca.springbootstrap.controllers.AuthController;
+import fr.uca.springbootstrap.models.ERole;
+import fr.uca.springbootstrap.models.Role;
 import fr.uca.springbootstrap.models.User;
 import fr.uca.springbootstrap.models.Module;
 import fr.uca.springbootstrap.repository.ModuleRepository;
@@ -32,8 +34,10 @@ public class GeneralStepDefs {
 
     @Given("An User with the login {string} and the role {string}")
     public void aTeacherWithLogin(String login,Long roleId){
-        User user = userRepository.findByUsername(login).orElse(new User(login,null,null));
-        user.setRoles(new HashSet<>(){{ add(roleRepository.findById(roleId).orElseThrow(() -> new RuntimeException("Error: Role is not found."))); }}); //TODO do the function add
+        User user = userRepository.findByUsername(login).
+                orElse(new User(login, login + "@test.fr", encoder.encode("password")));
+        user.setRoles(new HashSet<Role>(){{ add(roleRepository.findByName(ERole.ROLE_STUDENT).
+                orElseThrow(() -> new RuntimeException("Error: Role is not found."))); }});
         userRepository.save(user);
     }
 
