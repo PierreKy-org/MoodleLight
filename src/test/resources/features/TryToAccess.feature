@@ -2,16 +2,16 @@ Feature: Try to Access to a Module
 
   Background:
     Given An User with the login "Cinzia" and the role "Teacher" with no Module
-    Given A Module named "Math"
+    Given a Module named "Math"
 
   Scenario: A teacher with no module try to access to "Math"
     When "Cinzia" try to access to "Math"
-    Then the last request status is 400
+    Then last request status is 400
     And "Cinzia" is not allowed to access to "Math"
 
   Scenario: A student with no module try to access to "Math"
     When "Pierre" try to access to "Math"
-    Then the last request status is 400
+    Then last request status is 400
     And "Pierre" is not allowed to access to "Math"
 
   Scenario: "Cinzia" want to knows her number of module
@@ -24,5 +24,5 @@ Feature: Try to Access to a Module
 
   Scenario: "Pierre" want to add a Module with a wrong name "wrongName"
     When "Pierre" try to add the Module with the wrong name "wrongName"
-    Then the last request status is 400
+    Then last request status is 400
     And "Pierre" doesn't have access to the Module "wrongName"

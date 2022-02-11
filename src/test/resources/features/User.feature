@@ -1,9 +1,9 @@
 Feature: Knowing the Modules i'm in
 
   Background :
-    Given An User with the login "Mathieu" and the role "student"
-    Given A Module named "Math"
-    And A Module named "Computer Science"
+    Given an User with the login "Mathieu" and the role "student"
+    Given a Module named "Math"
+    And a Module named "Computer Science"
 
 
   Scenario : As a User a can know the modules i'm in

@@ -36,26 +36,27 @@ public class ModuleStepDefs {
     public void aUserdeleteAnotherFromTheModule(String login, String moduleName) {
         User user = userRepository.findByUsername(login).orElseThrow(() -> new RuntimeException("Error: User is not found."));
         Module module = moduleRepository.findByName(moduleName).orElseThrow(() -> new RuntimeException("Error: Module is not found."));
-
         module.getParticipants().remove(user);
         user.getModules().remove(module);
+        moduleRepository.save(module);
+        userRepository.save(user);
     }
 
     @And("{string} is added to the Module {string}")
     public void isAddedToTheModule(String login, String moduleName) {
         User user = userRepository.findByUsername(login).orElse(new User());
         Module module = moduleRepository.findByName(moduleName).orElse(new Module(moduleName));
-
-        user.getModules().add(module);
+        user.addModule(module);
         module.getParticipants().add(user);
+        moduleRepository.save(module);
+        userRepository.save(user);
     }
 
     @Then("{string} is not registered to the Module {string}")
     public void isNotRegisteredToTheModule(String login, String moduleName){
         User user = userRepository.findByUsername(login).orElseThrow(() -> new RuntimeException("Error: User is not found."));
         Module module = moduleRepository.findByName(moduleName).orElseThrow(() -> new RuntimeException("Error: Module is not found."));
-
-        assertTrue(user.getModules().contains(module));
+        assertFalse(user.getModules().contains(module));
         assertFalse(module.getParticipants().contains(user));
     }
 
@@ -63,8 +64,7 @@ public class ModuleStepDefs {
     public void isRegisteredToTheModule(String login, String moduleName) {
         User user = userRepository.findByUsername(login).orElseThrow(() -> new RuntimeException("Error: User is not found."));
         Module module = moduleRepository.findByName(moduleName).orElseThrow(() -> new RuntimeException("Error: Module is not found."));
-
-        assertTrue(user.getModules().contains(module));
         assertTrue(module.getParticipants().contains(user));
+        assertTrue(user.getModules().stream().anyMatch(module1 -> module1.getId().equals(module.getId())));
     }
 }
