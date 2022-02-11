@@ -1,6 +1,6 @@
 package fr.uca.springbootstrap.controllers;
 
-import fr.uca.springbootstrap.models.ERole;
+import fr.uca.springbootstrap.models.Module;
 import fr.uca.springbootstrap.models.Role;
 import fr.uca.springbootstrap.models.User;
 import fr.uca.springbootstrap.payload.response.JwtResponse;
@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -79,35 +80,52 @@ public class UserController {
         return Arrays.toString(myarr);
     }
 
-    @GetMapping("/{login}/email")
-    public String getEmail(@PathVariable Long login) {
-        User user = userRepository.findById(login).orElseThrow(()->new RuntimeException("Error: User is not found."));
-        return user.getEmail();
+    @GetMapping("/{userId}/email")
+    public ResponseEntity<?> getEmailOfuser(@PathVariable Long userId) {
+        User user = userRepository.findById(userId).orElse(null);
+        if(user==null){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok().body("{\"email\":" + user.getEmail() + "}");
     }
 
-    @GetMapping("/{login}/modules")
-    public Set<fr.uca.springbootstrap.models.Module> getModules(@PathVariable Long login) {
-        User user = userRepository.findById(login).orElseThrow(()->new RuntimeException("Error: User is not found."));
-        return user.getModules();
+    @GetMapping("/{userId}/username")
+    public ResponseEntity<?> getUsernameOfuser(@PathVariable Long userId) {
+        User user = userRepository.findById(userId).orElse(null);
+        if(user==null){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok().body("{\"username\":" + user.getUsername() + "}");
     }
 
-    @GetMapping("/{login}/{role}")
-    public ERole getRole(@PathVariable Long login, @PathVariable Role role) {
-        userRepository.findById(login).orElseThrow(()->new RuntimeException("Error: User is not found."));
-        return role.getName();
+    @GetMapping("/{userId}/modules")
+    public ResponseEntity<?> getModulesOfuser(@PathVariable Long userId) {
+        User user = userRepository.findById(userId).orElse(null);
+        if(user==null){
+            return ResponseEntity.notFound().build();
+        }
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
+        for(Module module : user.getModules()){
+            sb.append(module).append(",");
+        }
+        sb.append("]");
+        return ResponseEntity.ok().body(sb);
     }
 
-    @PostMapping("/{oldLogin}/modifyLogin/{newLogin}")
-    public void setLogin(@PathVariable Long oldLogin, @PathVariable Long newLogin) {
-        User user = userRepository.findById(oldLogin).orElseThrow(()->new RuntimeException("Error: User is not found."));
-        user.setId(newLogin);
-    }
-
-    @PostMapping("/{login}/modules/{newModules}")
-    public void setModules(@PathVariable Long login, @PathVariable Set<fr.uca.springbootstrap.models.Module> newModules) {
-        User user = userRepository.findById(login).orElseThrow(()->new RuntimeException("Error: User is not found."));
-        user.setModules(newModules);
+    @GetMapping("/{userId}/roles")
+    public ResponseEntity<?> getRolesOfuser(@PathVariable Long userId) {
+        User user = userRepository.findById(userId).orElse(null);
+        if(user==null){
+            return ResponseEntity.notFound().build();
+        }
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
+        for(Role role : user.getRoles()){
+            sb.append(role).append(",");
+        }
+        sb.append("]");
+        return ResponseEntity.ok().body(sb);
     }
 }
-
 

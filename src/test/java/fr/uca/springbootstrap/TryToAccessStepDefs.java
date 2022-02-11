@@ -1,7 +1,9 @@
-package CucumberSteps;
+package fr.uca.springbootstrap;
 import fr.uca.springbootstrap.SpringIntegration;
 import fr.uca.springbootstrap.controllers.AuthController;
+import fr.uca.springbootstrap.models.ERole;
 import fr.uca.springbootstrap.models.Module;
+import fr.uca.springbootstrap.models.Role;
 import fr.uca.springbootstrap.repository.ModuleRepository;
 import fr.uca.springbootstrap.repository.RoleRepository;
 import fr.uca.springbootstrap.repository.UserRepository;
@@ -37,26 +39,27 @@ public class TryToAccessStepDefs {
     @Autowired
     PasswordEncoder encoder;
 
-    @Given("An User with the login {string} and the role {string} with no Module")
-    public void aTeacherNamedWithNoModule(Long login,Long roleId) {
-        User user = userRepository.findById(login).orElse(new User());
-        user.setRoles(new HashSet<>() {{
-            add(roleRepository.findById(roleId).orElseThrow(() -> new RuntimeException("Error: Role is not found.")));
-        }});
+    @Given("a teacher with login {string}")
+    public void aTeacherWithLogin(String arg0) {
+        User user = userRepository.findByUsername(arg0).
+                orElse(new User(arg0, arg0 + "@test.fr", encoder.encode(PASSWORD)));
+        user.setRoles(new HashSet<Role>(){{ add(roleRepository.findByName(ERole.ROLE_TEACHER).
+                orElseThrow(() -> new RuntimeException("Error: Role is not found."))); }});
         userRepository.save(user);
     }
 
+    //TODO: do controller
     @When("{string} try to access to {string}")
-    public void tryToAccessTo(Long login, String name) throws IOException {
-        User user = userRepository.findById(login).orElseThrow(() -> new RuntimeException("Error: User is not found."));
+    public void tryToAccessTo(String login, String name) throws IOException {
+        User user = userRepository.findByUsername(login).orElseThrow(() -> new RuntimeException("Error: User is not found."));
         Module module = moduleRepository.findByName(name).orElseThrow(() -> new RuntimeException("Error: Module is not found."));
         String jwt = authController.generateJwt(user.getUsername(), PASSWORD);
         springIntegration.executePost("http://localhost:8080/api/module/"+name+"/participants/"+login,jwt); // TODO do the function
     }
 
     @And("{string} is not allowed to access to {string}")
-    public void isNotAllowedToAccesTo(Long login, String moduleName) {
-        User user = userRepository.findById(login).orElseThrow(() -> new RuntimeException("Error: User is not found."));
+    public void isNotAllowedToAccesTo(String login, String moduleName) {
+        User user = userRepository.findByUsername(login).orElseThrow(() -> new RuntimeException("Error: User is not found."));
         Module module = moduleRepository.findByName(moduleName).orElseThrow(() -> new RuntimeException("Error: Module is not found."));
 
         assertFalse(user.getModules().contains(module));
@@ -67,27 +70,36 @@ public class TryToAccessStepDefs {
     }
 
     @Then("{string} has {int} modules")
-    public void thereIs(Long login,int number) {
-        User user = userRepository.findById(login).orElseThrow(() -> new RuntimeException("Error: User is not found."));
+    public void thereIs(String login,int number) {
+        User user = userRepository.findByUsername(login).orElseThrow(() -> new RuntimeException("Error: User is not found."));
         assertEquals(number,user.getModules().size());
     }
 
     @When("{string} want to know his number of the modules his follows")
-    public void wantToKnowHisNumberOfTheModulesHisFollows(Long login) {
-        User user = userRepository.findById(login).orElseThrow(() -> new RuntimeException("Error: User is not found."));
+    public void wantToKnowHisNumberOfTheModulesHisFollows(String login) {
+        User user = userRepository.findByUsername(login).orElseThrow(() -> new RuntimeException("Error: User is not found."));
     }
 
     @When("{string} try to add the Module with the wrong name {string}")
-    public void tryToAddTheModuleWithTheWrongName(Long login, String moduleName) {
-        User user = userRepository.findById(login).orElseThrow(() -> new RuntimeException("Error: User is not found."));
+    public void tryToAddTheModuleWithTheWrongName(String login, String moduleName) {
+        User user = userRepository.findByUsername(login).orElseThrow(() -> new RuntimeException("Error: User is not found."));
         Module module = moduleRepository.findById(moduleName).orElseThrow(() -> new RuntimeException("Error: Module is not found."));
         user.getModules().add(module);
     }
 
     @And("{string} doesn't have access to the Module {string}")
-    public void doesnTHaveAccessToTheModule(Long login, String moduleName) {
-        User user = userRepository.findById(login).orElseThrow(() -> new RuntimeException("Error: User is not found."));
+    public void doesnTHaveAccessToTheModule(String login, String moduleName) {
+        User user = userRepository.findByUsername(login).orElseThrow(() -> new RuntimeException("Error: User is not found."));
         Module module = moduleRepository.findById(moduleName).orElseThrow(() -> new RuntimeException("Error: Module is not found."));
         assertFalse(user.getModules().contains(module));
+    }
+
+    @Given("An User with the login {string} and the role {string} with no Module")
+    public void anUserWithTheLoginAndTheRoleWithNoModule(String arg0, String arg1) {
+        User user = userRepository.findByUsername(arg0).
+                orElse(new User(arg0, arg0 + "@test.fr", encoder.encode(PASSWORD)));
+        user.setRoles(new HashSet<Role>(){{ add(roleRepository.findByName(ERole.ROLE_TEACHER).
+                orElseThrow(() -> new RuntimeException("Error: Role is not found."))); }});
+        userRepository.save(user);
     }
 }

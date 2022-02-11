@@ -1,9 +1,20 @@
-package src.test.java.CucumberSteps;
+/*package fr.uca.springbootstrap;
 
+import fr.uca.springbootstrap.controllers.AuthController;
+import fr.uca.springbootstrap.models.User;
+import fr.uca.springbootstrap.repository.ModuleRepository;
+import fr.uca.springbootstrap.repository.RoleRepository;
+import fr.uca.springbootstrap.repository.UserRepository;
+import io.cucumber.java.en.And;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 
 import java.util.List;
+
+import static org.junit.Assert.*;
 
 public class AddOrDeleteResourcesStepDefs {
     @Autowired
@@ -19,7 +30,7 @@ public class AddOrDeleteResourcesStepDefs {
     ResourceRepository resourceRepository;
 
     @Autowired
-    AuthController authController;
+     AuthController authController;
 
     @Autowired
     PasswordEncoder encoder;
@@ -73,3 +84,4 @@ public class AddOrDeleteResourcesStepDefs {
         assertTrue(module.getResourcesList().contains(resource));
     }
 }
+*/

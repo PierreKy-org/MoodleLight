@@ -1,4 +1,4 @@
-package CucumberSteps;
+package fr.uca.springbootstrap;
 import fr.uca.springbootstrap.SpringIntegration;
 import fr.uca.springbootstrap.controllers.AuthController;
 import fr.uca.springbootstrap.models.ERole;
@@ -38,18 +38,6 @@ public class RegisterTeacherStepDefs {
 
     @Autowired
     PasswordEncoder encoder;
-
-
-    @Given("a teacher with login {string}")
-    public void aTeacherWithLogin(String arg0) {
-        User user = userRepository.findByUsername(arg0).
-                orElse(new User(arg0, arg0 + "@test.fr", encoder.encode(PASSWORD)));
-        user.setRoles(new HashSet<Role>() {{
-            add(roleRepository.findByName(ERole.ROLE_TEACHER).
-                    orElseThrow(() -> new RuntimeException("Error: Role is not found.")));
-        }});
-        userRepository.save(user);
-    }
 
     @And("a module named {string}")
     public void aModuleNamed(String arg0) {
