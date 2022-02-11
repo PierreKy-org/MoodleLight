@@ -29,4 +29,14 @@ public class TestController {
 	public String adminAccess() {
 		return "Admin Board.";
 	}
+
+	@PutMapping("/put")
+	public String putTest() {
+		return "Put Successful";
+	}
+
+	@DeleteMapping("/delete")
+	public String deleteTest() {
+		return "Delete Successful";
+	}
 }
