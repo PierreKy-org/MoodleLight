@@ -39,12 +39,6 @@ public class RegisterTeacherStepDefs {
     @Autowired
     PasswordEncoder encoder;
 
-    @And("a module named {string}")
-    public void aModuleNamed(String arg0) {
-        Module module = moduleRepository.findByName(arg0).orElse(new Module(arg0));
-        module.setParticipants(new HashSet<>());
-        moduleRepository.save(module);
-    }
 
     @When("{string} registers to module {string}")
     public void registersToModule(String arg0, String arg1) throws Exception {

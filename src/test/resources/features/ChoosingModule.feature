@@ -2,23 +2,23 @@
 Feature: Choosing module.
 
   Background :
-    Given An User with the login "Cinzia" and the role "teacher"
-    And An User with the login "Renevier" and the role "teacher"
+    Given a teacher with login "Cinzia"
+    And a teacher with login "Renevier"
     And An User with the login "Mathieu" and the role "student"
     And A Module named "Math"
 
   Scenario: Choosing an empty module as a teacher.
     Given A Module named "Math" with no Teacher registered
-    When the student "Mathieu" choose the module "Math"
+    When "Mathieu" registers to module "Math"
     Then the last request status is 200
-    And the student "Mathieu" can register to "Math"
+    And "Mathieu" can register to "Math"
     When "Math" has 0 teacher registered
-    And "Cinzia" chooses the module "Math"
+    And "Cinzia" registers to module "Math"
     Then the last request status is 200
     And "Cinzia" can register to "Math"
 
   Scenario: Choosing a module that already has a teacher registered to it as a teacher.
-    When "Renevier" chooses the module "Math"
+    When "Renevier" registers to module "Math"
     And "Cinzia" is registered to the Module "Math"
     Then  the last request status is 400
     And "Renevier" can't register to "Math"

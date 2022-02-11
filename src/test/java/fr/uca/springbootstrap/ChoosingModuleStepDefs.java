@@ -32,14 +32,6 @@ public class ChoosingModuleStepDefs {
     PasswordEncoder encoder;
 
 
-    @When("{string} chooses the module {string}")
-    public void iChooseTheModule(String userName, String moduleName) {
-        User user = userRepository.findByUsername(userName).orElseThrow(() -> new RuntimeException("Error: User is not found."));
-        Module module = moduleRepository.findByName(moduleName).orElseThrow(() -> new RuntimeException("Error: Module is not found."));
-        user.addModule(module);
-        assertTrue(user.getModules().contains(module));
-        assertTrue(module.getParticipants().contains(user));
-    }
 
     @And("{string} can register to {string}")
     public void iCanRegisterTo(String userName, String moduleName) {
@@ -81,20 +73,6 @@ public class ChoosingModuleStepDefs {
     @Given("A Module named {string} with no Teacher registered")
     public void aModuleNamedWithNoTeacherRegistered(String moduleName) {
         Module module = moduleRepository.findByName(moduleName).orElseThrow(() -> new RuntimeException("Error: Module is not found."));
-        assertEquals(0,module.getParticipants().size());
-    }
-
-    @When("the student {string} choose the module {string}")
-    public void iChooseTheModule(Long studentId,String moduleId) {
-        User user = userRepository.findById(studentId).orElseThrow(() -> new RuntimeException("Error: User is not found."));
-        Module module = moduleRepository.findById(moduleId).orElseThrow(() -> new RuntimeException("Error: Module is not found."));
-        user.addModule(module);
-    }
-
-    @And("the student {string} can register to {string}")
-    public void iCanRegisterTo(Long studentId, String moduleId) {
-        User user = userRepository.findById(studentId).orElseThrow(() -> new RuntimeException("Error: User is not found."));
-        Module module = moduleRepository.findById(moduleId).orElseThrow(() -> new RuntimeException("Error: Module is not found."));
-        assertTrue(user.getModules().contains(module));
+        assertEquals(1,module.getParticipants().size());
     }
 }
