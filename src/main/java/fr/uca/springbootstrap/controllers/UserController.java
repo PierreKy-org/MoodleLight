@@ -17,9 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -44,8 +42,23 @@ public class UserController {
     JwtUtils jwtUtils;
 
     @GetMapping("/list")
-    public ResponseEntity<?> getListOfUser(){
-        List<User> list = userRepository.findAll();
+    @ResponseBody
+    public ResponseEntity<?> getListOfUser(@RequestParam  Optional<String> role){
+        HttpHeaders  h = new HttpHeaders();
+        h.add("Content-Type","application/json");
+        System.out.println("---------------------------------------");
+        if (role.isPresent()){
+            Optional<Role> myrole = roleRepository.findByName(ERole.convertStringToErol(role.get()));
+            System.out.println("\n");
+            if (myrole.isPresent()){
+                return ResponseEntity.ok().headers(h).body(parseData(userRepository.findAllByRoles(myrole.get())));
+            }
+        }
+
+        return ResponseEntity.ok().headers(h).body(parseData(userRepository.findAll()));
+    }
+
+    private String parseData(List<User> list){
         String[] myarr = new String[list.size()];
         for (int i = 0; i < list.size(); i++) {
             StringBuilder sb = new StringBuilder();
@@ -56,16 +69,14 @@ public class UserController {
             sb.append("\"role\" : [");
             String prefix = "";
             for (Role r: list.get(i).getRoles()
-                 ) {
+            ) {
                 sb.append(prefix);
                 prefix = ",";
                 sb.append("\"").append(r.getName()).append("\"");
             }
             myarr[i] = sb.append("]}").toString();
         }
-        HttpHeaders  h = new HttpHeaders();
-        h.add("Content-Type","application/json");
-        return ResponseEntity.ok().headers(h).body(Arrays.toString(myarr));
+        return Arrays.toString(myarr);
     }
 
     @GetMapping("/{login}/email")
