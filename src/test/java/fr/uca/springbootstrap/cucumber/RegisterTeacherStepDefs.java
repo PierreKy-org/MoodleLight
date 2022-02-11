@@ -16,10 +16,12 @@ import io.cucumber.java.en.When;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import javax.transaction.Transactional;
 import java.util.HashSet;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@Transactional
 public class RegisterTeacherStepDefs {
     private SpringIntegration springIntegration = new SpringIntegration();
     private static final String PASSWORD = "password";
@@ -63,13 +65,9 @@ public class RegisterTeacherStepDefs {
         User user = userRepository.findByUsername(arg0).get();
         String jwt = authController.generateJwt(arg0, PASSWORD);
 
-        springIntegration.executePost("http://localhost:8080/api/module/" + module.getId() + "/participants/" + user.getId(), jwt); //TODO do the function
+        springIntegration.executePost("http://localhost:8080/api/module/register/" + user.getId() + "/" + module.getId(), jwt);
     }
 
-    @Then("last request status is {int}")
-    public void isRegisteredToModule(int status) {
-        assertEquals(status, latestHttpResponse.getStatusLine().getStatusCode()); //TODO recuperer la derniere reponse http
-    }
 
     @Then("{string} is registered to module {string}")
     public void isRegisteredToModule(String arg0, String arg1) {

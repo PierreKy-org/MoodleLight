@@ -4,6 +4,7 @@ import fr.uca.springbootstrap.SpringIntegration;
 import fr.uca.springbootstrap.controllers.AuthController;
 import fr.uca.springbootstrap.models.ERole;
 import fr.uca.springbootstrap.models.Module;
+import fr.uca.springbootstrap.models.Role;
 import fr.uca.springbootstrap.repository.ModuleRepository;
 import fr.uca.springbootstrap.repository.RoleRepository;
 import fr.uca.springbootstrap.repository.UserRepository;
@@ -43,7 +44,9 @@ public class TryToAccessStepDefs {
     @Given("An User with the login {string} and the role {string} with no Module")
     public void aTeacherNamedWithNoModule(Long login,Long roleId) {
         User user = userRepository.findById(login).orElse(new User());
-        user.setRoles(new HashSet<BeanDefinitionDsl.Role>(){{ add(roleRepository.findById(roleId).orElseThrow(() -> new RuntimeException("Error: Role is not found."))); }}); //TODO do the function add
+        user.setRoles(new HashSet<>() {{
+            add(roleRepository.findById(roleId).orElseThrow(() -> new RuntimeException("Error: Role is not found.")));
+        }}); //TODO do the function add
         userRepository.save(user);
     }
 

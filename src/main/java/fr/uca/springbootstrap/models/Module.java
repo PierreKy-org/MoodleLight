@@ -26,9 +26,6 @@ public class Module {
     }
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(	name = "user_modules",
-            joinColumns = @JoinColumn(name = "module_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id"))
     private Set<User> participants;
 
     public Module() {
