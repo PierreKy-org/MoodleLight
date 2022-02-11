@@ -5,7 +5,7 @@ Feature: Choosing module.
   Scenario: Teacher add a a student to a module
     Given a Teacher with the login "Cinzia"
     And a Student with the login "Mathieu"
-    And A Module named "Math"
+    And a Module named "Math"
     When "Cinzia" add Student "Mathieu" to "Math"
     And "Mathieu" is added to the Module "Math"
     Then "Math" is available for "Mathieu"
@@ -22,8 +22,8 @@ Feature: Choosing module.
   Scenario: Choosing a module that already has a teacher registered to it as a teacher.
     Given a Teacher with the login "Renevier"
     And a Teacher with the login "Sid"
-    And A Module named "Francais"
+    And a Module named "Francais"
     When "Sid" chooses the module "Francais"
     When "Renevier" chooses the module "Francais"
-    And "Francais" is available for "Sid"
+    And "Sid" is registered to the Module "Francais"
     And "Renevier" can't register to "Francais"

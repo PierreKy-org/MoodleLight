@@ -1,9 +1,9 @@
 Feature: Add/Delete Resources to a Module
 
   Background:
-    Given An User with the login "Cinzia" and the role "teacher"
-    And A Resource named "MCQ"
-    And A Module named "Math"
+    Given an User with the login "Cinzia" and the role "teacher"
+    And a Resource named "MCQ"
+    And a Module named "Math"
 
   Scenario Add MCQ to a Math as a Cinzia
     When "Cinzia" add Resource "MCQ" to the module "Math"

@@ -34,9 +34,9 @@ public class GeneralStepDefs {
     @Autowired
     PasswordEncoder encoder;
 
-    @Given("An User with the login {string} and the role {string}")
+    @Given("an User with the login {string} and the role {string}")
     public void aUserWithLogin(String login,String role){
-        User user = userRepository.findByUsername(login).orElse(new User(login,login+"test@gmail.com","abcdef123"));
+        User user = userRepository.findByUsername(login).orElse(new User(login,login+"test@gmail.com",PASSWORD));
         user.setRoles(new HashSet<>(){{ add(roleRepository.findByName(ERole.valueOf(role)).orElseThrow(() -> new RuntimeException("Error: Role is not found."))); }});
         userRepository.save(user);
     }
@@ -59,16 +59,11 @@ public class GeneralStepDefs {
         userRepository.save(user);
     }
 
-    @And("A Module named {string}")
+    @And("a Module named {string}")
     public void aModuleNamed(String name) {
         Module module = moduleRepository.findByName(name).orElse(new Module(name));
         module.setParticipants(new HashSet<>());
         moduleRepository.save(module);
     }
 
-
-    @Then("the last request status is {int}")
-    public void theLastRequestStatusIs(int status) {
-        Assert.assertEquals(status,springIntegration.latestHttpResponse.getStatusLine().getStatusCode());
-    }
 }

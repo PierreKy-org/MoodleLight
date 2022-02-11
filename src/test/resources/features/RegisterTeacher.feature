@@ -3,7 +3,7 @@ Feature: Register Teacher
   Background:
     Given a teacher with login "steve"
     And a teacher with login "sarah"
-    And A Module named "Gestion de projet"
+    And a Module named "Gestion de projet"
 
   Scenario: Register Teacher
     When "steve" registers to module "Gestion de projet"

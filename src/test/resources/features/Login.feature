@@ -1,9 +1,7 @@
 Feature: Logging as a User
   Background :
     Given Authentication Service
-    And A Student named "Mathieu"
-    And his login is "mathieu01"
-    And his password is "azertyuiop"
+    And a Student with the login "Mathieu" and the password "azertyuiop"
 
   Scenario : Logging to the authentication service with a valid token
     When User has a valid Token
