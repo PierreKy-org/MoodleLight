@@ -6,8 +6,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "modules")
-public class Module {
+@Table(name = "resource")
+public class Resource{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -15,32 +15,16 @@ public class Module {
     @NotBlank
     private String name;
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(	name = "user_modules",
-            joinColumns = @JoinColumn(name = "module_id"),
+    @JoinTable(	name = "user_resources",
+            joinColumns = @JoinColumn(name = "resource_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     private Set<User> participants;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(	name = "user_resources",
-            joinColumns = @JoinColumn(name = "module_id"),
-            inverseJoinColumns = @JoinColumn(name = "resources_id"))
-    private Set<Resource> resources;
-
-    public Module() {
+    public Resource() {
         participants = new HashSet<>();
     }
-
-    public Module(String name) {
-
+    public Resource(String name) {
         this.name = name;
         participants = new HashSet<>();
     }
@@ -53,12 +37,17 @@ public class Module {
         this.participants = participants;
     }
 
-    public Set<Resource> getResources() {
-        return resources;
+
+    public User[] getParticipantsOfRole(ERole role){
+        return participants.stream().filter(u -> u.getRoles().stream().anyMatch(r -> r.getName().equals(role))).toArray(User[]::new);
     }
 
-    public void setResources(Set<Resource> resources) {
-        this.resources = resources;
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Long getId() {
@@ -67,10 +56,6 @@ public class Module {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public User[] getParticipantsOfRole(ERole role){
-        return participants.stream().filter(u -> u.getRoles().stream().anyMatch(r -> r.getName().equals(role))).toArray(User[]::new);
     }
 
     @Override
