@@ -35,7 +35,31 @@ public class ModuleStepDefs {
     @Autowired
     PasswordEncoder encoder;
 
-    public String tokenControl(String login){
+    @When("{string} is removed from the Module {string}")
+    public void aUserdeleteAnotherFromTheModule(String login, String moduleName) {
+        User user = userRepository.findByUsername(login).orElseThrow(() -> new RuntimeException("Error: User is not found."));
+        Module module = moduleRepository.findByName(moduleName).orElseThrow(() -> new RuntimeException("Error: Module is not found."));
+        user.getModules().remove(module);
+        module.getParticipants().remove(user);
+        userRepository.save(user);
+        moduleRepository.save(module);
+
+    }
+
+    @And("{string} is added to the Module {string}")
+    public void isAddedToTheModule(String login, String moduleName) {
+        User user = userRepository.findByUsername(login).orElseThrow(() -> new RuntimeException("Error: User is not found."));
+        Module module = moduleRepository.findByName(moduleName).orElseThrow(() -> new RuntimeException("Error: Module is not found."));
+        user.getModules().add(module);
+        userRepository.save(user);
+    }
+
+    @Then("{string} is not registered to the Module {string}")
+    public void isNotRegisteredToTheModule(String login, String moduleName) throws IOException {
+        User user = userRepository.findByUsername(login).orElseThrow(() -> new RuntimeException("Error: User is not found."));
+        Module module = moduleRepository.findByName(moduleName).orElseThrow(() -> new RuntimeException("Error: Module is not found."));
+        assertFalse(user.getModules().contains(module));
+        assertFalse(module.getParticipants().contains(user));
         String jwt;
         try{
             jwt = authController.generateJwt(login,PASSWORD);
@@ -43,43 +67,12 @@ public class ModuleStepDefs {
         catch (BadCredentialsException e){
             jwt = "Wrong_Token";
         }
-        return jwt;
-    }
-
-    @When("{string} is removed from the Module {string}")
-    public void aUserdeleteAnotherFromTheModule(String login, String moduleName) {
-        User user = userRepository.findByUsername(login).orElse(null);
-        Module module = moduleRepository.findByName(moduleName).orElse(null);
-        user.getModules().remove(module);
-        module.getParticipants().remove(user);
-        moduleRepository.save(module);
-        userRepository.save(user);
-    }
-
-    @And("{string} is added to the Module {string}")
-    public void isAddedToTheModule(String login, String moduleName) {
-        User user = userRepository.findByUsername(login).orElse(null);
-        Module module = moduleRepository.findByName(moduleName).orElse(null);
-        user.getModules().add(module);
-        moduleRepository.save(module);
-        userRepository.save(user);
-    }
-
-    @Then("{string} is not registered to the Module {string}")
-    public void isNotRegisteredToTheModule(String login, String moduleName) throws IOException {
-        User user = userRepository.findByUsername(login).orElse(null);
-        Module module = moduleRepository.findByName(moduleName).orElse(null);
-        assert user != null;
-        assertFalse(user.getModules().contains(module));
-        assert module != null;
-        assertFalse(module.getParticipants().contains(user));
-        String jwt = tokenControl(login);
         springIntegration.executeGet("http://localhost:8080/api/test/"+login+"/modules/"+moduleName,jwt);
     }
     @When("{string} is registered to the Module {string}")
     public void isRegisteredToTheModule(String login, String moduleName) throws IOException {
-        User user = userRepository.findByUsername(login).orElse(null);
-        Module module = moduleRepository.findByName(moduleName).orElse(null);
+        User user = userRepository.findByUsername(login).orElseThrow(() -> new RuntimeException("Error: User is not found."));
+        Module module = moduleRepository.findByName(moduleName).orElseThrow(() -> new RuntimeException("Error: Module is not found."));
         assertTrue(user.getModules().stream().anyMatch(module1 -> module1.getId().equals(module.getId())));
         assertTrue(module.getParticipants().contains(user));
     }

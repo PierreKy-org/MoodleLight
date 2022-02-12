@@ -39,16 +39,15 @@ public class ChoosingModuleStepDefs {
 
     @When("{string} chooses the module {string}")
     public void iChooseTheModule(String userName, String moduleName) {
-        User user = userRepository.findByUsername(userName).orElse(null);
-        Module module = moduleRepository.findByName(moduleName).orElse(null);
+        User user = userRepository.findByUsername(userName).orElseThrow(() -> new RuntimeException("Error: User is not found."));
+        Module module = moduleRepository.findByName(moduleName).orElseThrow(() -> new RuntimeException("Error: Module is not found."));
         user.getModules().add(module);
         userRepository.save(user);
-        moduleRepository.save(module);
     }
 
     @And("{string} has {int} teacher registered")
     public void hasTeacherRegistered(String moduleName, int countTeacher) {
-        Module module = moduleRepository.findByName(moduleName).orElse(null);
+        Module module = moduleRepository.findByName(moduleName).orElseThrow(() -> new RuntimeException("Error: Module is not found."));
         assertEquals(module.getParticipantsOfRole(ERole.ROLE_TEACHER).length, countTeacher);
     }
 
