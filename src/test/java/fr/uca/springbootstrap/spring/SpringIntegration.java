@@ -1,6 +1,8 @@
-package fr.uca.springbootstrap;
+package fr.uca.springbootstrap.spring;
 
 import java.io.IOException;
+
+import fr.uca.springbootstrap.SpringBootSecurityPostgresqlApplication;
 import io.cucumber.spring.CucumberContextConfiguration;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpDelete;
@@ -16,12 +18,12 @@ import org.apache.http.client.methods.HttpPost;
 @CucumberContextConfiguration
 @SpringBootTest(classes = SpringBootSecurityPostgresqlApplication.class, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 public class SpringIntegration {
-    static ResponseResults latestResponse = null;
     private final CloseableHttpClient httpClient = HttpClients.createDefault();
     public static HttpResponse latestHttpResponse;
+    private static final String host = "http://localhost:8080/";
 
     public void executeGet(String url, String jwt) throws IOException {
-        HttpGet request = new HttpGet(url);
+        HttpGet request = new HttpGet(host + url);
         request.addHeader("Accept", "application/json");
         if (jwt != null) {
             request.addHeader("Authorization", "Bearer " + jwt);
@@ -30,7 +32,7 @@ public class SpringIntegration {
     }
 
     public void executePost(String url, String jwt, String payload) throws IOException {
-        HttpPost request = new HttpPost(url);
+        HttpPost request = new HttpPost(host + url);
         request.addHeader("content-type", "application/json");
         if (jwt != null) {
             request.addHeader("Authorization", "Bearer " + jwt);
@@ -45,7 +47,7 @@ public class SpringIntegration {
     }
 
     public void executePut(String url, String jwt) throws IOException {
-        HttpPut request = new HttpPut(url);
+        HttpPut request = new HttpPut(host + url);
         request.addHeader("content-type", "application/json");
         if (jwt != null) {
             request.addHeader("Authorization", "Bearer " + jwt);
@@ -54,7 +56,7 @@ public class SpringIntegration {
     }
 
     public void executeDelete(String url, String jwt) throws IOException {
-        HttpDelete request = new HttpDelete(url);
+        HttpDelete request = new HttpDelete(host + url);
         request.addHeader("content-type", "application/json");
         if (jwt != null) {
             request.addHeader("Authorization", "Bearer " + jwt);

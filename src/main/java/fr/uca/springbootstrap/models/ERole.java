@@ -1,5 +1,7 @@
 package fr.uca.springbootstrap.models;
 
+import io.cucumber.java.ParameterType;
+
 import java.util.Locale;
 
 public enum ERole {
