@@ -1,12 +1,8 @@
 package fr.uca.springbootstrap;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-
 import io.cucumber.spring.CucumberContextConfiguration;
 import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPut;

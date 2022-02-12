@@ -9,8 +9,6 @@ import fr.uca.springbootstrap.repository.RoleRepository;
 import fr.uca.springbootstrap.repository.UserRepository;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
-import io.cucumber.java.en.Then;
-import org.junit.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import java.util.HashSet;
@@ -34,19 +32,14 @@ public class GeneralStepDefs {
     @Autowired
     PasswordEncoder encoder;
 
-    @Given("an User with the login {string} and the role {string}")
-    public void aUserWithLogin(String login,String role){
-        User user = userRepository.findByUsername(login).orElse(new User(login,login+"test@gmail.com",PASSWORD));
-        user.setRoles(new HashSet<>(){{ add(roleRepository.findByName(ERole.valueOf(role)).orElseThrow(() -> new RuntimeException("Error: Role is not found."))); }});
-        userRepository.save(user);
-    }
-
     @Given("a Student with the login {string}")
     public void aStudentWithLogin(String arg0) {
         User user = userRepository.findByUsername(arg0).
                 orElse(new User(arg0, arg0 + "@test.fr", encoder.encode(PASSWORD)));
-        user.setRoles(new HashSet<Role>(){{ add(roleRepository.findByName(ERole.ROLE_STUDENT).
-                orElseThrow(() -> new RuntimeException("Error: Role is not found."))); }});
+        user.setRoles(new HashSet<>() {{
+            add(roleRepository.findByName(ERole.ROLE_STUDENT).
+                    orElseThrow(() -> new RuntimeException("Error: Role is not found.")));
+        }});
         userRepository.save(user);
     }
 
@@ -54,8 +47,10 @@ public class GeneralStepDefs {
     public void aTeacherWithLogin(String arg0) {
         User user = userRepository.findByUsername(arg0).
                 orElse(new User(arg0, arg0 + "@testm.fr", encoder.encode(PASSWORD)));
-        user.setRoles(new HashSet<Role>(){{ add(roleRepository.findByName(ERole.ROLE_TEACHER).
-                orElseThrow(() -> new RuntimeException("Error: Role is not found."))); }});
+        user.setRoles(new HashSet<>() {{
+            add(roleRepository.findByName(ERole.ROLE_TEACHER).
+                    orElseThrow(() -> new RuntimeException("Error: Role is not found.")));
+        }});
         userRepository.save(user);
     }
 
