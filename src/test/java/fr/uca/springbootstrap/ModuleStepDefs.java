@@ -46,7 +46,7 @@ public class ModuleStepDefs {
     public void isAddedToTheModule(String login, String moduleName) {
         User user = userRepository.findByUsername(login).orElse(new User());
         Module module = moduleRepository.findByName(moduleName).orElse(new Module(moduleName));
-        user.addModule(module);
+        //user.addModule(module);
         module.getParticipants().add(user);
         moduleRepository.save(module);
         userRepository.save(user);
