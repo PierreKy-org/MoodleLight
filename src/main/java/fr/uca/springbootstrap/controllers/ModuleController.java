@@ -56,6 +56,8 @@ public class ModuleController {
         return ResponseEntity.ok().body("[" + module.getParticipants().stream().map(User::toString).reduce("", (subtotal, element) -> subtotal + element + ",") + "]");
     }
 
+    //TODO /{moduleId}/users/{role}
+
     @PostMapping("/register")
     @PreAuthorize("hasRole('TEACHER')")
     public ResponseEntity<MessageResponse> addUserToModule(@RequestBody ModuleRequest request) {
