@@ -37,4 +37,18 @@ public class ModuleControllerStepDefs {
             e.printStackTrace();
         }
     }
+    @When("The user {string} try to remove the user {string} to the module {string}")
+    public void aGetRequestIsMadeToRemove(String user, String targetUser, String module) {
+        String jwt = authController.generateJwt(user, PASSWORD);
+        User u = userRepository.findByUsername(targetUser).orElse(null);
+        Module m = moduleRepository.findByName(module).orElse(null);
+
+        long targetId = u == null ? -1 : u.getId();
+        long moduleId = m == null ? -1 : m.getId();
+        try {
+            springIntegration.executePost("http://localhost:8080/api/module/remove", jwt, "{\"userId\":\"" + targetId + "\",\"moduleId\":\"" + moduleId + "\"}");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

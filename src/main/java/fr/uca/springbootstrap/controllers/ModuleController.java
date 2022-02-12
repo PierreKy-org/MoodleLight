@@ -4,7 +4,6 @@ package fr.uca.springbootstrap.controllers;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import fr.uca.springbootstrap.models.ERole;
 import fr.uca.springbootstrap.models.Module;
-import fr.uca.springbootstrap.models.Role;
 import fr.uca.springbootstrap.models.User;
 import fr.uca.springbootstrap.payload.request.ModuleRequest;
 import fr.uca.springbootstrap.payload.response.MessageResponse;
@@ -13,18 +12,13 @@ import fr.uca.springbootstrap.repository.RoleRepository;
 import fr.uca.springbootstrap.repository.UserRepository;
 import fr.uca.springbootstrap.security.jwt.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
-import java.util.HashSet;
-import java.util.stream.Stream;
 
 @Transactional
 @CrossOrigin(origins = "*", maxAge = 3600)
