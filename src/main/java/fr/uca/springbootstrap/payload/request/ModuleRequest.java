@@ -13,11 +13,8 @@ public class ModuleRequest {
     }
 
     public ModuleRequest(String userId, String moduleId) {
-        System.out.println("IN");
-        this.userId = 3L;
-        this.moduleId = 2L;
-        //this.userId = Long.parseLong(userId);
-        //this.moduleId = Long.parseLong(moduleId);
+        this.userId = Long.parseLong(userId);
+        this.moduleId = Long.parseLong(moduleId);
     }
 
     public long getUserId() {
