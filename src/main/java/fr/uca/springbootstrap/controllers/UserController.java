@@ -4,22 +4,20 @@ import fr.uca.springbootstrap.models.ERole;
 import fr.uca.springbootstrap.models.Module;
 import fr.uca.springbootstrap.models.Role;
 import fr.uca.springbootstrap.models.User;
-import fr.uca.springbootstrap.payload.response.JwtResponse;
 import fr.uca.springbootstrap.repository.ModuleRepository;
 import fr.uca.springbootstrap.repository.RoleRepository;
 import fr.uca.springbootstrap.repository.UserRepository;
 import fr.uca.springbootstrap.security.jwt.JwtUtils;
-import io.cucumber.messages.internal.com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
+
+import static fr.uca.springbootstrap.models.ERole.ROLE_TEACHER;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -48,7 +46,6 @@ public class UserController {
     public ResponseEntity<?> getListOfUser(@RequestParam  Optional<String> role){
         HttpHeaders  h = new HttpHeaders();
         h.add("Content-Type","application/json");
-        System.out.println("---------------------------------------");
         if (role.isPresent()){
             Optional<Role> myrole = roleRepository.findByName(ERole.convertStringToErol(role.get()));
             System.out.println("\n");
@@ -139,5 +136,7 @@ public class UserController {
         sb.append("]");
         return ResponseEntity.ok().body(sb);
     }
+
+
 }
 
