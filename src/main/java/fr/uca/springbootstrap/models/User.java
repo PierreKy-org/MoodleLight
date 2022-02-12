@@ -99,19 +99,6 @@ public class User {
 
 	public void setModules(Set<Module> newModules) {modules=newModules;}
 
-	public void addModule(Module module){
-		boolean areTeacher = this.getRoles().stream().anyMatch(role -> role.getName().equals(ROLE_TEACHER));
-		if(!areTeacher || module.getNbrOfTeacher()==0) {
-			modules.add(module);
-			module.getParticipants().add(this);
-		}
-	}
-
-	public void addUserToModule(User user,Module module){
-		user.addModule(module);
-		module.getParticipants().add(user);
-	}
-
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;

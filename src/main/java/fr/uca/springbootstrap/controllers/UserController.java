@@ -1,5 +1,6 @@
 package fr.uca.springbootstrap.controllers;
 
+import fr.uca.springbootstrap.models.ERole;
 import fr.uca.springbootstrap.models.Module;
 import fr.uca.springbootstrap.models.Role;
 import fr.uca.springbootstrap.models.User;
@@ -61,6 +62,7 @@ public class UserController {
 
     private String parseData(List<User> list){
         String[] myarr = new String[list.size()];
+        //TODO faire un toString pour user plutot que ça
         for (int i = 0; i < list.size(); i++) {
             StringBuilder sb = new StringBuilder();
             sb.append("{");
@@ -80,8 +82,18 @@ public class UserController {
         return Arrays.toString(myarr);
     }
 
+    @GetMapping("/{userName}/id")
+    public ResponseEntity<?> getIdOfUser(@PathVariable String userName) {
+        //TOOD faire la feature
+        User user = userRepository.findByUsername(userName).orElse(null);
+        if(user==null){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok().body("{\"id\":" + user.getId() + "}");
+    }
+
     @GetMapping("/{userId}/email")
-    public ResponseEntity<?> getEmailOfuser(@PathVariable Long userId) {
+    public ResponseEntity<?> getEmailOfUser(@PathVariable Long userId) {
         User user = userRepository.findById(userId).orElse(null);
         if(user==null){
             return ResponseEntity.notFound().build();
@@ -90,7 +102,7 @@ public class UserController {
     }
 
     @GetMapping("/{userId}/username")
-    public ResponseEntity<?> getUsernameOfuser(@PathVariable Long userId) {
+    public ResponseEntity<?> getUsernameOfUser(@PathVariable Long userId) {
         User user = userRepository.findById(userId).orElse(null);
         if(user==null){
             return ResponseEntity.notFound().build();
@@ -99,7 +111,7 @@ public class UserController {
     }
 
     @GetMapping("/{userId}/modules")
-    public ResponseEntity<?> getModulesOfuser(@PathVariable Long userId) {
+    public ResponseEntity<?> getModulesOfUser(@PathVariable Long userId) {
         User user = userRepository.findById(userId).orElse(null);
         if(user==null){
             return ResponseEntity.notFound().build();
@@ -114,7 +126,7 @@ public class UserController {
     }
 
     @GetMapping("/{userId}/roles")
-    public ResponseEntity<?> getRolesOfuser(@PathVariable Long userId) {
+    public ResponseEntity<?> getRolesOfUser(@PathVariable Long userId) {
         User user = userRepository.findById(userId).orElse(null);
         if(user==null){
             return ResponseEntity.notFound().build();

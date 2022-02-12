@@ -47,16 +47,6 @@ public class Module {
         this.participants = participants;
     }
 
-    public int getNbrOfTeacher() {
-        AtomicInteger nbrOfTeacher = new AtomicInteger();
-        for (User user : participants) {
-            user.getRoles().forEach(role -> {
-                if (role.getName().equals(ROLE_TEACHER)) nbrOfTeacher.addAndGet(1);
-            });
-        }
-        return nbrOfTeacher.get();
-    }
-
     public Long getId() {
         return id;
     }
