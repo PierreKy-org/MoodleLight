@@ -1,5 +1,6 @@
 package fr.uca.springbootstrap.models;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -99,6 +100,10 @@ public class User {
 
 	public void setModules(Set<Module> newModules) {modules=newModules;}
 
+	public boolean hasRole(ERole role){
+		return roles.stream().anyMatch(r -> r.getName().equals(ERole.ROLE_TEACHER));
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
@@ -111,4 +116,5 @@ public class User {
 	public int hashCode() {
 		return Objects.hash(id, username, email, password);
 	}
+
 }
