@@ -1,5 +1,5 @@
 package fr.uca.springbootstrap;
-import fr.uca.springbootstrap.SpringIntegration;
+
 import fr.uca.springbootstrap.controllers.AuthController;
 import fr.uca.springbootstrap.repository.UserRepository;
 import io.cucumber.java.en.And;
@@ -10,7 +10,6 @@ import org.apache.http.util.EntityUtils;
 import org.junit.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
-
 import java.io.IOException;
 
 public class HttpStepDefs {
@@ -44,12 +43,12 @@ public class HttpStepDefs {
 
     @Then("last request status is {int}")
     public void theResponseIs(int arg0) {
-        Assert.assertEquals(arg0,springIntegration.latestHttpResponse.getStatusLine().getStatusCode());
+        Assert.assertEquals(arg0, SpringIntegration.latestHttpResponse.getStatusLine().getStatusCode());
     }
 
     @And("the response is {string}")
     public void theResponseIs(String arg0) throws IOException {
-        Assert.assertEquals(arg0, EntityUtils.toString(springIntegration.latestHttpResponse.getEntity()));
+        Assert.assertEquals(arg0, EntityUtils.toString(SpringIntegration.latestHttpResponse.getEntity()));
     }
 
     @Then("a post request is made to {string}")

@@ -3,7 +3,6 @@ package fr.uca.springbootstrap;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.client.ClientHttpRequest;
 import org.springframework.web.client.RequestCallback;
-
 import java.io.IOException;
 import java.util.Map;
 

@@ -64,7 +64,16 @@ Feature: Testing the Module Controller
     Given a Student with the login "testStudent1"
     And a Module named "testModule1"
     When The user "testStudent1" try to remove the user "testStudent1" to the module "testModule1"
-    Then last request status is 403
+    Then last request status is 400
+    And the response is "{\"message\":\"Permission error\"}"
+
+  Scenario: Trying to remove a student with no module to a module
+    Given a Teacher with the login "testTeacher1"
+    And a Student with the login "testStudent1" and doesn't have any Module
+    And a Module named "testModule1"
+    When The user "testTeacher1" try to remove the user "testStudent1" to the module "testModule1"
+    Then last request status is 400
+    And the response is "{\"message\":\"The Student aren't registered to the Module\"}"
 
   Scenario: Successful remove
     Given a Teacher with the login "testTeacher1"
