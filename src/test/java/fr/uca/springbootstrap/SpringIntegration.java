@@ -1,9 +1,11 @@
 package fr.uca.springbootstrap;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
 import io.cucumber.spring.CucumberContextConfiguration;
 import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
@@ -20,7 +22,7 @@ import org.apache.http.client.methods.HttpPost;
 public class SpringIntegration {
     static ResponseResults latestResponse = null;
     private final CloseableHttpClient httpClient = HttpClients.createDefault();
-    public HttpResponse latestHttpResponse;
+    public static HttpResponse latestHttpResponse;
 
     public void executeGet(String url, String jwt) throws IOException {
         HttpGet request = new HttpGet(url);
@@ -31,7 +33,7 @@ public class SpringIntegration {
         latestHttpResponse = httpClient.execute(request);
     }
 
-    public void executePost(String url, String jwt,String payload) throws IOException {
+    public void executePost(String url, String jwt, String payload) throws IOException {
         HttpPost request = new HttpPost(url);
         request.addHeader("content-type", "application/json");
         if (jwt != null) {
@@ -39,10 +41,11 @@ public class SpringIntegration {
         }
         request.setEntity(new StringEntity(payload));
         latestHttpResponse = httpClient.execute(request);
+        System.out.println(latestHttpResponse.getStatusLine());
     }
 
     public void executePost(String url, String jwt) throws IOException {
-        executePost(url,jwt,"{}");
+        executePost(url, jwt, "{}");
     }
 
     public void executePut(String url, String jwt) throws IOException {

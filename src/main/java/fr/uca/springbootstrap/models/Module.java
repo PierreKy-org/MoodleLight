@@ -4,9 +4,6 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.concurrent.atomic.AtomicInteger;
-
-import static fr.uca.springbootstrap.models.ERole.ROLE_TEACHER;
 
 @Entity
 @Table(name = "modules")
@@ -27,6 +24,9 @@ public class Module {
     }
 
     @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(	name = "user_modules",
+            joinColumns = @JoinColumn(name = "module_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
     private Set<User> participants;
 
     public Module() {
@@ -53,6 +53,10 @@ public class Module {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public User[] getParticipantsOfRole(ERole role){
+        return participants.stream().filter(u -> u.getRoles().stream().anyMatch(r -> r.getName().equals(role))).toArray(User[]::new);
     }
 
     @Override
