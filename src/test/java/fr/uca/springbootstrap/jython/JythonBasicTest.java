@@ -4,9 +4,6 @@ import org.python.util.PythonInterpreter;
 
 import org.junit.Test;
 
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
-import javax.script.ScriptException;
 import java.io.StringWriter;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
