@@ -1,11 +1,11 @@
 package fr.uca.springbootstrap.controllers;
 
 
-import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import fr.uca.springbootstrap.models.ERole;
 import fr.uca.springbootstrap.models.Module;
 import fr.uca.springbootstrap.models.User;
 import fr.uca.springbootstrap.payload.request.ModuleRequest;
+import fr.uca.springbootstrap.payload.request.RegistrationRequest;
 import fr.uca.springbootstrap.payload.response.MessageResponse;
 import fr.uca.springbootstrap.repository.ModuleRepository;
 import fr.uca.springbootstrap.repository.UserRepository;
@@ -15,7 +15,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletResponse;
+import java.util.Optional;
 
 @Transactional
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -60,7 +60,7 @@ public class ModuleController {
 
     @PostMapping("/register")
     @PreAuthorize("hasRole('TEACHER')")
-    public ResponseEntity<MessageResponse> addUserToModule(@RequestBody ModuleRequest request) {
+    public ResponseEntity<MessageResponse> addUserToModule(@RequestBody RegistrationRequest request) {
         Module module = moduleRepository.findById(request.getModuleId()).orElse(null);
         User user = userRepository.findById(request.getUserId()).orElse(null);
 
@@ -79,23 +79,45 @@ public class ModuleController {
         return ResponseEntity.ok(new MessageResponse("User successfully registered to module!"));
     }
 
-    @PostMapping("/remove/{userId}/{moduleId}")
+    @PostMapping("/remove")
     @PreAuthorize("hasRole('TEACHER')")
-    public ResponseEntity<MessageResponse> removeUserFromModule(@PathVariable Long moduleId, @PathVariable Long userId) {
-        Module module = moduleRepository.findById(moduleId).orElseThrow(() -> new RuntimeException("Error: Module is not found."));
-        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("Error: User is not found."));
-        module.getParticipants().remove(user);
+    public ResponseEntity<MessageResponse> removeUserFromModule(@RequestBody RegistrationRequest request) {
+        Module module = moduleRepository.findById(request.getModuleId()).orElse(null);
+        User user = userRepository.findById(request.getUserId()).orElse(null);
+
+        if (user == null) {
+            return ResponseEntity.badRequest().body(new MessageResponse("The user does not exists"));
+        } else if (module == null) {
+            return ResponseEntity.badRequest().body(new MessageResponse("The module does not exists"));
+        } else if (!module.getParticipants().contains(user)) {
+            return ResponseEntity.badRequest().body(new MessageResponse("The user is already not registered to the module"));
+        }
+
         user.getModules().remove(module);
-
         userRepository.save(user);
-        moduleRepository.save(module);
-
-        return ResponseEntity.ok(new MessageResponse("User successfully removed from module!"));
+        return ResponseEntity.ok(new MessageResponse("User successfully removed from the module!"));
     }
 
-    @ExceptionHandler(InvalidFormatException.class)
-    public ResponseEntity<MessageResponse> handleException(InvalidFormatException e) {
-        return ResponseEntity.badRequest().build();
+    @PostMapping("/create")
+    @PreAuthorize("hasRole('TEACHER')")
+    public ResponseEntity<MessageResponse> createModule(@RequestBody ModuleRequest request) {
+        if (moduleRepository.findByName(request.getName()).isPresent()) {
+            return ResponseEntity.badRequest().body(new MessageResponse("A module with this name already exists"));
+        }
+        Module module = new Module(request.getName());
+        moduleRepository.save(module);
+        return ResponseEntity.ok(new MessageResponse("Module successfully created!"));
+    }
+
+    @PostMapping("/delete")
+    @PreAuthorize("hasRole('TEACHER')")
+    public ResponseEntity<MessageResponse> deleteModule(@RequestBody ModuleRequest request) {
+        Optional<Module> module = moduleRepository.findByName(request.getName());
+        if (module.isEmpty()) {
+            return ResponseEntity.badRequest().body(new MessageResponse("The module does not exists"));
+        }
+        moduleRepository.delete(module.get());
+        return ResponseEntity.ok(new MessageResponse("Module successfully deleted!"));
     }
 
 }

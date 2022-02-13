@@ -1,27 +1,19 @@
 package fr.uca.springbootstrap.payload.request;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 
 public class ModuleRequest {
-    @NotNull
-    private long userId;
-
-    @NotNull
-    private long moduleId;
+    @NotBlank
+    private String name;
 
     public ModuleRequest() {
     }
 
-    public ModuleRequest(String userId, String moduleId) {
-        this.userId = Long.parseLong(userId);
-        this.moduleId = Long.parseLong(moduleId);
+    public ModuleRequest(String name) {
+        this.name = name;
     }
 
-    public long getUserId() {
-        return userId;
-    }
-
-    public long getModuleId() {
-        return moduleId;
+    public String getName() {
+        return name;
     }
 }

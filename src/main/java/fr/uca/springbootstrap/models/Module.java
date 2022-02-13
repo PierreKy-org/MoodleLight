@@ -3,6 +3,7 @@ package fr.uca.springbootstrap.models;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -24,7 +25,7 @@ public class Module {
     }
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(	name = "user_modules",
+    @JoinTable(name = "user_modules",
             joinColumns = @JoinColumn(name = "module_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     private Set<User> participants;
@@ -34,7 +35,6 @@ public class Module {
     }
 
     public Module(String name) {
-
         this.name = name;
         participants = new HashSet<>();
     }
@@ -55,9 +55,23 @@ public class Module {
         this.id = id;
     }
 
-    public User[] getParticipantsOfRole(ERole role){
+    public User[] getParticipantsOfRole(ERole role) {
         return participants.stream().filter(u -> u.getRoles().stream().anyMatch(r -> r.getName().equals(role))).toArray(User[]::new);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Module module = (Module) o;
+        return id.equals(module.id) && name.equals(module.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name);
+    }
+
 
     @Override
     public String toString() {

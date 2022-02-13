@@ -33,6 +33,11 @@ public class ModuleStepDefs {
         return type;
     }
 
+    @ParameterType("create|delete")
+    public String creation(String type) {
+        return type;
+    }
+
     @Given("a Module named {string}")
     public void aModuleNamed(String name) {
         Module module = moduleRepository.findByName(name).orElse(new Module(name));
@@ -41,7 +46,7 @@ public class ModuleStepDefs {
     }
 
     @When("The user {string} try to register the user {string} to the module {string}")
-    public void aGetRequestIsMadeTo(String user, String targetUser, String module) {
+    public void aGetRequestIsMadeToRegister(String user, String targetUser, String module) {
         String jwt = authController.generateJwt(user, PASSWORD);
         User u = userRepository.findByUsername(targetUser).orElse(null);
         Module m = moduleRepository.findByName(module).orElse(null);
@@ -58,13 +63,10 @@ public class ModuleStepDefs {
     @When("The user {string} try to remove the user {string} to the module {string}")
     public void aGetRequestIsMadeToRemove(String user, String targetUser, String module) {
         String jwt = authController.generateJwt(user, PASSWORD);
-        User u = userRepository.findByUsername(targetUser).orElse(null);
-        Module m = moduleRepository.findByName(module).orElse(null);
-
-        long targetId = u == null ? -1 : u.getId();
-        long moduleId = m == null ? -1 : m.getId();
+        User u = userRepository.findByUsername(targetUser).orElse(new User());
+        Module m = moduleRepository.findByName(module).orElse(new Module());
         try {
-            springIntegration.executePost("api/module/remove", jwt, "{\"userId\":\"" + targetId + "\",\"moduleId\":\"" + moduleId + "\"}");
+            springIntegration.executePost("api/module/remove", jwt, "{\"userId\":\"" + u.getId() + "\",\"moduleId\":\"" + m.getId() + "\"}");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -91,6 +93,19 @@ public class ModuleStepDefs {
 
         try {
             springIntegration.executeGet("api/module/" + module.getName() + "/id", jwt);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @When("The user {string} try to {creation} the module {string}")
+    public void theUserTryToCreateTheModule(String userName, String creation, String moduleName) {
+        User user = userRepository.findByUsername(userName).orElseThrow(() -> new RuntimeException("Error: User is not found."));
+        String jwt = authController.generateJwt(user.getUsername(), PASSWORD);
+
+        try {
+            System.out.println("{\"name\":\"" + moduleName + "\"}");
+            springIntegration.executePost("api/module/" + creation, jwt, "{\"name\":\"" + moduleName + "\"}");
         } catch (IOException e) {
             e.printStackTrace();
         }

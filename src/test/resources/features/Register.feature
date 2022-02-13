@@ -45,3 +45,4 @@ Feature: Registering user to a module
     When The user "testTeacher1" try to register the user "testStudent1" to the module "testModule1"
     Then last request status is 200
     And the response is "{\"message\":\"User successfully registered to module!\"}"
+    And The user "testStudent1" is registered the module "testModule1"
