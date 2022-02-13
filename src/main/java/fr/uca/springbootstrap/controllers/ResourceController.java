@@ -2,31 +2,20 @@ package fr.uca.springbootstrap.controllers;
 
 
 import fr.uca.springbootstrap.models.Resource;
-import fr.uca.springbootstrap.models.User;
 import fr.uca.springbootstrap.payload.request.ResourceRequest;
-import fr.uca.springbootstrap.repository.ModuleRepository;
 import fr.uca.springbootstrap.repository.ResourceRepository;
-import fr.uca.springbootstrap.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-
-import javax.persistence.Access;
 import java.util.Optional;
 
 @Transactional
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/api/module/resource")
+@RequestMapping("/api/resource")
 public class ResourceController {
-
-    @Autowired
-    UserRepository userRepository;
-
-    @Autowired
-    ModuleRepository moduleRepository;
 
     @Autowired
     ResourceRepository resourceRepository;
@@ -37,7 +26,7 @@ public class ResourceController {
         if (resource==null){
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok().body("{\"id\" : "+resource.getId()+"}");
+        return ResponseEntity.ok().body("{\"id\":"+resource.getId()+"}");
     }
 
     @GetMapping("/{resourceId}/name")
@@ -46,7 +35,7 @@ public class ResourceController {
         if (resource==null){
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok().body("{\"name\" : "+resource.getName()+"}");
+        return ResponseEntity.ok().body("{\"name\":"+resource.getName()+"}");
     }
 
     @PostMapping("/create")
