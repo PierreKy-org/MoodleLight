@@ -29,7 +29,7 @@ Feature: Getting information
     Given a Student with the login "testStudent1"
     And a Module named "testModule1"
     When "testStudent1" request the id of the module "testModule1"
-    Then the response is "{\"id\":9}"
+    Then the response is "{\"id\":15}"
 
   Scenario: Getting the moduleName from an moduleId
     Given a Student with the login "testStudent1"
