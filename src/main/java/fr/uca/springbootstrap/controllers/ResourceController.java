@@ -44,14 +44,6 @@ public class ResourceController {
         return ResponseEntity.ok().body("{\"name\" : "+resource.getName()+"}");
     }
 
-    @GetMapping("/{resourceId}/users")
-    public ResponseEntity<String> getUsers(@PathVariable Long resourceId){
-        Resource resource = resourceRepository.findById(resourceId).orElse(null);
-        if (resource==null){
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok().body("[" + resource.getParticipants().stream().map(User::toString).reduce("", (subtotal, element) -> subtotal + element + ",") + "]");
-    }
 
 
 }
