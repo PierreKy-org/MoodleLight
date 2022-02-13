@@ -1,6 +1,7 @@
 package fr.uca.springbootstrap.cucumber;
 
 import fr.uca.springbootstrap.spring.SpringIntegration;
+import io.cucumber.java.ParameterType;
 import io.cucumber.java.en.Then;
 import org.apache.http.util.EntityUtils;
 import org.junit.Assert;
@@ -15,11 +16,11 @@ public class HttpStepDefs {
     }
 
     @Then("the response is {string}")
-    public void theResponseIs(String arg0){
-        //TODO lire le payload plutot que de comparer les strings
+    public void theResponseIs(String payload){
         try {
             String body = EntityUtils.toString(SpringIntegration.latestHttpResponse.getEntity());
-            Assert.assertEquals(arg0, body);
+            System.out.println(body);
+            Assert.assertTrue(body.matches(payload));
         } catch (IOException e) {
             Assert.fail();
         }
