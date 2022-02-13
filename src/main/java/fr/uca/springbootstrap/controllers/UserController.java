@@ -136,7 +136,5 @@ public class UserController {
         sb.append("]");
         return ResponseEntity.ok().body(sb);
     }
-
-
 }
 
