@@ -104,7 +104,6 @@ public class ModuleStepDefs {
         String jwt = authController.generateJwt(user.getUsername(), PASSWORD);
 
         try {
-            System.out.println("{\"name\":\"" + moduleName + "\"}");
             springIntegration.executePost("api/module/" + creation, jwt, "{\"name\":\"" + moduleName + "\"}");
         } catch (IOException e) {
             e.printStackTrace();

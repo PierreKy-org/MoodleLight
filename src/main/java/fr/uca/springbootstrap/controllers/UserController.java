@@ -48,7 +48,6 @@ public class UserController {
         h.add("Content-Type","application/json");
         if (role.isPresent()){
             Optional<Role> myrole = roleRepository.findByName(ERole.convertStringToErol(role.get()));
-            System.out.println("\n");
             if (myrole.isPresent()){
                 return ResponseEntity.ok().headers(h).body(parseData(userRepository.findAllByRoles(myrole.get())));
             }

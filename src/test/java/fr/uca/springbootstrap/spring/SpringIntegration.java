@@ -39,7 +39,6 @@ public class SpringIntegration {
         }
         request.setEntity(new StringEntity(payload));
         latestHttpResponse = httpClient.execute(request);
-        System.out.println(latestHttpResponse.getStatusLine());
     }
 
     public void executePost(String url, String jwt) throws IOException {
