@@ -9,6 +9,9 @@ public class RegistrationRequest {
     @NotNull
     private long moduleId;
 
+    @NotNull
+    private long resourceId;
+
     public RegistrationRequest() {
     }
 
@@ -16,6 +19,8 @@ public class RegistrationRequest {
         this.userId = Long.parseLong(userId);
         this.moduleId = Long.parseLong(moduleId);
     }
+
+
 
     public long getUserId() {
         return userId;
