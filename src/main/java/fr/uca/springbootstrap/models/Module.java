@@ -30,6 +30,9 @@ public class Module {
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     private Set<User> participants;
 
+    @OneToMany(fetch = FetchType.EAGER, mappedBy="module")
+    private Set<Resource> resources;
+
     public Module() {
         participants = new HashSet<>();
     }
@@ -53,6 +56,14 @@ public class Module {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Set<Resource> getResources() {
+        return resources;
+    }
+
+    public void setResources(Set<Resource> resources) {
+        this.resources = resources;
     }
 
     public User[] getParticipantsOfRole(ERole role) {

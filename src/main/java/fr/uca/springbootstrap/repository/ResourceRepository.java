@@ -1,11 +1,14 @@
 package fr.uca.springbootstrap.repository;
 
 import fr.uca.springbootstrap.models.Resource;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
-public interface ResourceRepository {
+@Repository
+public interface ResourceRepository extends JpaRepository<Resource, Long> {
     Optional<Resource> findByName(String name);
 
-    Optional<Resource> findById(Long name);
+    Optional<Resource> findById(Long aLong);
 }

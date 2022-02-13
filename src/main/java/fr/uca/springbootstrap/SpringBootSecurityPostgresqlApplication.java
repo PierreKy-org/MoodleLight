@@ -11,8 +11,13 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class SpringBootSecurityPostgresqlApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(SpringBootSecurityPostgresqlApplication.class, args);
-		System.out.println("running on http://localhost:8080");
+		try{
+			SpringApplication.run(SpringBootSecurityPostgresqlApplication.class, args);
+			System.out.println("running on http://localhost:8080");
+		}
+		catch (Exception e){
+			e.printStackTrace();
+		}
 	}
 
 	@ExceptionHandler(InvalidFormatException.class)

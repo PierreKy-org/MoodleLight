@@ -5,14 +5,14 @@ Feature: Registering user to a module
     And a Module named "testModule1"
     When The user "testTeacher1" try to register the user "abcdef12345" to the module "testModule1"
     Then last request status is 400
-    And the response is "{\"message\":\"The user does not exists\"}"
+    And the response is '^\{"message":"The user does not exists"\}$'
 
   Scenario: Trying to register to a module when the module does not exists
     Given a Teacher with the login "testTeacher1"
     And a Student with the login "testStudent1"
     When The user "testTeacher1" try to register the user "testStudent1" to the module "abcdef12345"
     Then last request status is 400
-    And the response is "{\"message\":\"The module does not exists\"}"
+    And the response is '^\{"message":"The module does not exists"\}$'
 
   Scenario: Trying to register to a module as a teacher when a teacher is already registered
     Given a Teacher with the login "testTeacher1"
@@ -21,7 +21,7 @@ Feature: Registering user to a module
     When The user "testTeacher1" try to register the user "testTeacher1" to the module "testModule1"
     And The user "testTeacher1" try to register the user "testTeacher2" to the module "testModule1"
     Then last request status is 400
-    And the response is "{\"message\":\"There is already a teacher registered to the course\"}"
+    And the response is '^\{"message":"There is already a teacher registered to the course"\}$'
 
   Scenario: Trying to register to a module as a student
     Given a Student with the login "testStudent1"
@@ -36,7 +36,7 @@ Feature: Registering user to a module
     When The user "testTeacher1" try to register the user "testStudent1" to the module "testModule1"
     And  The user "testTeacher1" try to register the user "testStudent1" to the module "testModule1"
     Then last request status is 400
-    And the response is "{\"message\":\"The user is already registered\"}"
+    And the response is '^\{"message":"The user is already registered"\}$'
 
   Scenario: Successful registration
     Given a Teacher with the login "testTeacher1"
@@ -44,5 +44,5 @@ Feature: Registering user to a module
     And a Module named "testModule1"
     When The user "testTeacher1" try to register the user "testStudent1" to the module "testModule1"
     Then last request status is 200
-    And the response is "{\"message\":\"User successfully registered to module!\"}"
+    And the response is '^\{"message":"User successfully registered to module!"\}$'
     And The user "testStudent1" is registered the module "testModule1"

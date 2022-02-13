@@ -3,6 +3,7 @@ package fr.uca.springbootstrap.controllers;
 
 import fr.uca.springbootstrap.models.ERole;
 import fr.uca.springbootstrap.models.Module;
+import fr.uca.springbootstrap.models.Resource;
 import fr.uca.springbootstrap.models.User;
 import fr.uca.springbootstrap.payload.request.ModuleRequest;
 import fr.uca.springbootstrap.payload.request.RegistrationRequest;
@@ -56,7 +57,14 @@ public class ModuleController {
         return ResponseEntity.ok().body("[" + module.getParticipants().stream().map(User::toString).reduce("", (subtotal, element) -> subtotal + element + ",") + "]");
     }
 
-    //TODO /{moduleId}/users/{role}
+    @GetMapping("/{moduleId}/resources")
+    public ResponseEntity<String> getResources(@PathVariable Long moduleId) {
+        Module module = moduleRepository.findById(moduleId).orElse(null);
+        if (module == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok().body("[" + module.getResources().stream().map(Resource::toString).reduce("", (subtotal, element) -> subtotal + element + ",") + "]");
+    }
 
     @PostMapping("/register")
     @PreAuthorize("hasRole('TEACHER')")

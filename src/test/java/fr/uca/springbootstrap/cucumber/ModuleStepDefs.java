@@ -29,7 +29,7 @@ public class ModuleStepDefs {
     @Autowired
     ModuleRepository moduleRepository;
 
-    @ParameterType("name|users")
+    @ParameterType("name|users|resources")
     public String pathModule(String type) {
         return type;
     }
