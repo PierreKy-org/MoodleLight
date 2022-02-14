@@ -20,7 +20,6 @@ Feature: Creating and Deleting a new Module
     Then last request status is 400
     And the response is '^\{"message":"The module does not exists"\}$'
 
-
   Scenario: Successful module deletion
     Given a Teacher with the login "testTeacher1"
     And a Module named "testModule1"

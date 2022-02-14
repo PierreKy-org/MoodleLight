@@ -5,23 +5,23 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "course")
-public class Course extends Resource {
+@Table(name = "questioner")
+public class Questioner extends Resource {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ElementCollection
-    @CollectionTable(name = "texts")
-    private Set<String> texts;
+    @CollectionTable(name = "questions")
+    private Set<String> questions;
 
-    public Course() {
-        texts = new HashSet<>();
+    public Questioner() {
+        questions = new HashSet<>();
     }
 
-    public Course(String name) {
+    public Questioner(String name) {
         super(name);
-        this.texts = new HashSet<>();
+        this.questions = new HashSet<>();
     }
 
     public Long getId() {
@@ -33,10 +33,11 @@ public class Course extends Resource {
     }
 
     public Set<String> getTexts() {
-        return texts;
+        return questions;
     }
 
     public void setTexts(Set<String> texts) {
-        this.texts = texts;
+        this.questions = texts;
     }
+
 }

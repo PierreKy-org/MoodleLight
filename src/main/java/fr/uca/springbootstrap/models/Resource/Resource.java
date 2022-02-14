@@ -10,7 +10,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "resource")
+@Table(name = "resource",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = "name")
+        })
 public class Resource {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,7 +28,6 @@ public class Resource {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> visibility;
 
-    @NotBlank
     private String description;
 
     @ManyToOne
@@ -36,9 +38,8 @@ public class Resource {
         this.visibility = new HashSet<>();
     }
 
-    public Resource(String name,String description) {
+    public Resource(String name) {
         this.name = name;
-        this.description = description;
         this.visibility = new HashSet<>();
     }
 
@@ -64,6 +65,22 @@ public class Resource {
 
     public void setModule(Module module) {
         this.module = module;
+    }
+
+    public Set<Role> getVisibility() {
+        return visibility;
+    }
+
+    public void setVisibility(Set<Role> visibility) {
+        this.visibility = visibility;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     @Override

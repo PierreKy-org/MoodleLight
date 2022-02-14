@@ -7,15 +7,15 @@ public class ResourceRequest {
     private String name;
 
     @NotBlank
-    private String description;
+    private String type;
 
-    public ResourceRequest(){
+    public ResourceRequest() {
 
     }
 
-    public ResourceRequest(String name, String description) {
+    public ResourceRequest(String name,String type) {
         this.name = name;
-        this.description = description;
+        this.type = type;
     }
 
     public String getName() {
@@ -26,11 +26,11 @@ public class ResourceRequest {
         this.name = name;
     }
 
-    public String getDescription() {
-        return description;
+    public String getType() {
+        return type;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setType(String type) {
+        this.type = type;
     }
 }

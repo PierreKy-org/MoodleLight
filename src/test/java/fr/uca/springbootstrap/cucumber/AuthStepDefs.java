@@ -1,4 +1,4 @@
 package fr.uca.springbootstrap.cucumber;
 
-public class AuthStepDefs {
+public class AuthStepDefs{
 }
