@@ -4,20 +4,19 @@ import fr.uca.springbootstrap.models.ERole;
 import fr.uca.springbootstrap.models.Module;
 import fr.uca.springbootstrap.models.Role;
 import fr.uca.springbootstrap.models.User;
+import fr.uca.springbootstrap.payload.response.MessageResponse;
 import fr.uca.springbootstrap.repository.ModuleRepository;
 import fr.uca.springbootstrap.repository.RoleRepository;
 import fr.uca.springbootstrap.repository.UserRepository;
 import fr.uca.springbootstrap.security.jwt.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.*;
-
-import static fr.uca.springbootstrap.models.ERole.ROLE_TEACHER;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -28,6 +27,9 @@ public class UserController {
 
     @Autowired
     AuthenticationManager authenticationManager;
+
+    @Autowired
+    AuthController authController;
 
     @Autowired
     RoleRepository roleRepository;
@@ -43,7 +45,7 @@ public class UserController {
 
     @GetMapping("/list")
     @ResponseBody
-    public ResponseEntity<?> getListOfUser(@RequestParam  Optional<String> role){
+    public ResponseEntity<String> getListOfUser(@RequestParam  Optional<String> role){
         HttpHeaders  h = new HttpHeaders();
         h.add("Content-Type","application/json");
         if (role.isPresent()){
@@ -130,6 +132,62 @@ public class UserController {
         }
         sb.append("]");
         return ResponseEntity.ok().body(sb);
+    }
+    @PutMapping("/{oldLogin}/modifyLogin/{newLogin}")
+    public ResponseEntity<MessageResponse> modifyLogin(@PathVariable Long oldLogin,@PathVariable Long newLogin,@RequestHeader (name="Authorization") String token){
+        User user = userRepository.findById(oldLogin).orElse(null);
+        if(user==null){
+            return ResponseEntity.badRequest().body(new MessageResponse("Error : The user doesn't exists"));
+        }
+        String jwt = authController.generateJwt(user.getUsername(), user.getPassword());
+        if (!jwt.equals(token)){
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new MessageResponse("Error : Permission denied"));
+        }
+        user.setId(newLogin);
+        userRepository.save(user);
+        return ResponseEntity.ok().body(new MessageResponse("The user Id is up to date"));
+    }
+    @PutMapping("/{login}/modifyEmail/{newEmail}")
+    public ResponseEntity<MessageResponse> modifyEmail(@PathVariable Long login,@PathVariable String newEmail,@RequestHeader (name="Authorization") String token){
+        User user = userRepository.findById(login).orElse(null);
+        if(user==null){
+            return ResponseEntity.badRequest().body(new MessageResponse("Error : The user doesn't exists"));
+        }
+        String jwt = authController.generateJwt(user.getUsername(), user.getPassword());
+        if (!jwt.equals(token)){
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new MessageResponse("Error : Permission denied"));
+        }
+        user.setEmail(newEmail);
+        userRepository.save(user);
+        return ResponseEntity.ok().body(new MessageResponse("The user email is up to date"));
+    }
+    @PutMapping("/{login}/modifyName/{newName}")
+    public ResponseEntity<MessageResponse> modifyName(@PathVariable Long login,@PathVariable String newName,@RequestHeader (name="Authorization") String token){
+        User user = userRepository.findById(login).orElse(null);
+        if(user==null){
+            return ResponseEntity.badRequest().body(new MessageResponse("Error : The user doesn't exists"));
+        }
+        String jwt = authController.generateJwt(user.getUsername(), user.getPassword());
+        if (!jwt.equals(token)){
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new MessageResponse("Error : Permission denied"));
+        }
+        user.setUsername(newName);
+        userRepository.save(user);
+        return ResponseEntity.ok().body(new MessageResponse("The user name is up to date"));
+    }
+    @PutMapping("/{login}/modifyPassword/{newPassword}")
+    public ResponseEntity<MessageResponse> modifyPassword(@PathVariable Long login,@PathVariable String newPassword,@RequestHeader (name="Authorization") String token){
+        User user = userRepository.findById(login).orElse(null);
+        if(user==null){
+            return ResponseEntity.badRequest().body(new MessageResponse("Error : The user doesn't exists"));
+        }
+        String jwt = authController.generateJwt(user.getUsername(), user.getPassword());
+        if (!jwt.equals(token)){
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new MessageResponse("Error : Permission denied"));
+        }
+        user.setPassword(newPassword);
+        userRepository.save(user);
+        return ResponseEntity.ok().body(new MessageResponse("The user password is up to date"));
     }
 }
 
