@@ -58,22 +58,8 @@ public class UserController {
 
     private String parseData(List<User> list){
         String[] myarr = new String[list.size()];
-        //TODO faire un toString pour user plutot que ça
         for (int i = 0; i < list.size(); i++) {
-            StringBuilder sb = new StringBuilder();
-            sb.append("{");
-            sb.append("\"id\" : ").append(list.get(i).getId()).append(",");
-            sb.append("\"username \": ").append("\"").append(list.get(i).getUsername()).append("\",");
-            sb.append("\"email\" : ").append("\"").append(list.get(i).getEmail()).append("\",");
-            sb.append("\"role\" : [");
-            String prefix = "";
-            for (Role r: list.get(i).getRoles()
-            ) {
-                sb.append(prefix);
-                prefix = ",";
-                sb.append("\"").append(r.getName()).append("\"");
-            }
-            myarr[i] = sb.append("]}").toString();
+            myarr[i] = list.get(i).toStringWithRole();
         }
         return Arrays.toString(myarr);
     }

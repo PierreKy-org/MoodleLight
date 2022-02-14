@@ -124,4 +124,21 @@ public class User {
     public String toString() {
         return "{\"id\":" + id + ", \"username\":" + username + ", \"email\":" + email + "]}";
     }
+
+    public String toStringWithRole(){
+        StringBuilder sb = new StringBuilder();
+        sb.append("{");
+        sb.append("\"id\" : ").append(this.getId()).append(",");
+        sb.append("\"username \": ").append("\"").append(this.getUsername()).append("\",");
+        sb.append("\"email\" : ").append("\"").append(this.getEmail()).append("\",");
+        sb.append("\"role\" : [");
+        String prefix = "";
+        for (Role r: this.getRoles()
+        ) {
+            sb.append(prefix);
+            prefix = ",";
+            sb.append("\"").append(r.getName()).append("\"");
+        }
+        return sb.append("]}").toString();
+    }
 }
