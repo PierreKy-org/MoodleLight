@@ -52,7 +52,6 @@ public class UserController {
                 return ResponseEntity.ok().headers(h).body(parseData(userRepository.findAllByRoles(myrole.get())));
             }
         }
-
         return ResponseEntity.ok().headers(h).body(parseData(userRepository.findAll()));
     }
 
@@ -72,6 +71,17 @@ public class UserController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok().body("{\"id\":" + user.getId() + "}");
+    }
+
+    @GetMapping("/{userId}")
+    public ResponseEntity<?> getUserWithId(@PathVariable Long userId) {
+        HttpHeaders  h = new HttpHeaders();
+        h.add("Content-Type","application/json");
+        User user = userRepository.findById(userId).orElse(null);
+        if(user==null){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok().headers(h).body(user.toStringWithRole());
     }
 
     @GetMapping("/{userId}/email")

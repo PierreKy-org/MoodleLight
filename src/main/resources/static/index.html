@@ -170,6 +170,22 @@
     <button type="button" class="rootpath">/api/user</button>
 
     <article>
+        <h1>/{user_id}</h1>
+        <h3>Return a complete json of the user</h3>
+        <code>curl -X GET http://localhost:8080/api/user/{user_name} -H 'Authorization: Bearer TOKEN'</code>
+        <h3>Returns the following JSON</h3>
+        <pre class="json">
+        {
+            "id": 15,
+            "username ": "testStudent1",
+            "email": "testStudent1@test.fr",
+            "role": ["ROLE_STUDENT"]
+        }
+    </pre>
+        <h3>404 if the user does not exist</h3>
+    </article>
+
+    <article>
         <h1>/{user_name}/id</h1>
         <h3>Return the id of the user</h3>
         <code>curl -X GET http://localhost:8080/api/user/{user_name}/id -H 'Authorization: Bearer TOKEN'</code>
@@ -236,6 +252,43 @@
             ]
     </pre>
         <h3>404 if the user does not exist.</h3>
+    </article>
+
+    <article>
+        <h1>/list</h1>
+        <h3>Return a list of users</h3>
+        <code>curl -X GET http://localhost:8080/api/user/list -H 'Authorization: Bearer TOKEN'</code>
+        <h4>We added the possible to put a role at the end to filter it by role</h4>
+        <code>curl -X GET http://localhost:8080/api/user/list/?role=student -H 'Authorization: Bearer TOKEN'</code>
+        <h3>Returns the following JSON</h3>
+        <pre class="json">
+        [{
+            "id": 15,
+            "username ": "testStudent1",
+            "email": "testStudent1@test.fr",
+            "role": ["ROLE_STUDENT"]
+        }, {
+            "id": 16,
+            "username ": "testTeacher1",
+            "email": "testTeacher1@test.fr",
+            "role": ["ROLE_TEACHER"]
+        }, {
+            "id": 17,
+            "username ": "testTeacher2",
+            "email": "testTeacher2@test.fr",
+            "role": ["ROLE_TEACHER"]
+        }, {
+            "id": 18,
+            "username ": "admin",
+            "email": "pierre@oui.fr",
+            "role": ["ROLE_STUDENT"]
+        }, {
+            "id": 19,
+            "username ": "yann",
+            "email": "myadmin@gmail.com",
+            "role": ["ROLE_STUDENT"]
+        }]
+        </pre>
     </article>
 
 </section>
