@@ -1,5 +1,7 @@
 package fr.uca.springbootstrap.models;
 
+import fr.uca.springbootstrap.models.Resource.Resource;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.HashSet;

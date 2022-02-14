@@ -8,7 +8,6 @@ import fr.uca.springbootstrap.repository.UserRepository;
 import fr.uca.springbootstrap.spring.SpringIntegration;
 import io.cucumber.java.ParameterType;
 import io.cucumber.java.en.Given;
-import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.springframework.beans.factory.annotation.Autowired;
 

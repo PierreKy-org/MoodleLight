@@ -3,7 +3,7 @@ package fr.uca.springbootstrap.controllers;
 
 import fr.uca.springbootstrap.models.ERole;
 import fr.uca.springbootstrap.models.Module;
-import fr.uca.springbootstrap.models.Resource;
+import fr.uca.springbootstrap.models.Resource.Resource;
 import fr.uca.springbootstrap.models.User;
 import fr.uca.springbootstrap.payload.request.ModuleRequest;
 import fr.uca.springbootstrap.payload.request.RegistrationRequest;

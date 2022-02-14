@@ -41,10 +41,6 @@ public class SpringIntegration {
         latestHttpResponse = httpClient.execute(request);
     }
 
-    public void executePost(String url, String jwt) throws IOException {
-        executePost(url, jwt, "{}");
-    }
-
     public void executePut(String url, String jwt) throws IOException {
         HttpPut request = new HttpPut(host + url);
         request.addHeader("content-type", "application/json");

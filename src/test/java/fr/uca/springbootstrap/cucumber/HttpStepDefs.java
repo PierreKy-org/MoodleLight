@@ -2,6 +2,7 @@ package fr.uca.springbootstrap.cucumber;
 
 import fr.uca.springbootstrap.spring.SpringIntegration;
 import io.cucumber.java.ParameterType;
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import org.apache.http.util.EntityUtils;
 import org.junit.Assert;

@@ -1,13 +1,17 @@
-package fr.uca.springbootstrap.models;
+package fr.uca.springbootstrap.models.Resource;
 
+
+import fr.uca.springbootstrap.models.Module;
+import fr.uca.springbootstrap.models.Role;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import fr.uca.springbootstrap.models.Module;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "resource")
-public class Resource{
+public class Resource {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -15,16 +19,27 @@ public class Resource{
     @NotBlank
     private String name;
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "resource_visibility",
+            joinColumns = @JoinColumn(name = "resource_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> visibility;
+
+    @NotBlank
+    private String description;
+
     @ManyToOne
-    @JoinColumn(name="module_id")
+    @JoinColumn(name = "module_id")
     private Module module;
 
     public Resource() {
-
+        this.visibility = new HashSet<>();
     }
 
-    public Resource(String name) {
+    public Resource(String name,String description) {
         this.name = name;
+        this.description = description;
+        this.visibility = new HashSet<>();
     }
 
     public String getName() {
