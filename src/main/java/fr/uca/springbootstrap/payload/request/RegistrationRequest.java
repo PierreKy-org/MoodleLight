@@ -10,7 +10,7 @@ public class RegistrationRequest {
     private long moduleId;
 
     @NotNull
-    private long resourceId;
+    private String resourceName;
 
     public RegistrationRequest() {
     }
@@ -18,6 +18,9 @@ public class RegistrationRequest {
     public RegistrationRequest(String userId, String moduleId) {
         this.userId = Long.parseLong(userId);
         this.moduleId = Long.parseLong(moduleId);
+    }
+    public RegistrationRequest(String resourceName) {
+        this.resourceName = resourceName;
     }
 
 

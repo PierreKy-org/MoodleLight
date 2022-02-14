@@ -42,3 +42,19 @@ Feature: Getting information
     And a Module named "testModule1"
     When "testStudent1" request the users of the module "testModule1"
     Then the response is '^\[\]$'
+
+
+  Scenario: Getting the resourceId from a resourceName
+    Given a Student with the login "testStudent1"
+    And a Resource named "testResource1"
+    When "testStudent1" request the id of the resource "testResource1"
+    Then the response is '^\{"id":[0-9]*\}$'
+    Then last request status is 200
+
+
+  Scenario: Getting the resourceName from an resourceId
+    Given a Student with the login "testStudent1"
+    And a Resource named "testResource1"
+    When "testStudent1" request the name of the resource "testResource1"
+    Then the response is '^\{"name":testResource1\}$'
+    Then last request status is 200
