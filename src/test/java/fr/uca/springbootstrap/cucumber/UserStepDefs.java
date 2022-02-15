@@ -46,6 +46,11 @@ public class UserStepDefs {
         return type;
     }
 
+    @ParameterType("username|email|password")
+    public String changeable(String type) {
+        return type;
+    }
+
     @ParameterType("not registered|registered")
     public boolean registered(String str) {
         return str.equals("registered");
@@ -102,29 +107,26 @@ public class UserStepDefs {
         String jwt = authController.generateJwt(userName, PASSWORD);
         try {
             switch (param) {
-                case "userName" -> springIntegration.executePut("api/user/" + user.getId() + "/modifyName", jwt, "{\"name\":\""+ newParam + "\"}");
+                case "userName" -> springIntegration.executePut("api/user/" + user.getId() + "/modifyName", jwt, "{\"name\":\"" + newParam + "\"}");
                 case "userId" -> springIntegration.executePut("api/user/" + user.getId() + "/modifyLogin", jwt, "{\"id\":\"" + newParam + "\"}");
                 case "email" -> springIntegration.executePut("api/user/" + user.getId() + "/modifyEmail", jwt, "{\"email\":\"" + newParam + "\"}");
                 case "password" -> springIntegration.executePut("api/user/" + user.getId() + "/modifyPassword", jwt, "{\"password\":\"" + param + "\"}");
             }
             userRepository.save(user);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        catch(IOException e){
-                e.printStackTrace();
-            }
-        }
+    }
 
-        @Then("{string} new {string} is {string}")
-        public void hisnewParam (String userName,String param,String newParam){
-            User user = userRepository.findByUsername(userName).orElseThrow(() -> new RuntimeException("User not found"));
-            switch (param){
-                case "userName" -> assertEquals(newParam, user.getUsername());
-                case "userId" -> assertEquals(Long.getLong(newParam), user.getId());
-                case "email" -> assertEquals(newParam, user.getEmail());
-                case "password" -> assertEquals(newParam, user.getPassword());
-            }
-
+    @Then("{string} new {changeable} is {string}")
+    public void hisnewParam(String userName, String change, String newParam) {
+        User user = userRepository.findByUsername(userName).orElseThrow(() -> new RuntimeException("User not found"));
+        switch (change) {
+            case "username" -> assertEquals(newParam, user.getUsername());
+            case "email" -> assertEquals(newParam, user.getEmail());
+            case "password" -> assertEquals(newParam, user.getPassword());
         }
+    }
 
     @When("{string} try to change the {string} of {string} to {string}")
     public void tryToChangeTheOfTo(String userName1, String param, String userName2, String newParam) {
@@ -133,14 +135,13 @@ public class UserStepDefs {
         String jwt = authController.generateJwt(userName1, user1.getPassword());
         try {
             switch (param) {
-                case "userName" -> springIntegration.executePut("api/user/" + user2.getId() + "/modifyName", jwt, "{\"name\":\""+ newParam + "\"}");
+                case "userName" -> springIntegration.executePut("api/user/" + user2.getId() + "/modifyName", jwt, "{\"name\":\"" + newParam + "\"}");
                 case "userId" -> springIntegration.executePut("api/user/" + user2.getId() + "/modifyLogin", jwt, "{\"id\":\"" + newParam + "\"}");
                 case "email" -> springIntegration.executePut("api/user/" + user2.getId() + "/modifyEmail", jwt, "{\"email\":\"" + newParam + "\"}");
                 case "password" -> springIntegration.executePut("api/user/" + user2.getId() + "/modifyPassword", jwt, "{\"password\":\"" + param + "\"}");
             }
             userRepository.save(user2);
-        }
-        catch(IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
