@@ -14,7 +14,7 @@ import java.util.Set;
         uniqueConstraints = {
                 @UniqueConstraint(columnNames = "name")
         })
-public class Resource {
+public abstract class Resource {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -28,6 +28,7 @@ public class Resource {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> visibility;
 
+    @NotBlank
     private String description;
 
     @ManyToOne
@@ -38,8 +39,9 @@ public class Resource {
         this.visibility = new HashSet<>();
     }
 
-    public Resource(String name) {
+    public Resource(String name,String description) {
         this.name = name;
+        this.description = description;
         this.visibility = new HashSet<>();
     }
 

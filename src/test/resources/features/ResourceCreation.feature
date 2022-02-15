@@ -23,12 +23,12 @@ Feature: Creating and Deleting a new Resource
 
   Scenario: Successful questioner deletion
     Given a Teacher with the login "testTeacher1"
-    And a questioner named "testCourse1"
+    And a questioner named "testQuestioner1"
     When The user "testTeacher1" try to delete the questioner "testQuestioner1"
     And last request status is 200
     And the response is '^\{"message":"Questioner successfully deleted!"\}$'
 
-  Scenario: Trying to create a resource when the same is already used by another
+  Scenario: Trying to create a resource when the name is already used by another
     Given a Teacher with the login "testTeacher1"
     And a course named "testResource1"
     And The user "testTeacher1" try to create the questioner "testResource1"

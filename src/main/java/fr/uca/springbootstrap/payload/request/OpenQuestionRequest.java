@@ -1,25 +1,28 @@
 package fr.uca.springbootstrap.payload.request;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import java.util.List;
 
-public class ResourceRequest {
+public class OpenQuestionRequest {
     @NotBlank
     private String name;
 
     @NotBlank
     private String description;
 
-    @NotBlank
-    private String type;
+    @NotEmpty
+    private List<String> answers;
 
-    public ResourceRequest() {
+
+    public OpenQuestionRequest() {
 
     }
 
-    public ResourceRequest(String name, String description, String type) {
+    public OpenQuestionRequest(String name, String description, List<String> answers) {
         this.name = name;
         this.description = description;
-        this.type = type;
+        this.answers = answers;
     }
 
     public String getName() {
@@ -30,19 +33,19 @@ public class ResourceRequest {
         this.name = name;
     }
 
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
     public String getDescription() {
         return description;
     }
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public List<String> getAnswers() {
+        return answers;
+    }
+
+    public void setAnswers(List<String> answers) {
+        this.answers = answers;
     }
 }

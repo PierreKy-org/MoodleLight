@@ -2,11 +2,10 @@ package fr.uca.springbootstrap.cucumber;
 
 import fr.uca.springbootstrap.controllers.AuthController;
 import fr.uca.springbootstrap.models.Resource.Course;
+import fr.uca.springbootstrap.models.Resource.Questioner;
 import fr.uca.springbootstrap.models.Resource.Resource;
 import fr.uca.springbootstrap.models.User;
-import fr.uca.springbootstrap.repository.ModuleRepository;
 import fr.uca.springbootstrap.repository.ResourceRepository;
-import fr.uca.springbootstrap.repository.RoleRepository;
 import fr.uca.springbootstrap.repository.UserRepository;
 import fr.uca.springbootstrap.spring.SpringIntegration;
 import io.cucumber.java.ParameterType;
@@ -28,12 +27,6 @@ public class ResourceStepDefs {
     UserRepository userRepository;
 
     @Autowired
-    ModuleRepository moduleRepository;
-
-    @Autowired
-    RoleRepository roleRepository;
-
-    @Autowired
     ResourceRepository resourceRepository;
 
     @ParameterType("name|visibility|module|description")
@@ -48,7 +41,7 @@ public class ResourceStepDefs {
 
     @Given("a {typeResource} named {string}")
     public void aResourceNamed(String type, String resourceName) {
-        Resource resource = resourceRepository.findByName(resourceName).orElse(type.equals("course") ? new Course(resourceName) : new Resource(resourceName));
+        Resource resource = resourceRepository.findByName(resourceName).orElse(type.equals("course") ? new Course(resourceName,"test description") : new Questioner(resourceName,"test description"));
         resourceRepository.save(resource);
     }
 
@@ -84,7 +77,7 @@ public class ResourceStepDefs {
         String jwt = authController.generateJwt(user.getUsername(), PASSWORD);
 
         try {
-            springIntegration.executePost("api/resource/" + creation, jwt, "{\"name\":\"" + resourceName + "\",\"type\":\"" + type + "\"}");
+            springIntegration.executePost("api/resource/" + creation, jwt, "{\"name\":\"" + resourceName + "\",\"description\":\"test description\",\"type\":\"" + type + "\"}");
         } catch (IOException e) {
             e.printStackTrace();
         }

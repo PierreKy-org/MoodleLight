@@ -48,7 +48,7 @@ public class AuthController {
 	@Autowired
     JwtUtils jwtUtils;
 
-	private Authentication authentication;
+	public Authentication authentication;
 
 	public String generateJwt(String userName, String password) {
 		authentication = authenticationManager.authenticate(

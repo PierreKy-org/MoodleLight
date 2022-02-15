@@ -12,15 +12,16 @@ public class Questioner extends Resource {
     private Long id;
 
     @ElementCollection
-    @CollectionTable(name = "questions")
-    private Set<String> questions;
+    @OrderColumn
+    @CollectionTable(name = "questioner_questions")
+    private Set<Question> questions;
 
     public Questioner() {
         questions = new HashSet<>();
     }
 
-    public Questioner(String name) {
-        super(name);
+    public Questioner(String name, String description) {
+        super(name, description);
         this.questions = new HashSet<>();
     }
 
@@ -32,12 +33,11 @@ public class Questioner extends Resource {
         this.id = id;
     }
 
-    public Set<String> getTexts() {
+    public Set<Question> getQuestions() {
         return questions;
     }
 
-    public void setTexts(Set<String> texts) {
-        this.questions = texts;
+    public void setQuestions(Set<Question> questions) {
+        this.questions = questions;
     }
-
 }

@@ -1,28 +1,31 @@
 Feature: Authentication
 
   Scenario : SignUp as a new User
-    Then last request status is 0
+    Given TODO
 
   Scenario : SignUp when the userName already exists
-    Then last request status is 0
+    Given TODO
 
   Scenario : SignUp when the email already exists
-    Then last request status is 0
+    Given TODO
 
   Scenario : SignIn as a valid User
-    Then last request status is 0
+    Given TODO
 
   Scenario : SignIn with a wrong login
-    Then last request status is 0
+    Given TODO
 
   Scenario : SignIn with a wrong password
-    Then last request status is 0
+    Given TODO
 
   Scenario : Request with a good authentication token
-    Then last request status is 0
+    Given TODO
 
   Scenario : Request with a false authentication token
-    Then last request status is 0
+    Given TODO
 
-  Scenario : Request without the permission
-    Then last request status is 0
+  Scenario : Request without the permission of path
+    Given TODO
+
+  Scenario : Request without the permission of visibility of module
+    Given TODO

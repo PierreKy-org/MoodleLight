@@ -19,8 +19,8 @@ public class Course extends Resource {
         texts = new HashSet<>();
     }
 
-    public Course(String name) {
-        super(name);
+    public Course(String name,String description) {
+        super(name,description);
         this.texts = new HashSet<>();
     }
 
