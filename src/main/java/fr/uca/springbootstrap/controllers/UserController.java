@@ -135,9 +135,9 @@ public class UserController {
         return ResponseEntity.ok().body(sb);
     }
 
-    @PutMapping("/{oldLogin}/modifyLogin/{newLogin}")
-    public ResponseEntity<MessageResponse> modifyLogin(@PathVariable Long oldLogin, @PathVariable Long newLogin, @RequestHeader(name = "Authorization") String token) {
-        User user = userRepository.findById(oldLogin).orElse(null);
+    @PutMapping("/{login}/modifyLogin")
+    public ResponseEntity<MessageResponse> modifyLogin(@PathVariable Long login, @RequestBody Long newLogin, @RequestHeader(name = "Authorization") String token) {
+        User user = userRepository.findById(login).orElse(null);
         if (user == null) {
             return ResponseEntity.badRequest().body(new MessageResponse("Error : The user doesn't exists"));
         }
@@ -150,8 +150,8 @@ public class UserController {
         return ResponseEntity.ok().body(new MessageResponse("The user Id is up to date"));
     }
 
-    @PutMapping("/{login}/modifyEmail/{newEmail}")
-    public ResponseEntity<MessageResponse> modifyEmail(@PathVariable Long login, @PathVariable String newEmail, @RequestHeader(name = "Authorization") String token) {
+    @PutMapping("/{login}/modifyEmail")
+    public ResponseEntity<MessageResponse> modifyEmail(@PathVariable Long login, @RequestBody String newEmail, @RequestHeader(name = "Authorization") String token) {
         User user = userRepository.findById(login).orElse(null);
         if (user == null) {
             return ResponseEntity.badRequest().body(new MessageResponse("Error : The user doesn't exists"));
@@ -159,14 +159,17 @@ public class UserController {
         String jwt = authController.generateJwt(user.getUsername(), user.getPassword());
         if (!jwt.equals(token)) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new MessageResponse("Error : Permission denied"));
+        }
+        if(userRepository.existsByEmail(newEmail)){
+            return ResponseEntity.badRequest().body(new MessageResponse("Error : An User has already this email"));
         }
         user.setEmail(newEmail);
         userRepository.save(user);
         return ResponseEntity.ok().body(new MessageResponse("The user email is up to date"));
     }
 
-    @PutMapping("/{login}/modifyName/{newName}")
-    public ResponseEntity<MessageResponse> modifyName(@PathVariable Long login, @PathVariable String newName, @RequestHeader(name = "Authorization") String token) {
+    @PutMapping("/{login}/modifyName")
+    public ResponseEntity<MessageResponse> modifyName(@PathVariable Long login, @RequestBody String name, @RequestHeader(name = "Authorization") String token) {
         User user = userRepository.findById(login).orElse(null);
         if (user == null) {
             return ResponseEntity.badRequest().body(new MessageResponse("Error : The user doesn't exists"));
@@ -175,13 +178,16 @@ public class UserController {
         if (!jwt.equals(token)) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new MessageResponse("Error : Permission denied"));
         }
-        user.setUsername(newName);
+        if(userRepository.existsByUsername(name)){
+            return ResponseEntity.badRequest().body(new MessageResponse("Error : An User has already this name"));
+        }
+        user.setUsername(name);
         userRepository.save(user);
         return ResponseEntity.ok().body(new MessageResponse("The user name is up to date"));
     }
 
-    @PutMapping("/{login}/modifyPassword/{newPassword}")
-    public ResponseEntity<MessageResponse> modifyPassword(@PathVariable Long login, @PathVariable String newPassword, @RequestHeader(name = "Authorization") String token) {
+    @PutMapping("/{login}/modifyPassword")
+    public ResponseEntity<MessageResponse> modifyPassword(@PathVariable Long login, @RequestBody String newPassword, @RequestHeader(name = "Authorization") String token) {
         User user = userRepository.findById(login).orElse(null);
         if (user == null) {
             return ResponseEntity.badRequest().body(new MessageResponse("Error : The user doesn't exists"));
