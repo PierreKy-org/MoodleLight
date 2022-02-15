@@ -19,17 +19,22 @@ public class Question {
     private String description;
 
     @ElementCollection
-    @CollectionTable(name = "answers")
-    private Set<String> answers;
+    @CollectionTable(name = "question_answers")
+    private Set<String> good_answers;
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy="question")
+    private Set<Answer> users_answers;
 
     public Question() {
-        answers = new HashSet<>();
+        good_answers = new HashSet<>();
+        users_answers = new HashSet<>();
     }
 
     public Question(String name, String description) {
         this.name = name;
         this.description = description;
-        answers = new HashSet<>();
+        good_answers = new HashSet<>();
+        users_answers = new HashSet<>();
     }
 
     public Long getId() {
@@ -56,11 +61,23 @@ public class Question {
         this.description = description;
     }
 
-    public Set<String> getAnswers() {
-        return answers;
+    public Set<String> getGood_answers() {
+        return good_answers;
     }
 
-    public void setAnswers(Set<String> answers) {
-        this.answers = answers;
+    public void setGood_answers(Set<String> good_answers) {
+        this.good_answers = good_answers;
+    }
+
+    public Set<Answer> getUsers_answers() {
+        return users_answers;
+    }
+
+    public void setUsers_answers(Set<Answer> users_answers) {
+        this.users_answers = users_answers;
+    }
+
+    public boolean validate(String answer){
+        return good_answers.contains(answer);
     }
 }

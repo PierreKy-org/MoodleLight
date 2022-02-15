@@ -12,7 +12,7 @@ public class MQC extends Question {
     private int correct;
 
     public MQC() {
-       super();
+        super();
     }
 
     public MQC(String name, String description, int correct) {
@@ -26,5 +26,10 @@ public class MQC extends Question {
 
     public void setCorrect(int correct) {
         this.correct = correct;
+    }
+
+    @Override
+    public boolean validate(String answer) {
+        return correct == Long.parseLong(answer);
     }
 }
