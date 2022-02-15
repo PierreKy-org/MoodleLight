@@ -104,7 +104,17 @@ public class UserStepDefs {
     @When("{string} change his {string} to {string}")
     public void changeHisUserNameTo(String userName, String param, String newParam) {
         User user = userRepository.findByUsername(userName).orElseThrow(() -> new RuntimeException("Error : The User doesn't exist"));
-        String jwt = authController.generateJwt(userName, PASSWORD);
+
+
+        String jwt = authController.generateJwt(user.getUsername(), PASSWORD);
+        try {
+            springIntegration.executeGet("api/user/" + user.getId() + "/username", jwt);
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println(SpringIntegration.latestHttpResponse.getStatusLine());
+        System.out.println(jwt);
         try {
             switch (param) {
                 case "userName" -> springIntegration.executePut("api/user/" + user.getId() + "/modifyName", jwt, "{\"name\":\"" + newParam + "\"}");
@@ -112,7 +122,6 @@ public class UserStepDefs {
                 case "email" -> springIntegration.executePut("api/user/" + user.getId() + "/modifyEmail", jwt, "{\"email\":\"" + newParam + "\"}");
                 case "password" -> springIntegration.executePut("api/user/" + user.getId() + "/modifyPassword", jwt, "{\"password\":\"" + param + "\"}");
             }
-            userRepository.save(user);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -140,7 +149,6 @@ public class UserStepDefs {
                 case "email" -> springIntegration.executePut("api/user/" + user2.getId() + "/modifyEmail", jwt, "{\"email\":\"" + newParam + "\"}");
                 case "password" -> springIntegration.executePut("api/user/" + user2.getId() + "/modifyPassword", jwt, "{\"password\":\"" + param + "\"}");
             }
-            userRepository.save(user2);
         } catch (IOException e) {
             e.printStackTrace();
         }

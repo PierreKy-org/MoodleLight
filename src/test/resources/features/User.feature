@@ -1,10 +1,10 @@
 Feature: Modification for the User
 
   Scenario: The user change his userName
-    Given a Student with the login "testStudent3"
-    When "testStudent3" change his "userName" to "testStudentBis"
+    Given a Student with the login "testStudent1"
+    When "testStudent1" change his "userName" to "testStudentBis"
     Then the response is '^\{"name":"testStudentBis"\}$'
-    And "testStudent3" new username is "testStudentBis"
+    And "testStudent1" new username is "testStudentBis"
 
   Scenario: The user change his email
     Given a Student with the login "testStudent3"
