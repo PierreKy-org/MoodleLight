@@ -38,9 +38,9 @@ public class MQC extends Question {
     }
 
     @Override
-    public Set<String> getAnswer() {
-        Set<String> myHashSet = new HashSet<>();
-        myHashSet.add(getGood_answers().toArray()[getCorrect()].toString());
-        return myHashSet;
+    public List<String> getAnswer() {
+        List<String> list = new ArrayList<>();
+        list.add(getGood_answers().toArray()[getCorrect()].toString());
+        return list;
     }
 }

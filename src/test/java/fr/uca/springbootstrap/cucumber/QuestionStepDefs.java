@@ -6,6 +6,7 @@ import fr.uca.springbootstrap.models.User;
 import fr.uca.springbootstrap.repository.QuestionRepository;
 import fr.uca.springbootstrap.repository.UserRepository;
 import fr.uca.springbootstrap.spring.SpringIntegration;
+import io.cucumber.java.ParameterType;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
@@ -26,6 +27,20 @@ public class QuestionStepDefs {
 
     @Autowired
     QuestionRepository questionRepository;
+
+    @ParameterType("open|mqc|runner")
+    public String question(String type){
+        return type;
+    }
+
+    @ParameterType("name|description|multiple answers|mqc answer")
+    public String questionData(String type){
+        return switch (type){
+            case "multiple answers" -> "answers";
+            case "mqc answer" -> "correct";
+            default -> type;
+        };
+    }
 
     @Given("a Question named {string}")
     public void initQuestion(String questionName){
@@ -62,49 +77,14 @@ public class QuestionStepDefs {
         }
     }
 
-    @When("{string} request the name of question of id {long}")
-    public void requestTheNameOfQuestionOfId(String userName, Long id) {
+    @When("{string} request the {questionData} of question {string}")
+    public void requestTheQuestionDataOfName(String userName,String data, String questionName) {
         User user = userRepository.findByUsername(userName).orElseThrow(() -> new RuntimeException("Error: User is not found."));
+        Question question = questionRepository.findByName(questionName).orElseThrow(() -> new RuntimeException("Error: Question is not found."));
         String jwt = authController.generateJwt(user.getUsername(), PASSWORD);
 
         try {
-            springIntegration.executeGet("api/question/" + id + "/name", jwt);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @When("{string} request the description of question of id {long}")
-    public void requestTheDescriptionOfQuestionOfId(String userName, Long id) {
-        User user = userRepository.findByUsername(userName).orElseThrow(() -> new RuntimeException("Error: User is not found."));
-        String jwt = authController.generateJwt(user.getUsername(), PASSWORD);
-
-        try {
-            springIntegration.executeGet("api/question/" + id + "/description", jwt);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @When("{string} request the answers of question of id {long}")
-    public void requestTheAnswersOfQuestionOfId(String userName, Long id) {
-        User user = userRepository.findByUsername(userName).orElseThrow(() -> new RuntimeException("Error: User is not found."));
-        String jwt = authController.generateJwt(user.getUsername(), PASSWORD);
-
-        try {
-            springIntegration.executeGet("api/question/" + id + "/answers", jwt);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @When("{string} request the answer of question of id {long}")
-    public void requestTheAnswerOfQuestionOfId(String userName, Long id) {
-        User user = userRepository.findByUsername(userName).orElseThrow(() -> new RuntimeException("Error: User is not found."));
-        String jwt = authController.generateJwt(user.getUsername(), PASSWORD);
-
-        try {
-            springIntegration.executeGet("api/question/" + id + "/answer", jwt);
+            springIntegration.executeGet("api/question/" + question.getId() + "/" + data, jwt);
         } catch (IOException e) {
             e.printStackTrace();
         }

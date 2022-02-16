@@ -102,18 +102,8 @@ public class QuestionController {
         }
     }
 
-    @GetMapping("/{questionName}/id")
-    public ResponseEntity<String> getIdofAquestion(@PathVariable String questionName){
-        Question question = questionRepository.findByName(questionName).orElse(null);
-        if (question == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok().body("{\"id\":" + question.getId() + "}");
-    }
-
-
     @GetMapping("/{questionId}/name")
-    public ResponseEntity<String> getNameofAquestion(@PathVariable Long questionId){
+    public ResponseEntity<String> getNameofAquestion(@PathVariable Long questionId) {
         Question question = questionRepository.findById(questionId).orElse(null);
         if (question == null) {
             return ResponseEntity.notFound().build();
@@ -122,9 +112,18 @@ public class QuestionController {
     }
 
 
-    @GetMapping("/{questionId}/description")
-    public ResponseEntity<String> getdescriptionofAquestion(@PathVariable Long questionId){
-        Question question = questionRepository.findById(questionId).orElse(null);
+    @GetMapping("/{questionName}/id")
+    public ResponseEntity<String> getIdofAquestion(@PathVariable String questionName) {
+        Question question = questionRepository.findByName(questionName).orElse(null);
+        if (question == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok().body("{\"id\":" + question.getId() + "}");
+    }
+
+    @GetMapping("/{questionName}/description")
+    public ResponseEntity<String> getdescriptionofAquestion(@PathVariable String questionName) {
+        Question question = questionRepository.findByName(questionName).orElse(null);
         if (question == null) {
             return ResponseEntity.notFound().build();
         }
@@ -132,18 +131,18 @@ public class QuestionController {
     }
 
 
-    @GetMapping("/{questionId}/answers")
-    public ResponseEntity<String> getAnswersofAquestion(@PathVariable Long questionId){
-        Question question = questionRepository.findById(questionId).orElse(null);
+    @GetMapping("/{questionName}/answers")
+    public ResponseEntity<String> getAnswersofAquestion(@PathVariable String questionName) {
+        Question question = questionRepository.findByName(questionName).orElse(null);
         if (question == null) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok().body(question.getGood_answers().toString());
     }
 
-    @GetMapping("/{questionId}/answer")
-    public ResponseEntity<String> getAnswerofAquestion(@PathVariable Long questionId){
-        Question question = questionRepository.findById(questionId).orElse(null);
+    @GetMapping("/{questionName}/correct")
+    public ResponseEntity<String> getAnswerofAquestion(@PathVariable String questionName) {
+        Question question = questionRepository.findByName(questionName).orElse(null);
         if (question == null) {
             return ResponseEntity.notFound().build();
         }

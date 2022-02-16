@@ -41,15 +41,6 @@ public class SpringIntegration {
         latestHttpResponse = httpClient.execute(request);
     }
 
-    public void executePut(String url, String jwt) throws IOException {
-        HttpPut request = new HttpPut(host + url);
-        request.addHeader("content-type", "application/json");
-        if (jwt != null) {
-            request.addHeader("Authorization", "Bearer " + jwt);
-        }
-        latestHttpResponse = httpClient.execute(request);
-    }
-
     public void executePut(String url, String jwt, String payload) throws IOException {
         HttpPut request = new HttpPut(host + url);
         request.addHeader("content-type", "application/json");

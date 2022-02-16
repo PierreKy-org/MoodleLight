@@ -83,7 +83,7 @@ public class Question {
         return good_answers.contains(answer);
     }
 
-    public Set<String> getAnswer(){
+    public List<String> getAnswer(){
         return this.getGood_answers();
     }
 }

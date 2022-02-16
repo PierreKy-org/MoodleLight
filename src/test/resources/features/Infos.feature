@@ -81,24 +81,24 @@ Feature: Getting information
 
   Scenario: Getting the questionName from a questionId
     Given a Student with the login "testStudent1"
-    And a Question with the id 16
-    When "testStudent1" request the name of question of id 16
-    Then the response is '^\{"name":testOpenQuestion1\}$'
+    And a Question named "testQuestion1"
+    When "testStudent1" request the name of question "testQuestion1"
+    Then the response is '^\{"name":testQuestion1\}$'
 
-  Scenario: Getting the questionDescription from a questionId
+  Scenario: Getting the questionDescription from a questionName
     Given a Student with the login "testStudent1"
-    And a Question with the id 16
-    When "testStudent1" request the description of question of id 16
+    And a Question named "testQuestion1"
+    When "testStudent1" request the description of question "testQuestion1"
     Then the response is '^\{"description":test description open\}$'
 
-  Scenario: Getting the answers for an open question from a questionId
+  Scenario: Getting the answers for an open question from a questionName
     Given a Student with the login "testStudent1"
-    And a Question with the id 16
-    When "testStudent1" request the answers of question of id 16
+    And a Question named "testQuestion1"
+    When "testStudent1" request the multiple answers of question "testQuestion1"
     Then the response is '\[answer3, answer2, answer1\]'
 
-  Scenario: Getting the correct answer from a questionId
+  Scenario: Getting the correct answer from a questionName
     Given a Student with the login "testStudent1"
-    And a Question with the id 17
-    When "testStudent1" request the answer of question of id 17
+    And a Question named "testQuestion2"
+    When "testStudent1" request the mqc answer of question "testQuestion2"
     Then the response is '\[answer2\]'
