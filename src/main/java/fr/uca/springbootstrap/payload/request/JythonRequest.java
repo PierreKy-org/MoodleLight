@@ -1,8 +1,8 @@
 package fr.uca.springbootstrap.payload.request;
 
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 public class JythonRequest {
@@ -13,7 +13,7 @@ public class JythonRequest {
     @NotEmpty
     private List<String> outputs;
 
-    @NotBlank
+    @NotNull
     private String code;
 
 
