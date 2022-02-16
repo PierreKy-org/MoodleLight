@@ -68,19 +68,37 @@ Feature: Getting information
     Then the response is '^\{"module":testResource1\}|\{\}$'
 
   Scenario: Getting the resourceVisibility from a resourceId
-    Given TODO
+    Given a Student with the login "testStudent1"
+    And a course named "testResource1"
+    When "testStudent1" request the visibility of the resource "testResource1"
+    Then the response is '^\[\{"id":[0-9]*, "name":ROLE_STUDENT\}]$'
 
   Scenario: Getting the questionId from a questionName
-    Given TODO
+    Given a Student with the login "testStudent1"
+    And a Question named "testQuestion1"
+    When "testStudent1" request the id of question "testQuestion1"
+    Then the response is '^\{"id":[0-9]*\}$'
 
   Scenario: Getting the questionName from a questionId
-    Given TODO
+    Given a Student with the login "testStudent1"
+    And a Question with the id 16
+    When "testStudent1" request the name of question of id 16
+    Then the response is '^\{"name":testOpenQuestion1\}$'
 
   Scenario: Getting the questionDescription from a questionId
-    Given TODO
+    Given a Student with the login "testStudent1"
+    And a Question with the id 16
+    When "testStudent1" request the description of question of id 16
+    Then the response is '^\{"description":test description open\}$'
 
-  Scenario: Getting the answers from a questionId
-    Given TODO
+  Scenario: Getting the answers for an open question from a questionId
+    Given a Student with the login "testStudent1"
+    And a Question with the id 16
+    When "testStudent1" request the answers of question of id 16
+    Then the response is '\[answer3, answer2, answer1\]'
 
   Scenario: Getting the correct answer from a questionId
-    Given TODO
+    Given a Student with the login "testStudent1"
+    And a Question with the id 17
+    When "testStudent1" request the answer of question of id 17
+    Then the response is '\[answer2\]'

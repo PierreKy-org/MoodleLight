@@ -3,6 +3,7 @@ package fr.uca.springbootstrap.models.Resource;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -79,5 +80,9 @@ public class Question {
 
     public boolean validate(String answer){
         return good_answers.contains(answer);
+    }
+
+    public Set<String> getAnswer(){
+        return this.getGood_answers();
     }
 }

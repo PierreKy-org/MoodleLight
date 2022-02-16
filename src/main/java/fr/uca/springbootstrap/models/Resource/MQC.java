@@ -3,6 +3,10 @@ package fr.uca.springbootstrap.models.Resource;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "question")
@@ -31,5 +35,12 @@ public class MQC extends Question {
     @Override
     public boolean validate(String answer) {
         return correct == Long.parseLong(answer);
+    }
+
+    @Override
+    public Set<String> getAnswer() {
+        Set<String> myHashSet = new HashSet<>();
+        myHashSet.add(getGood_answers().toArray()[getCorrect()].toString());
+        return myHashSet;
     }
 }

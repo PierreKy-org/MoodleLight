@@ -81,7 +81,7 @@ public class ResourceController {
         if (resource == null) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok().body("{\"name\":" + resource.getName() + "}");
+        return ResponseEntity.ok().body(resource.getVisibility().toString());
     }
 
     @PostMapping("/create")
