@@ -70,7 +70,6 @@ public class UserController {
 
     @GetMapping("/{userName}/id")
     public ResponseEntity<?> getIdOfUser(@PathVariable String userName) {
-        //TOOD faire la feature
         User user = userRepository.findByUsername(userName).orElse(null);
         if (user == null) {
             return ResponseEntity.notFound().build();
@@ -139,6 +138,8 @@ public class UserController {
 
     @PutMapping("/{login}/modifyEmail")
     public ResponseEntity<MessageResponse> modifyEmail(@PathVariable Long login, @RequestBody String newEmail, @RequestHeader(name = "Authorization") String token) {
+        return ResponseEntity.ok().body(new MessageResponse("ERROR"));
+        /*
         User user = userRepository.findById(login).orElse(null);
         if (user == null) {
             return ResponseEntity.badRequest().body(new MessageResponse("Error : The user doesn't exists"));
@@ -152,11 +153,12 @@ public class UserController {
         }
         user.setEmail(newEmail);
         userRepository.save(user);
-        return ResponseEntity.ok().body(new MessageResponse("The user email is up to date"));
+        return ResponseEntity.ok().body(new MessageResponse("The user email is up to date"));*/
     }
 
     @PutMapping("/{login}/modifyName")
     public ResponseEntity<MessageResponse> modifyName(@PathVariable Long login, @RequestBody UserRequest request, @RequestHeader(name = "Authorization") String token) {
+        return ResponseEntity.ok().body(new MessageResponse("ERROR"));/*
         User user = userRepository.findById(login).orElse(null);
         if (user == null) {
             return ResponseEntity.badRequest().body(new MessageResponse("Error : The user doesn't exists"));
@@ -170,11 +172,12 @@ public class UserController {
         }
         user.setUsername(request.getName());
         userRepository.save(user);
-        return ResponseEntity.ok().body(new MessageResponse("The user name is up to date"));
+        return ResponseEntity.ok().body(new MessageResponse("The user name is up to date"));*/
     }
 
     @PutMapping("/{login}/modifyPassword")
     public ResponseEntity<MessageResponse> modifyPassword(@PathVariable Long login, @RequestBody String newPassword, @RequestHeader(name = "Authorization") String token) {
+        return ResponseEntity.ok().body(new MessageResponse("ERROR"));/*
         User user = userRepository.findById(login).orElse(null);
         if (user == null) {
             return ResponseEntity.badRequest().body(new MessageResponse("Error : The user doesn't exists"));
@@ -185,7 +188,7 @@ public class UserController {
         }
         user.setPassword(newPassword);
         userRepository.save(user);
-        return ResponseEntity.ok().body(new MessageResponse("The user password is up to date"));
+        return ResponseEntity.ok().body(new MessageResponse("The user password is up to date"));*/
     }
 }
 

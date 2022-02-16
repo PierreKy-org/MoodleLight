@@ -12,6 +12,7 @@ import java.util.Set;
 @Table(name = "question")
 public class MQC extends Question {
 
+    //TODO changer int en string
     @NotNull
     private int correct;
 

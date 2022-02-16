@@ -18,7 +18,7 @@ public class HttpStepDefs {
     public void theResponseIs(String payload){
         try {
             String body = EntityUtils.toString(SpringIntegration.latestHttpResponse.getEntity());
-            System.out.println(body);
+            System.out.println("response="+body);
             Assert.assertTrue(body.matches(payload));
         } catch (IOException e) {
             Assert.fail();

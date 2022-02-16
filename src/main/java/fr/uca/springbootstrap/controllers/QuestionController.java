@@ -1,6 +1,5 @@
 package fr.uca.springbootstrap.controllers;
 
-import fr.uca.springbootstrap.models.Module;
 import fr.uca.springbootstrap.models.Resource.Answer;
 import fr.uca.springbootstrap.models.Resource.MQC;
 import fr.uca.springbootstrap.models.Resource.Question;
@@ -21,7 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 
 @Transactional
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -102,16 +100,6 @@ public class QuestionController {
         }
     }
 
-    @GetMapping("/{questionId}/name")
-    public ResponseEntity<String> getNameofAquestion(@PathVariable Long questionId) {
-        Question question = questionRepository.findById(questionId).orElse(null);
-        if (question == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok().body("{\"name\":" + question.getName() + "}");
-    }
-
-
     @GetMapping("/{questionName}/id")
     public ResponseEntity<String> getIdofAquestion(@PathVariable String questionName) {
         Question question = questionRepository.findByName(questionName).orElse(null);
@@ -121,31 +109,60 @@ public class QuestionController {
         return ResponseEntity.ok().body("{\"id\":" + question.getId() + "}");
     }
 
-    @GetMapping("/{questionName}/description")
-    public ResponseEntity<String> getdescriptionofAquestion(@PathVariable String questionName) {
-        Question question = questionRepository.findByName(questionName).orElse(null);
+    @GetMapping("/{questionId}/name")
+    public ResponseEntity<String> getNameofAquestion(@PathVariable Long questionId) {
+        Question question = questionRepository.findById(questionId).orElse(null);
+        if (question == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok().body("{\"name\":" + question.getName() + "}");
+    }
+
+    @GetMapping("/{questionId}/description")
+    public ResponseEntity<String> getdescriptionofAquestion(@PathVariable Long questionId) {
+        Question question = questionRepository.findById(questionId).orElse(null);
         if (question == null) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok().body("{\"description\":" + question.getDescription() + "}");
     }
 
-
-    @GetMapping("/{questionName}/answers")
-    public ResponseEntity<String> getAnswersofAquestion(@PathVariable String questionName) {
-        Question question = questionRepository.findByName(questionName).orElse(null);
+    @GetMapping("/{questionId}/answers")
+    @PreAuthorize("hasRole('TEACHER')")
+    public ResponseEntity<String> getAnswersofAquestion(@PathVariable Long questionId) {
+        Question question = questionRepository.findById(questionId).orElse(null);
         if (question == null) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok().body(question.getGood_answers().toString());
     }
 
-    @GetMapping("/{questionName}/correct")
-    public ResponseEntity<String> getAnswerofAquestion(@PathVariable String questionName) {
-        Question question = questionRepository.findByName(questionName).orElse(null);
+    @GetMapping("/{questionId}/correct")
+    @PreAuthorize("hasRole('TEACHER')")
+    public ResponseEntity<String> getAnswerofAquestion(@PathVariable Long questionId) {
+        Question question = questionRepository.findById(questionId).orElse(null);
         if (question == null) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok().body(question.getAnswer().toString());
+    }
+
+    @PutMapping("/{questionId}/addAnswer")
+    @PreAuthorize("hasRole('TEACHER')")
+    public ResponseEntity<MessageResponse> addAnswertoAquestion(@PathVariable Long questionId, @RequestBody AnswerRequest request) {
+        Question question = questionRepository.findById(questionId).orElse(null);
+        if (question == null) {
+            return ResponseEntity.badRequest().body(new MessageResponse("The question does not exists"));
+        }
+        question.getGood_answers().add(request.getAnswer());
+        questionRepository.save(question);
+
+        return ResponseEntity.ok().body(new MessageResponse("The answer has been added to the question!"));
+    }
+
+    @PutMapping("/{questionName}/removeAnswer")
+    @PreAuthorize("hasRole('TEACHER')")
+    public ResponseEntity<MessageResponse> removeAnswerfromAquestion() {
+        return ResponseEntity.badRequest().body(new MessageResponse("TODO"));
     }
 }

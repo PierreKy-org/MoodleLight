@@ -54,6 +54,8 @@ public class ResourceController {
 
     @GetMapping("/{resourceId}/description")
     public ResponseEntity<String> getDescription(HttpServletRequest request, @PathVariable Long resourceId) {
+        System.out.println("IN");
+        System.out.println();
         Resource resource = resourceRepository.findById(resourceId).orElse(null);
         if (resource == null) {
             return ResponseEntity.notFound().build();

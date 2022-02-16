@@ -32,3 +32,6 @@ Feature: Managing resources
 
   Scenario: Trying to remove from a module if the resource is not in the module
     Given TODO
+
+  Scenario: Validating a questioner
+    Given TODO

@@ -57,8 +57,8 @@ public class UserStepDefs {
     }
 
     @Given("a {role} with the login {string}")
-    public void aUserWithLogin(ERole userRole, String userId) {
-        User user = userRepository.findByUsername(userId).orElse(new User(userId, userId + "@test.fr", encoder.encode(PASSWORD)));
+    public void aUserWithLogin(ERole userRole, String userName) {
+        User user = userRepository.findByUsername(userName).orElse(new User(userName, userName + "@test.fr", encoder.encode(PASSWORD)));
         user.setRoles(new HashSet<>() {{
             add(roleRepository.findByName(userRole).orElseThrow(() -> new RuntimeException("Error: Role is not found.")));
         }});

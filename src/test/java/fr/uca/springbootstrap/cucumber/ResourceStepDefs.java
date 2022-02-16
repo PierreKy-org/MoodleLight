@@ -1,11 +1,14 @@
 package fr.uca.springbootstrap.cucumber;
 
 import fr.uca.springbootstrap.controllers.AuthController;
+import fr.uca.springbootstrap.models.ERole;
 import fr.uca.springbootstrap.models.Resource.Course;
 import fr.uca.springbootstrap.models.Resource.Questioner;
 import fr.uca.springbootstrap.models.Resource.Resource;
+import fr.uca.springbootstrap.models.Role;
 import fr.uca.springbootstrap.models.User;
 import fr.uca.springbootstrap.repository.ResourceRepository;
+import fr.uca.springbootstrap.repository.RoleRepository;
 import fr.uca.springbootstrap.repository.UserRepository;
 import fr.uca.springbootstrap.spring.SpringIntegration;
 import io.cucumber.java.ParameterType;
@@ -14,6 +17,8 @@ import io.cucumber.java.en.When;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.List;
 
 import static fr.uca.springbootstrap.RunCucumberTest.PASSWORD;
 
@@ -29,6 +34,9 @@ public class ResourceStepDefs {
     @Autowired
     ResourceRepository resourceRepository;
 
+    @Autowired
+    RoleRepository roleRepository;
+
     @ParameterType("name|visibility|module|description")
     public String pathResource(String type) {
         return type;
@@ -41,7 +49,8 @@ public class ResourceStepDefs {
 
     @Given("a {typeResource} named {string}")
     public void aResourceNamed(String type, String resourceName) {
-        Resource resource = resourceRepository.findByName(resourceName).orElse(type.equals("course") ? new Course(resourceName,"test description") : new Questioner(resourceName,"test description"));
+        Resource resource = resourceRepository.findByName(resourceName).orElse(type.equals("course") ? new Course(resourceName, "test description") : new Questioner(resourceName, "test description"));
+        resource.getVisibility().add(roleRepository.findByName(ERole.ROLE_TEACHER).orElse(new Role(ERole.ROLE_TEACHER)));
         resourceRepository.save(resource);
     }
 
