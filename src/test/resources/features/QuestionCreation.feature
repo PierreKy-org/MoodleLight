@@ -2,7 +2,7 @@ Feature: Creating and Deleting a new Question
 
   Scenario: Successful open question creation
     Given a Teacher with the login "testTeacher1"
-    When The user "testTeacher1" try to create the question "testOpenQuestion1"
+    When The user "testTeacher1" try to create the open "testOpenQuestion1"
     Then last request status is 200
     And the response is '^\{"message":"Open question successfully created!"\}$'
 
@@ -12,7 +12,12 @@ Feature: Creating and Deleting a new Question
     Then last request status is 200
     And the response is '^\{"message":"MQC question successfully created!"\}$'
 
-  Scenario: Successful code runner question creation
+  Scenario: Successful runner question creation
+    Given a Teacher with the login "testTeacher1"
+    When The user "testTeacher1" try to create the runner "testRunnerQuestion1"
+    And the response is '^\{"message":"Runner question successfully created!"\}$'
+
+  Scenario: Trying to create a runner question with inputs and outputs size not matching
     Given TODO
 
   Scenario: Successful open question delete
@@ -21,7 +26,7 @@ Feature: Creating and Deleting a new Question
   Scenario: Successful mqc question delete
     Given TODO
 
-  Scenario: Successful code runner question delete
+  Scenario: Successful runner question delete
     Given TODO
 
   Scenario: Trying to create a question when the name is already used by another

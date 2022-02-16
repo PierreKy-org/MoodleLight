@@ -2,6 +2,7 @@ package fr.uca.springbootstrap.models.Resource;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -21,21 +22,21 @@ public class Question {
 
     @ElementCollection
     @CollectionTable(name = "question_answers")
-    private Set<String> good_answers;
+    private List<String> good_answers;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy="question")
-    private Set<Answer> users_answers;
+    private List<Answer> users_answers;
 
     public Question() {
-        good_answers = new HashSet<>();
-        users_answers = new HashSet<>();
+        good_answers = new ArrayList<>();
+        users_answers = new ArrayList<>();
     }
 
     public Question(String name, String description) {
         this.name = name;
         this.description = description;
-        good_answers = new HashSet<>();
-        users_answers = new HashSet<>();
+        good_answers = new ArrayList<>();
+        users_answers = new ArrayList<>();
     }
 
     public Long getId() {
@@ -62,19 +63,19 @@ public class Question {
         this.description = description;
     }
 
-    public Set<String> getGood_answers() {
+    public List<String> getGood_answers() {
         return good_answers;
     }
 
-    public void setGood_answers(Set<String> good_answers) {
+    public void setGood_answers(List<String> good_answers) {
         this.good_answers = good_answers;
     }
 
-    public Set<Answer> getUsers_answers() {
+    public List<Answer> getUsers_answers() {
         return users_answers;
     }
 
-    public void setUsers_answers(Set<Answer> users_answers) {
+    public void setUsers_answers(List<Answer> users_answers) {
         this.users_answers = users_answers;
     }
 

@@ -4,10 +4,12 @@ import fr.uca.springbootstrap.models.Module;
 import fr.uca.springbootstrap.models.Resource.Answer;
 import fr.uca.springbootstrap.models.Resource.MQC;
 import fr.uca.springbootstrap.models.Resource.Question;
+import fr.uca.springbootstrap.models.Resource.Runner;
 import fr.uca.springbootstrap.models.User;
 import fr.uca.springbootstrap.payload.request.AnswerRequest;
 import fr.uca.springbootstrap.payload.request.MQCRequest;
 import fr.uca.springbootstrap.payload.request.OpenQuestionRequest;
+import fr.uca.springbootstrap.payload.request.RunnerRequest;
 import fr.uca.springbootstrap.payload.response.MessageResponse;
 import fr.uca.springbootstrap.repository.*;
 import fr.uca.springbootstrap.security.services.UserDetailsImpl;
@@ -18,6 +20,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 
 @Transactional
@@ -51,7 +54,7 @@ public class QuestionController {
             return ResponseEntity.badRequest().body(new MessageResponse("A question with this name already exists"));
         }
         Question question = new Question(request.getName(), request.getDescription());
-        question.setGood_answers(new HashSet<>(request.getAnswers()));
+        question.setGood_answers(new ArrayList<>(request.getAnswers()));
         questionRepository.save(question);
         return ResponseEntity.ok().body(new MessageResponse("Open question successfully created!"));
     }
@@ -63,9 +66,24 @@ public class QuestionController {
             return ResponseEntity.badRequest().body(new MessageResponse("A question with this name already exists"));
         }
         Question question = new MQC(request.getName(), request.getDescription(), request.getCorrect());
-        question.setGood_answers(new HashSet<>(request.getAnswers()));
+        question.setGood_answers(new ArrayList<>(request.getAnswers()));
         questionRepository.save(question);
         return ResponseEntity.ok().body(new MessageResponse("MQC question successfully created!"));
+    }
+
+    @PostMapping("/create/runner")
+    @PreAuthorize("hasRole('TEACHER')")
+    public ResponseEntity<MessageResponse> createRunnerQuestion(@RequestBody RunnerRequest request) {
+        if (questionRepository.findByName(request.getName()).isPresent()) {
+            return ResponseEntity.badRequest().body(new MessageResponse("A question with this name already exists"));
+        }
+        if (request.getInputs().size() != request.getOutputs().size()) {
+            return ResponseEntity.badRequest().body(new MessageResponse("The inputs and outputs size does not match"));
+        }
+        Question question = new Runner(request.getName(), request.getDescription(), request.getInputs());
+        question.setGood_answers(new ArrayList<>(request.getOutputs()));
+        questionRepository.save(question);
+        return ResponseEntity.ok().body(new MessageResponse("Runner question successfully created!"));
     }
 
     @PutMapping("/answer/{questionId}")
