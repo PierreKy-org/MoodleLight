@@ -57,6 +57,7 @@ public class AuthController {
 		return jwtUtils.generateJwtToken(authentication);
 	}
 
+	//TODO ENVOYER UNE REQUETE AU CONTAINER JWT
 	@PostMapping("/signin")
 	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 		String jwt = generateJwt(loginRequest.getUsername(), loginRequest.getPassword());
@@ -105,6 +106,7 @@ public class AuthController {
 		return user;
 	}
 
+	//TODO ENVOYER UNE REQUETE AU CONTAINER JWT
 	@PostMapping("/signup")
 	public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
 		if (userRepository.existsByUsername(signUpRequest.getUsername())) {
