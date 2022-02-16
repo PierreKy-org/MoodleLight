@@ -9,5 +9,8 @@ Feature: Managing Questions
   Scenario: Removing a correct answer from a question
     Given TODO
 
-  Scenario: Removing a correct answer from a question
+  Scenario: Changing the name of a question
+    Given TODO
+
+  Scenario: Changing the description of a question
     Given TODO
