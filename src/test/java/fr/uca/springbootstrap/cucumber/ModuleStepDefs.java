@@ -1,9 +1,11 @@
 package fr.uca.springbootstrap.cucumber;
 
 import fr.uca.springbootstrap.controllers.AuthController;
+import fr.uca.springbootstrap.models.Resource.Resource;
 import fr.uca.springbootstrap.models.User;
 import fr.uca.springbootstrap.repository.ModuleRepository;
 import fr.uca.springbootstrap.models.Module;
+import fr.uca.springbootstrap.repository.ResourceRepository;
 import fr.uca.springbootstrap.repository.UserRepository;
 import fr.uca.springbootstrap.spring.SpringIntegration;
 import io.cucumber.java.ParameterType;
@@ -23,10 +25,17 @@ public class ModuleStepDefs {
     AuthController authController;
 
     @Autowired
+    ResourceRepository resourceRepository;
+
+    @Autowired
     UserRepository userRepository;
 
     @Autowired
     ModuleRepository moduleRepository;
+    @ParameterType("add|delete")
+    public String addOrDelete(String type){
+        return type;
+    }
 
     @ParameterType("name|users|resources")
     public String pathModule(String type) {
@@ -105,6 +114,38 @@ public class ModuleStepDefs {
 
         try {
             springIntegration.executePost("api/module/" + creation, jwt, "{\"name\":\"" + moduleName + "\"}");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @When("{string} renamed the module {string} in {string}")
+    public void renamedTheModuleIn(String userName, String moduleName, String newName) {
+        User user = userRepository.findByUsername(userName).orElseThrow(()->new RuntimeException("Error : User is not found"));
+        Module module = moduleRepository.findByName(moduleName).orElseThrow(()->new RuntimeException("Error : Module is not found"));
+        String jwt = authController.generateJwt(userName,PASSWORD);
+        try{
+            springIntegration.executePut("api/module/"+module.getName()+"/rename/"+newName,jwt,"{\"message\":\"Module successfully created!\"}");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @When("{string} {addOrDelete} the course {string} of the Module {string}")
+    public void deleteTheCourseOfTheModule(String userName, String addOrDelete, String resourceName,String moduleName) {
+        User user = userRepository.findByUsername(userName).orElseThrow(()->new RuntimeException("User is not found"));
+        Resource resource = resourceRepository.findByName(resourceName).orElseThrow(()-> new RuntimeException("Resource is not found"));
+        Module module = moduleRepository.findByName(moduleName).orElseThrow(()-> new RuntimeException("Module is not found"));
+        String jwt = authController.generateJwt(userName,PASSWORD);
+
+        try{
+            switch (addOrDelete){
+                case "add" -> springIntegration.executePut("api/module/addResource/"+resourceName,jwt,"{\"name\":\"" + moduleName + "\"}");//TODO
+                case "delete" -> springIntegration.executePut("api/module/removeResource/"+resourceName,jwt,"{\"name\":\"" + moduleName + "\"}");
+
+            }
+
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -21,6 +21,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
 import java.util.HashSet;
+import java.util.Optional;
 
 public class UserStepDefs {
     private final SpringIntegration springIntegration = new SpringIntegration();
@@ -43,11 +44,6 @@ public class UserStepDefs {
 
     @ParameterType("username|email|roles|modules")
     public String pathUser(String type) {
-        return type;
-    }
-
-    @ParameterType("username|email|password")
-    public String changeable(String type) {
         return type;
     }
 
@@ -101,56 +97,5 @@ public class UserStepDefs {
         }
     }
 
-    @When("{string} change his {string} to {string}")
-    public void changeHisUserNameTo(String userName, String param, String newParam) {
-        User user = userRepository.findByUsername(userName).orElseThrow(() -> new RuntimeException("Error : The User doesn't exist"));
 
-
-        String jwt = authController.generateJwt(user.getUsername(), PASSWORD);
-        try {
-            springIntegration.executeGet("api/user/" + user.getId() + "/username", jwt);
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-        System.out.println(SpringIntegration.latestHttpResponse.getStatusLine());
-        System.out.println(jwt);
-        try {
-            switch (param) {
-                case "userName" -> springIntegration.executePut("api/user/" + user.getId() + "/modifyName", jwt, "{\"name\":\"" + newParam + "\"}");
-                case "userId" -> springIntegration.executePut("api/user/" + user.getId() + "/modifyLogin", jwt, "{\"id\":\"" + newParam + "\"}");
-                case "email" -> springIntegration.executePut("api/user/" + user.getId() + "/modifyEmail", jwt, "{\"email\":\"" + newParam + "\"}");
-                case "password" -> springIntegration.executePut("api/user/" + user.getId() + "/modifyPassword", jwt, "{\"password\":\"" + param + "\"}");
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Then("{string} new {changeable} is {string}")
-    public void hisnewParam(String userName, String change, String newParam) {
-        User user = userRepository.findByUsername(userName).orElseThrow(() -> new RuntimeException("User not found"));
-        switch (change) {
-            case "username" -> assertEquals(newParam, user.getUsername());
-            case "email" -> assertEquals(newParam, user.getEmail());
-            case "password" -> assertEquals(newParam, user.getPassword());
-        }
-    }
-
-    @When("{string} try to change the {string} of {string} to {string}")
-    public void tryToChangeTheOfTo(String userName1, String param, String userName2, String newParam) {
-        User user1 = userRepository.findByUsername(userName1).orElseThrow(() -> new RuntimeException("Error : The User doesn't exist"));
-        User user2 = userRepository.findByUsername(userName2).orElseThrow(() -> new RuntimeException("Error : The User doesn't exist"));
-        String jwt = authController.generateJwt(userName1, user1.getPassword());
-        try {
-            switch (param) {
-                case "userName" -> springIntegration.executePut("api/user/" + user2.getId() + "/modifyName", jwt, "{\"name\":\"" + newParam + "\"}");
-                case "userId" -> springIntegration.executePut("api/user/" + user2.getId() + "/modifyLogin", jwt, "{\"id\":\"" + newParam + "\"}");
-                case "email" -> springIntegration.executePut("api/user/" + user2.getId() + "/modifyEmail", jwt, "{\"email\":\"" + newParam + "\"}");
-                case "password" -> springIntegration.executePut("api/user/" + user2.getId() + "/modifyPassword", jwt, "{\"password\":\"" + param + "\"}");
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 }

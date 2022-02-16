@@ -18,7 +18,7 @@ Feature: Getting information
   Scenario: Getting the roles from an userId
     Given a Student with the login "testStudent1"
     When the user "testStudent1" request his roles
-    Then the response is '^\[\{"id":1, "name":ROLE_STUDENT\},\]|\[\]$'
+    Then the response is '^\[\{"id":[0-9]*, "name":ROLE_STUDENT\},\]|\[\]$'
 
   Scenario: Getting the modules from an userId
     Given a Student with the login "testStudent1"
