@@ -29,6 +29,13 @@ public class MQCRequest {
         this.answer = answer;
     }
 
+    public MQCRequest(List<String> choices) {
+        this.name = "";
+        this.description = "";
+        this.answer = "";
+        this.choices = choices;
+    }
+
     public String getName() {
         return name;
     }
