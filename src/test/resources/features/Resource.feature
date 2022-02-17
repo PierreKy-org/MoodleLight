@@ -22,7 +22,7 @@ Feature: Managing resources
   Scenario: Trying to add a role if the role is already in the resourceVisibility of the resource
     Given a Teacher with the login "testTeacher3"
     And a course named "testResource1"
-    When "testTeacher3" add "student" to the resource "testResource1"
+    When "testTeacher3" add "teacher" to the resource "testResource1"
     Then the response is '\{"message":"this visibility was already here"\}'
 
   Scenario: Trying to remove a role if the role not in the resourceVisibility of the resource
