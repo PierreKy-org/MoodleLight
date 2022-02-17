@@ -22,20 +22,20 @@ public class Question {
 
     @ElementCollection
     @CollectionTable(name = "question_answers")
-    private List<String> good_answers;
+    private Set<String> answers;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy="question")
     private List<Answer> users_answers;
 
     public Question() {
-        good_answers = new ArrayList<>();
+        answers = new HashSet<>();
         users_answers = new ArrayList<>();
     }
 
     public Question(String name, String description) {
         this.name = name;
         this.description = description;
-        good_answers = new ArrayList<>();
+        answers = new HashSet<>();
         users_answers = new ArrayList<>();
     }
 
@@ -63,12 +63,12 @@ public class Question {
         this.description = description;
     }
 
-    public List<String> getGood_answers() {
-        return good_answers;
+    public Set<String> getAnswers() {
+        return answers;
     }
 
-    public void setGood_answers(List<String> good_answers) {
-        this.good_answers = good_answers;
+    public void setAnswers(Set<String> answers) {
+        this.answers = answers;
     }
 
     public List<Answer> getUsers_answers() {
@@ -80,10 +80,7 @@ public class Question {
     }
 
     public boolean validate(String answer){
-        return good_answers.contains(answer);
+        return answers.contains(answer);
     }
 
-    public List<String> getAnswer(){
-        return this.getGood_answers();
-    }
 }

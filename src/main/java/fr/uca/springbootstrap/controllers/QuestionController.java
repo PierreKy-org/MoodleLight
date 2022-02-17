@@ -19,7 +19,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
 
 @Transactional
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -52,7 +53,7 @@ public class QuestionController {
             return ResponseEntity.badRequest().body(new MessageResponse("A question with this name already exists"));
         }
         Question question = new Question(request.getName(), request.getDescription());
-        question.setGood_answers(new ArrayList<>(request.getAnswers()));
+        question.setAnswers(new HashSet<>(request.getAnswers()));
         questionRepository.save(question);
         return ResponseEntity.ok().body(new MessageResponse("Open question successfully created!"));
     }
@@ -63,8 +64,8 @@ public class QuestionController {
         if (questionRepository.findByName(request.getName()).isPresent()) {
             return ResponseEntity.badRequest().body(new MessageResponse("A question with this name already exists"));
         }
-        Question question = new MQC(request.getName(), request.getDescription(), request.getCorrect());
-        question.setGood_answers(new ArrayList<>(request.getAnswers()));
+        Question question = new MQC(request.getName(), request.getDescription(), request.getChoices());
+        question.setAnswers(new HashSet<>(Collections.singleton(request.getAnswer())));
         questionRepository.save(question);
         return ResponseEntity.ok().body(new MessageResponse("MQC question successfully created!"));
     }
@@ -79,7 +80,7 @@ public class QuestionController {
             return ResponseEntity.badRequest().body(new MessageResponse("The inputs and outputs size does not match"));
         }
         Question question = new Runner(request.getName(), request.getDescription(), request.getInputs());
-        question.setGood_answers(new ArrayList<>(request.getOutputs()));
+        question.setAnswers(new HashSet<>(request.getOutputs()));
         questionRepository.save(question);
         return ResponseEntity.ok().body(new MessageResponse("Runner question successfully created!"));
     }
@@ -134,17 +135,18 @@ public class QuestionController {
         if (question == null) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok().body(question.getGood_answers().toString());
+        return ResponseEntity.ok().body(question.getAnswers().toString());
     }
 
-    @GetMapping("/{questionId}/correct")
+    @GetMapping("/{questionId}/choices")
     @PreAuthorize("hasRole('TEACHER')")
-    public ResponseEntity<String> getAnswerofAquestion(@PathVariable Long questionId) {
+    public ResponseEntity<String> getChoicesOfMQC(@PathVariable Long questionId) {
         Question question = questionRepository.findById(questionId).orElse(null);
-        if (question == null) {
-            return ResponseEntity.notFound().build();
+        if (question instanceof MQC) {
+            return ResponseEntity.ok().body(((MQC) question).getChoices().stream().reduce("", (a, b) -> a + b));
+        } else {
+            return ResponseEntity.badRequest().body("{\"message\":\"The question does not exists\"}");
         }
-        return ResponseEntity.ok().body(question.getAnswer().toString());
     }
 
     @PutMapping("/{questionId}/addAnswer")
@@ -154,7 +156,7 @@ public class QuestionController {
         if (question == null) {
             return ResponseEntity.badRequest().body(new MessageResponse("The question does not exists"));
         }
-        question.getGood_answers().add(request.getAnswer());
+        question.getAnswers().add(request.getAnswer());
         questionRepository.save(question);
 
         return ResponseEntity.ok().body(new MessageResponse("The answer has been added to the question!"));
