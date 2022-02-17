@@ -20,10 +20,9 @@ import org.apache.http.client.methods.HttpPost;
 public class SpringIntegration {
     private final CloseableHttpClient httpClient = HttpClients.createDefault();
     public static HttpResponse latestHttpResponse;
-    private static final String host = "http://localhost:8080/";
 
     public void executeGet(String url, String jwt) throws IOException {
-        HttpGet request = new HttpGet(host + url);
+        HttpGet request = new HttpGet(url);
         request.addHeader("Accept", "application/json");
         if (jwt != null) {
             request.addHeader("Authorization", "Bearer " + jwt);
@@ -32,7 +31,7 @@ public class SpringIntegration {
     }
 
     public void executePost(String url, String jwt, String payload) throws IOException {
-        HttpPost request = new HttpPost(host + url);
+        HttpPost request = new HttpPost(url);
         request.addHeader("content-type", "application/json");
         if (jwt != null) {
             request.addHeader("Authorization", "Bearer " + jwt);
@@ -42,21 +41,12 @@ public class SpringIntegration {
     }
 
     public void executePut(String url, String jwt, String payload) throws IOException {
-        HttpPut request = new HttpPut(host + url);
+        HttpPut request = new HttpPut(url);
         request.addHeader("content-type", "application/json");
         if (jwt != null) {
             request.addHeader("Authorization", "Bearer " + jwt);
         }
         request.setEntity(new StringEntity(payload));
-        latestHttpResponse = httpClient.execute(request);
-    }
-
-    public void executeDelete(String url, String jwt) throws IOException {
-        HttpDelete request = new HttpDelete(host + url);
-        request.addHeader("content-type", "application/json");
-        if (jwt != null) {
-            request.addHeader("Authorization", "Bearer " + jwt);
-        }
         latestHttpResponse = httpClient.execute(request);
     }
 }
