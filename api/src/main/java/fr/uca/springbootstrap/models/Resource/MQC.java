@@ -1,5 +1,7 @@
 package fr.uca.springbootstrap.models.Resource;
 
+import javax.persistence.CollectionTable;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -12,36 +14,25 @@ import java.util.Set;
 @Table(name = "question")
 public class MQC extends Question {
 
-    //TODO changer int en string
-    @NotNull
-    private int correct;
+    @ElementCollection
+    @CollectionTable(name = "choices_data")
+    private List<String> choices;
 
     public MQC() {
         super();
+        choices = new ArrayList<>();
     }
 
-    public MQC(String name, String description, int correct) {
+    public MQC(String name, String description, List<String> choices) {
         super(name, description);
-        this.correct = correct;
+        this.choices = choices;
     }
 
-    public int getCorrect() {
-        return correct;
+    public List<String> getChoices() {
+        return choices;
     }
 
-    public void setCorrect(int correct) {
-        this.correct = correct;
-    }
-
-    @Override
-    public boolean validate(String answer) {
-        return correct == Long.parseLong(answer);
-    }
-
-    @Override
-    public List<String> getAnswer() {
-        List<String> list = new ArrayList<>();
-        list.add(getGood_answers().toArray()[getCorrect()].toString());
-        return list;
+    public void setChoices(List<String> choices) {
+        this.choices = choices;
     }
 }
