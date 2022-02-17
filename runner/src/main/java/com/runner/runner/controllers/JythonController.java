@@ -11,7 +11,7 @@ import java.util.Arrays;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/api/jython")
+@RequestMapping("/jython")
 public class JythonController {
 
 
@@ -37,7 +37,7 @@ public class JythonController {
         if (Arrays.equals(request.getOutputs().toArray(), output.toString().split("\n"))) {
             return ResponseEntity.ok().body(new MessageResponse("Good answer"));
         } else {
-            return ResponseEntity.ok().body(new MessageResponse("Wrong answerzzz"));
+            return ResponseEntity.ok().body(new MessageResponse("Wrong answer"));
         }
     }
 }

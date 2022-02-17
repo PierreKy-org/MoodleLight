@@ -13,7 +13,7 @@ public class SpringSecurityJwtApplication {
 	public static void main(String[] args) {
 		try{
 			SpringApplication.run(SpringSecurityJwtApplication.class, args);
-			System.out.println("JWT is running successfully");
+			System.out.println("Security is running successfully");
 		}
 		catch (Exception e){
 			e.printStackTrace();

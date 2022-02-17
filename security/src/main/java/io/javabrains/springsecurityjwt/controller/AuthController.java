@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/authenticate")
+@RequestMapping("/authentication")
 public class AuthController {
 	@Autowired
 	AuthenticationManager authenticationManager;
