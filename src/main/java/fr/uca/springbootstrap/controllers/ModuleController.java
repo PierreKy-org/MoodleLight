@@ -9,6 +9,7 @@ import fr.uca.springbootstrap.payload.request.ModuleRequest;
 import fr.uca.springbootstrap.payload.request.RegistrationRequest;
 import fr.uca.springbootstrap.payload.response.MessageResponse;
 import fr.uca.springbootstrap.repository.ModuleRepository;
+import fr.uca.springbootstrap.repository.ResourceRepository;
 import fr.uca.springbootstrap.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +30,9 @@ public class ModuleController {
 
     @Autowired
     ModuleRepository moduleRepository;
+
+    @Autowired
+    ResourceRepository resourceRepository;
 
     @GetMapping("/{moduleName}/id")
     public ResponseEntity<String> getId(@PathVariable String moduleName) {
@@ -126,6 +130,43 @@ public class ModuleController {
         }
         moduleRepository.delete(module.get());
         return ResponseEntity.ok(new MessageResponse("Module successfully deleted!"));
+    }
+
+    @PutMapping("{oldName}/rename/{newName}")
+    @PreAuthorize("hasRole('TEACHER')")
+    public ResponseEntity<MessageResponse> renameModule(@PathVariable String oldName,@PathVariable String newName){
+        Module module = moduleRepository.findByName(oldName).orElse(null);
+        if (module==null){
+            return ResponseEntity.notFound().build();
+        }
+        module.setName(newName);
+        moduleRepository.save(module);
+        return ResponseEntity.ok(new MessageResponse("Module successfully rename!"));
+    }
+
+    @PutMapping("/addResource/{resourceName}")
+    @PreAuthorize("hasRole('TEACHER')")
+    public ResponseEntity<MessageResponse> addResourceToModule(@RequestBody ModuleRequest request,@PathVariable String resourceName){
+        Module module = moduleRepository.findByName(request.getName()).orElse(null);
+        Resource resource = resourceRepository.findByName(resourceName).orElse(null);
+        if(module==null || resource==null){
+            return ResponseEntity.notFound().build();
+        }
+        module.getResources().add(resource);
+        moduleRepository.save(module);
+        return ResponseEntity.ok().body((new MessageResponse("Resource successfully added")));
+    }
+
+    @PutMapping("/removeResource/{resourceName}")
+    @PreAuthorize("hasRole('TEACHER')")
+    public ResponseEntity<MessageResponse> removeResourceToModule(@RequestBody ModuleRequest moduleRequest,@PathVariable String resourceName){
+        Module module = moduleRepository.findByName(moduleRequest.getName()).orElse(null);
+        Resource resource = resourceRepository.findByName(resourceName).orElse(null);
+        if (module==null || resource == null){
+            return ResponseEntity.notFound().build();
+        }
+        module.getResources().remove(resource);
+        return ResponseEntity.ok().body((new MessageResponse("Resource successfully remove")));
     }
 
 }

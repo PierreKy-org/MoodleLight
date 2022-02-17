@@ -4,6 +4,7 @@ import fr.uca.springbootstrap.models.ERole;
 import fr.uca.springbootstrap.models.Module;
 import fr.uca.springbootstrap.models.Role;
 import fr.uca.springbootstrap.models.User;
+
 import fr.uca.springbootstrap.payload.request.ModuleRequest;
 import fr.uca.springbootstrap.payload.request.UserRequest;
 import fr.uca.springbootstrap.payload.response.MessageResponse;
@@ -136,59 +137,5 @@ public class UserController {
         return ResponseEntity.ok().body(sb);
     }
 
-    @PutMapping("/{login}/modifyEmail")
-    public ResponseEntity<MessageResponse> modifyEmail(@PathVariable Long login, @RequestBody String newEmail, @RequestHeader(name = "Authorization") String token) {
-        return ResponseEntity.ok().body(new MessageResponse("ERROR"));
-        /*
-        User user = userRepository.findById(login).orElse(null);
-        if (user == null) {
-            return ResponseEntity.badRequest().body(new MessageResponse("Error : The user doesn't exists"));
-        }
-        String jwt = authController.generateJwt(user.getUsername(), user.getPassword());
-        if (!jwt.equals(token)) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new MessageResponse("Error : Permission denied"));
-        }
-        if (userRepository.existsByEmail(newEmail)) {
-            return ResponseEntity.badRequest().body(new MessageResponse("Error : An User has already this email"));
-        }
-        user.setEmail(newEmail);
-        userRepository.save(user);
-        return ResponseEntity.ok().body(new MessageResponse("The user email is up to date"));*/
-    }
-
-    @PutMapping("/{login}/modifyName")
-    public ResponseEntity<MessageResponse> modifyName(@PathVariable Long login, @RequestBody UserRequest request, @RequestHeader(name = "Authorization") String token) {
-        return ResponseEntity.ok().body(new MessageResponse("ERROR"));/*
-        User user = userRepository.findById(login).orElse(null);
-        if (user == null) {
-            return ResponseEntity.badRequest().body(new MessageResponse("Error : The user doesn't exists"));
-        }
-        String jwt = authController.generateJwt(user.getUsername(), user.getPassword());
-        if (!jwt.equals(token)) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new MessageResponse("Error : Permission denied"));
-        }
-        if (userRepository.existsByUsername(request.getName())) {
-            return ResponseEntity.badRequest().body(new MessageResponse("Error : An User has already this name"));
-        }
-        user.setUsername(request.getName());
-        userRepository.save(user);
-        return ResponseEntity.ok().body(new MessageResponse("The user name is up to date"));*/
-    }
-
-    @PutMapping("/{login}/modifyPassword")
-    public ResponseEntity<MessageResponse> modifyPassword(@PathVariable Long login, @RequestBody String newPassword, @RequestHeader(name = "Authorization") String token) {
-        return ResponseEntity.ok().body(new MessageResponse("ERROR"));/*
-        User user = userRepository.findById(login).orElse(null);
-        if (user == null) {
-            return ResponseEntity.badRequest().body(new MessageResponse("Error : The user doesn't exists"));
-        }
-        String jwt = authController.generateJwt(user.getUsername(), user.getPassword());
-        if (!jwt.equals(token)) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new MessageResponse("Error : Permission denied"));
-        }
-        user.setPassword(newPassword);
-        userRepository.save(user);
-        return ResponseEntity.ok().body(new MessageResponse("The user password is up to date"));*/
-    }
 }
 
