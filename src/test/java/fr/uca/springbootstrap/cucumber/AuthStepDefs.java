@@ -1,11 +1,14 @@
 package fr.uca.springbootstrap.cucumber;
 
 import fr.uca.springbootstrap.controllers.AuthController;
+import fr.uca.springbootstrap.models.Resource.Resource;
 import fr.uca.springbootstrap.models.User;
 import fr.uca.springbootstrap.repository.ModuleRepository;
+import fr.uca.springbootstrap.repository.ResourceRepository;
 import fr.uca.springbootstrap.repository.RoleRepository;
 import fr.uca.springbootstrap.repository.UserRepository;
 import fr.uca.springbootstrap.spring.SpringIntegration;
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +24,8 @@ public class AuthStepDefs {
     UserRepository userRepository;
     @Autowired
     RoleRepository roleRepository;
+    @Autowired
+    ResourceRepository resourceRepository;
     @Autowired
     ModuleRepository moduleRepository;
     @Autowired
@@ -52,6 +57,18 @@ public class AuthStepDefs {
         String jwt = authController.generateJwt(user.getUsername(), PASSWORD);
         try {
             springIntegration.executeGet("api/user/" + user.getUsername() + "/id", token);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @And("The user {string} try to have the description of the resource {string} but he doesn't have the visibility")
+    public void theUserTryToHaveTheDescriptionOfTheResourceButHeDoesnTHaveTheVisibility(String userName, String resourceName) {
+        User user = userRepository.findByUsername(userName).orElseThrow(()->new RuntimeException("User is not found"));
+        Resource resource = resourceRepository.findByName(resourceName).orElseThrow(()-> new RuntimeException("Resource is not found"));
+        String jwt = authController.generateJwt(userName,user.getPassword());
+        try{
+            springIntegration.executeGet("api/resource/"+resource.getId()+"/description",jwt);
         } catch (IOException e) {
             e.printStackTrace();
         }

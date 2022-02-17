@@ -69,8 +69,8 @@ Feature: Getting information
 
   Scenario: Getting the resourceVisibility from a resourceId
     Given a Teacher with the login "testTeacher1"
-    And a course named "testResource1"
-    When "testTeacher1" request the visibility of the resource "testResource1"
+    And a course named "testResource2"
+    When "testTeacher1" request the visibility of the resource "testResource2"
     Then the response is '^\[\{"id":[0-9]*, "name":ROLE_TEACHER\}]$'
 
   Scenario: Getting the questionId from a questionName
@@ -94,19 +94,22 @@ Feature: Getting information
   Scenario: Getting the answers for an open question from a questionName
     Given a Teacher with the login "testTeacher1"
     And a course named "testResource1"
-    When "testTeacher1" request the multiple answers of question "testQuestion1"
-    Then the response is '\[answer3, answer2, answer1\]'
+    And a mqc named "testQuestion1"
+    When "testTeacher1" add the valid answer ":)" to the question "testQuestion1"
+    And "testTeacher1" add the valid answer ":(" to the question "testQuestion1"
+    And "testTeacher1" request the answers of question "testQuestion1"
+    Then the response is '\[:), :(\]'
 
   Scenario: Getting the correct answer from a questionName
     Given a Teacher with the login "testTeacher1"
     And a course named "testResource1"
-    When "testTeacher1" request the mqc answer of question "testQuestion2"
+    When "testTeacher1" request the answers of question "testQuestion2"
     Then the response is '\[answer2\]'
 
   Scenario: Getting the questions of a questioner
     Given TODO
 
-  Scenario: Getting the the answers from a user for a question
+  Scenario: Getting the answers from a user for a question
     Given TODO
 
   Scenario: Getting the score of a questioner

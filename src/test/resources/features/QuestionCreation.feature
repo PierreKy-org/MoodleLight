@@ -21,7 +21,10 @@ Feature: Creating and Deleting a new Question
     Given TODO
 
   Scenario: Successful open question delete
-    Given TODO
+    Given a Teacher with the login "testStudent"
+    And a course named "testResource1"
+    When The user "testTeacher1" try to delete the open "testOpenQuestion1"
+    Then last request status is 200
 
   Scenario: Successful mqc question delete
     Given TODO

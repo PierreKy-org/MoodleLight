@@ -6,8 +6,8 @@ Feature: authentification
 
 
   Scenario: SignUp when the userName already exists
-    Given "testTeacher" try to SignUp with the email "testTeacherA@test.fr" and the password "abracadabra"
-    Given "testTeacher" try to SignUp with the email "testTeacher@test.fr" and the password "abracadabra"
+    Given "testTeacherA" try to SignUp with the email "testTeacherA@test.fr" and the password "abracadabra"
+    Given "testTeacherA" try to SignUp with the email "testTeacher@test.fr" and the password "abracadabra"
     Then the response is '^\{"message":"Error: Username is already taken!"\}$'
 
   Scenario: SignUp when the email already exists
@@ -44,5 +44,8 @@ Feature: authentification
     When "testStudent3" renamed the module "Sport" in "AI"
     Then last request status is 403
 
-  Scenario: Request without the permission of visibility of module
-    Given TODO
+  Scenario: Request without the permission of visibility of request
+    Given a Student with the login "testStudent"
+    And a course named "testResource1"
+    And The user "testStudent" try to have the description of the resource "testResource1" but he doesn't have the visibility
+    And last request status is 403

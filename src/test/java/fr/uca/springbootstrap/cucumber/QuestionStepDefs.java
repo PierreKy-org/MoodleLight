@@ -31,18 +31,24 @@ public class QuestionStepDefs {
     @Autowired
     QuestionRepository questionRepository;
 
+    @ParameterType("create|delete")
+    public String createOrDelete(String type){
+        return type;
+    }
+
     @ParameterType("open|mqc|runner")
     public String question(String type) {
         return type;
     }
 
-    @ParameterType("name|description|multiple answers|mqc answer")
+    @ParameterType("answers|description")
+    public String answersOrDescription(String type){
+        return type;
+    }
+
+    @ParameterType("name|description")
     public String questionData(String type) {
-        return switch (type) {
-            case "multiple answers" -> "answers";
-            case "mqc answer" -> "correct";
-            default -> type;
-        };
+        return type;
     }
 
     @Given("a {question} named {string}")
@@ -67,8 +73,8 @@ public class QuestionStepDefs {
         }
     }
 
-    @When("The user {string} try to create the {question} {string}")
-    public void theUserTryToCreateTheQuestion(String userName, String question, String questionName) {
+    @When("The user {string} try to {createOrDelete} the {question} {string}")
+    public void theUserTryToCreateTheQuestion(String userName,String addOrDelete, String question, String questionName) {
         User user = userRepository.findByUsername(userName).orElseThrow(() -> new RuntimeException("Error: User is not found."));
         String jwt = authController.generateJwt(user.getUsername(), PASSWORD);
 
@@ -79,20 +85,23 @@ public class QuestionStepDefs {
             default -> throw new RuntimeException();
         };
         try {
-            springIntegration.executePost("api/question/create/" + question, jwt, payload);
+            if (addOrDelete.equals("create")){
+                springIntegration.executePost("api/question/create/" + question, jwt, payload);
+            }else{
+                springIntegration.executePost("api/question/delete/" + question, jwt, payload);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    @When("{string} request the {questionData} of question {string}")
-    public void requestTheQuestionDataOfName(String userName, String data, String questionName) {
+    @When("{string} request the answers of question {string}")
+    public void requestTheQuestionDataOfName(String userName,String questionName) {
         User user = userRepository.findByUsername(userName).orElseThrow(() -> new RuntimeException("Error: User is not found."));
         Question question = questionRepository.findByName(questionName).orElseThrow(() -> new RuntimeException("Error: Question is not found."));
         String jwt = authController.generateJwt(user.getUsername(), PASSWORD);
-
         try {
-            springIntegration.executeGet("api/question/" + question.getId() + "/" + data, jwt);
+            springIntegration.executeGet("api/question/" + question.getId() + "/answers", jwt);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -119,6 +128,18 @@ public class QuestionStepDefs {
 
         try {
             springIntegration.executePut("api/question/" + question.getId() + "/addAnswer", jwt, "{\"answer\":\"" + answer + "\"}");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @When("{string} add an input {string} to the question {string}")
+    public void addAnInputToTheQuestion(String userName, String valueInput, String questionName) {
+        User user = userRepository.findByUsername(userName).orElseThrow(()->new RuntimeException("User is not found"));
+        Question question = questionRepository.findByName(questionName).orElseThrow(()->new RuntimeException("Question is not found"));
+        String jwt = authController.generateJwt(userName,PASSWORD);
+        try{
+            springIntegration.executePut("api/question/"+question.getId()+"/addInput",jwt,"{\"answer\":\"" + valueInput + "\"}");
         } catch (IOException e) {
             e.printStackTrace();
         }

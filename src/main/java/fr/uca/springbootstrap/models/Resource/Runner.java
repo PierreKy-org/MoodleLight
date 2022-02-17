@@ -41,6 +41,8 @@ public class Runner extends Question {
         this.inputs = inputs;
     }
 
+    public void addInput(Integer input){inputs.add(input);}
+
     @Override
     public boolean validate(String answer) {
         CloseableHttpClient httpClient = HttpClients.createDefault();
