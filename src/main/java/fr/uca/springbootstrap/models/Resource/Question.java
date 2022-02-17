@@ -83,4 +83,9 @@ public class Question {
         return answers.contains(answer);
     }
 
+    @Override
+    public String toString() {
+        return "{\" + \"id :\" + id + \", name :\" + name + \", description :\" + description + \"}";
+    }
+
 }

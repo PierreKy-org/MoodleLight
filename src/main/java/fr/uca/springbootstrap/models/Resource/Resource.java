@@ -89,6 +89,7 @@ public abstract class Resource {
         this.description = description;
     }
 
+    public abstract String getContent();
     @Override
     public String toString() {
         return "{\"id\":" + id + ", \"name\":" + name + "}";

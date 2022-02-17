@@ -107,7 +107,10 @@ Feature: Getting information
     Then the response is '\[answer2\]'
 
   Scenario: Getting the questions of a questioner
-    Given TODO
+    Given a Teacher with the login "testTeacher1"
+    And a course named "testQuestioner1"
+    When "testTeacher1" request the questions of the questioner "testQuestioner1"
+    Then the response is '\[\]'
 
   Scenario: Getting the answers from a user for a question
     Given TODO

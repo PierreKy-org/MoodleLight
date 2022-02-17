@@ -145,4 +145,13 @@ public class ResourceController {
         resourceRepository.save(resource);
         return ResponseEntity.ok().body((new MessageResponse("visibility successfully deleted")));
     }
+
+    @GetMapping("/{resourceId}/questions")
+    public ResponseEntity<String> getQuestions(@PathVariable Long resourceId) {
+        Resource resource = resourceRepository.findById(resourceId).orElse(null);
+        if (resource == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok().body(resource.getContent());
+    }
 }
