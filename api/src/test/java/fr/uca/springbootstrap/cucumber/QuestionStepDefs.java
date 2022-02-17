@@ -55,7 +55,7 @@ public class QuestionStepDefs {
     public void initQuestion(String questionType, String questionName) {
         Question question = questionRepository.findByName(questionName).orElse(switch (questionType) {
             case "open" -> new Question(questionName, "test description");
-            case "mqc" -> new MQC(questionName, "test description", 0);
+            case "mqc" -> new MQC(questionName, "test description", new ArrayList<>(Arrays.asList("Paris", "Nice", "Lyon","Brest")));
             case "runner" -> new Runner(questionName, "test description", new ArrayList<>(Arrays.asList(0, 1, 2)));
             default -> throw new IllegalStateException("Unexpected value: " + questionType);
         });
@@ -143,7 +143,7 @@ public class QuestionStepDefs {
     public void addAnInputToTheQuestion(String userName, String valueInput, String questionName) {
         User user = userRepository.findByUsername(userName).orElseThrow(()->new RuntimeException("User is not found"));
         Question question = questionRepository.findByName(questionName).orElseThrow(()->new RuntimeException("Question is not found"));
-        String jwt = authController.generateJwt(userName,PASSWORD);
+        String jwt = authController.generateJwt(user.getUsername(),PASSWORD);
         try{
             springIntegration.executePut("api/question/"+question.getId()+"/addInput",jwt,"{\"answer\":\"" + valueInput + "\"}");
         } catch (IOException e) {
