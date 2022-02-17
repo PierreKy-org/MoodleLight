@@ -3,6 +3,7 @@ package fr.uca.springbootstrap.cucumber;
 import fr.uca.springbootstrap.controllers.AuthController;
 import fr.uca.springbootstrap.models.ERole;
 import fr.uca.springbootstrap.models.Module;
+import fr.uca.springbootstrap.models.Role;
 import fr.uca.springbootstrap.models.User;
 import fr.uca.springbootstrap.repository.ModuleRepository;
 import fr.uca.springbootstrap.repository.RoleRepository;
@@ -55,8 +56,11 @@ public class UserStepDefs {
     @Given("a {role} with the login {string}")
     public void aUserWithLogin(ERole userRole, String userName) {
         User user = userRepository.findByUsername(userName).orElse(new User(userName, userName + "@test.fr", encoder.encode(PASSWORD)));
+        Role role = roleRepository.findByName(userRole).orElse(new Role(userRole));
+        roleRepository.save(role);
+
         user.setRoles(new HashSet<>() {{
-            add(roleRepository.findByName(userRole).orElseThrow(() -> new RuntimeException("Error: Role is not found.")));
+            add(roleRepository.findByName(userRole).orElseThrow(() -> new RuntimeException("Role is not found")));
         }});
         userRepository.save(user);
     }

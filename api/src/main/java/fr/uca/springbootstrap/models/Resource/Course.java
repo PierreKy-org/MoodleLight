@@ -12,7 +12,7 @@ public class Course extends Resource {
     private Long id;
 
     @ElementCollection
-    @CollectionTable(name = "texts")
+    @CollectionTable(name = "course_data")
     private Set<String> texts;
 
     public Course() {

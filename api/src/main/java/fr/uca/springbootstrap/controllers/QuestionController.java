@@ -165,4 +165,30 @@ public class QuestionController {
     public ResponseEntity<MessageResponse> removeAnswerfromAquestion() {
         return ResponseEntity.badRequest().body(new MessageResponse("TODO"));
     }
+
+    @PutMapping("/{questionId}/addChoice")
+    @PreAuthorize("hasRole('TEACHER')")
+    public ResponseEntity<MessageResponse> addChoiceToMQC(@PathVariable Long questionId, @RequestBody MQCRequest request) {
+        Question question = questionRepository.findById(questionId).orElse(null);
+        if (question instanceof MQC) {
+            ((MQC) question).getChoices().addAll(request.getChoices());
+            questionRepository.save(question);
+            return ResponseEntity.ok().body(new MessageResponse("The choices have been added"));
+        } else {
+            return ResponseEntity.badRequest().body(new MessageResponse("The question does not exists"));
+        }
+    }
+
+    @PutMapping("/{questionName}/removeChoice")
+    @PreAuthorize("hasRole('TEACHER')")
+    public ResponseEntity<MessageResponse> removeAllChoicesFromMQC(@PathVariable Long questionId) {
+        Question question = questionRepository.findById(questionId).orElse(null);
+        if (question instanceof MQC) {
+            ((MQC) question).getChoices().clear();
+            questionRepository.save(question);
+            return ResponseEntity.ok().body(new MessageResponse("The choices have been reset"));
+        } else {
+            return ResponseEntity.badRequest().body(new MessageResponse("The question does not exists"));
+        }
+    }
 }

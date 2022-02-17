@@ -13,6 +13,7 @@ import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -20,7 +21,7 @@ import java.util.List;
 public class Runner extends Question {
 
     @ElementCollection
-    @CollectionTable(name = "question_runner_inputs")
+    @CollectionTable(name = "runner_data")
     private List<Integer> inputs;
 
     public Runner() {
@@ -45,12 +46,11 @@ public class Runner extends Question {
         CloseableHttpClient httpClient = HttpClients.createDefault();
         HttpPost request = new HttpPost("http://moodlelight_RUNNER_1:8080/jython/run");
         request.addHeader("content-type", "application/json");
-        JythonRequest jythonRequest = new JythonRequest(inputs, getGood_answers(), answer);
+        JythonRequest jythonRequest = new JythonRequest(inputs, new ArrayList<>(getAnswers()), answer);
         try {
             request.setEntity(new StringEntity(jythonRequest.toString()));
             HttpResponse latestHttpResponse = httpClient.execute(request);
             String response = EntityUtils.toString(latestHttpResponse.getEntity());
-            System.out.println(response);
             return response.equals("{\"message\":\"Good answer\"}");
         } catch (IOException e) {
             return false;
