@@ -133,4 +133,15 @@ public class ResourceController {
             default -> ResponseEntity.ok(new MessageResponse("Module successfully deleted!"));
         };
     }
+
+    @DeleteMapping("/{resourceName}/visibility/remove/{role}")
+    @PreAuthorize("hasRole('TEACHER')")
+    public ResponseEntity<MessageResponse> removeVisibility(@PathVariable String resourceName, @PathVariable String role){
+        Resource resource = resourceRepository.findByName(resourceName).orElseThrow(() -> new RuntimeException("resource not found"));
+        Role r = roleRepository.findByName(ERole.convertStringToErol(role)).orElseThrow(() -> new RuntimeException("role not found"));
+        System.out.println(resourceName);
+        resource.getVisibility().remove(r);
+        resourceRepository.save(resource);
+        return ResponseEntity.ok().body((new MessageResponse("visibility successfully added")));
+    }
 }

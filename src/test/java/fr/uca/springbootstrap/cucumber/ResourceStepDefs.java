@@ -103,4 +103,15 @@ public class ResourceStepDefs {
             e.printStackTrace();
         }
     }
+
+    @When("{string} remove {string} to the resource {string}")
+    public void removeToTheResource(String userName, String role, String resourceName) {
+        User user = userRepository.findByUsername(userName).orElseThrow(() -> new RuntimeException("Error: User is not found."));
+        String jwt = authController.generateJwt(user.getUsername(), PASSWORD);
+        try {
+            springIntegration.executeDelete("api/resource/" + resourceName + "/visibility/remove/" + role, jwt);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
