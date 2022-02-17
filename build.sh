@@ -13,5 +13,5 @@ cd runner
 docker build -t runner .
 cd ..
 echo "################################################################################"
-docker-compose up
+docker-compose up --force-recreate --build
 
