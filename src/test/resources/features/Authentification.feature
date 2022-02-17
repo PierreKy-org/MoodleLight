@@ -1,7 +1,8 @@
 Feature: authentification
 
   Scenario: signUp as a new User
-    Given "testTeacher" try to SignUp with the email "testTeacher@test.fr" and the password "abracadabra"
+    Given a Teacher who doesn't exists with the login "testTeacher"
+    When "testTeacher" try to SignUp with the email "testTeacher@test.fr" and the password "abracadabra"
     Then the response is '^\{"message":"User registered successfully!"\}$'
 
 

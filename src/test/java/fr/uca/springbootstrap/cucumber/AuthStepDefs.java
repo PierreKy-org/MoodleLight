@@ -73,4 +73,9 @@ public class AuthStepDefs {
             e.printStackTrace();
         }
     }
+
+    @Given("a Teacher who doesn't exists with the login {string}")
+    public void aTeacherWhoDoesnTExistsWithTheLogin(String userName) {
+        userRepository.findByUsername(userName).ifPresent(user -> userRepository.delete(user));
+    }
 }
