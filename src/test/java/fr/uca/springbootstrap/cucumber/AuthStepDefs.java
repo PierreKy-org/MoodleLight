@@ -1,6 +1,7 @@
 package fr.uca.springbootstrap.cucumber;
 
 import fr.uca.springbootstrap.controllers.AuthController;
+import fr.uca.springbootstrap.models.User;
 import fr.uca.springbootstrap.repository.ModuleRepository;
 import fr.uca.springbootstrap.repository.RoleRepository;
 import fr.uca.springbootstrap.repository.UserRepository;
@@ -11,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.io.IOException;
+
+import static fr.uca.springbootstrap.RunCucumberTest.PASSWORD;
 
 public class AuthStepDefs {
     private final SpringIntegration springIntegration = new SpringIntegration();
@@ -38,6 +41,17 @@ public class AuthStepDefs {
     public void tryToSignInWithThePassword(String username, String password) {
         try {
             springIntegration.executePost("api/auth/signin","","{\"username\":\""+username+"\",\"password\":\""+password+"\"}");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @When("the user {string} request his id with the token {string}")
+    public void theUserRequestHisIdWithTheToken(String userName, String token) {
+        User user = userRepository.findByUsername(userName).orElseThrow(() -> new RuntimeException("Error: User is not found."));
+        String jwt = authController.generateJwt(user.getUsername(), PASSWORD);
+        try {
+            springIntegration.executeGet("api/user/" + user.getUsername() + "/id", token);
         } catch (IOException e) {
             e.printStackTrace();
         }

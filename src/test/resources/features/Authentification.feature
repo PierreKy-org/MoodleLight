@@ -29,13 +29,20 @@ Feature: authentification
     Then last request status is 401
 
   Scenario: Request with a good authentication token
-    Given TODO
+    Given a Teacher with the login "testTeacher3"
+    When the user "testStudent1" request his id
+    Then last request status is 200
 
   Scenario: Request with a false authentication token
-    Given TODO
+    Given a Teacher with the login "testTeacher3"
+    When the user "testStudent1" request his id with the token "abc"
+    Then last request status is 401
 
   Scenario: Request without the permission of path
-    Given TODO
+    Given a Student with the login "testStudent3"
+    Given a Module named "Sport"
+    When "testStudent3" renamed the module "Sport" in "AI"
+    Then last request status is 403
 
   Scenario: Request without the permission of visibility of module
     Given TODO
