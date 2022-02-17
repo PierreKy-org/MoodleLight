@@ -2,18 +2,13 @@ version: '3'
 
 services:
   API:
-    image: 'spring-api'
-    environment:
-      - SPRING_DATASOURCE_URL=jdbc:mariadb://mysql-moodlelight.alwaysdata.net/moodlelight_data
-      - SPRING_DATASOURCE_USERNAME=257118_pierre
-      - SPRING_DATASOURCE_PASSWORD=yannforner
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
-    expose:
-      - "8080"
-  AUTH:
-    image: 'authenticate-jwt'
+    image: 'api'
+    ports:
+      - "8080:8080"
+    depends_on:
+      - RUNNER
+      - AUTH
   RUNNER:
     image: 'runner'
-  UBUNTU:
-    image: ubuntu
-    command: tail -F anything
+  AUTH:
+    image: 'security'
