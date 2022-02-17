@@ -15,7 +15,7 @@ import java.util.Set;
 public class MQC extends Question {
 
     @ElementCollection
-    @CollectionTable(name = "data")
+    @CollectionTable(name = "choices_data")
     private List<String> choices;
 
     public MQC() {

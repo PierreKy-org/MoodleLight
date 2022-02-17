@@ -21,7 +21,7 @@ import java.util.List;
 public class Runner extends Question {
 
     @ElementCollection
-    @CollectionTable(name = "data")
+    @CollectionTable(name = "runner_data")
     private List<Integer> inputs;
 
     public Runner() {

@@ -1,7 +1,10 @@
 Feature: Managing resources
 
   Scenario: Verifying that a resource is restricted to certain roles
-    Given TODO
+    Given a Student with the login "testStudent3"
+    And a course named "testResource1"
+    When "testStudent3" request the visibility of the resource "testResource1"
+    Then the response is '^[{"id":[0-9]*, "name":ROLE_TEACHER}]$'
 
   Scenario: Adding a role to the resourceVisibility of a resource
     Given TODO
