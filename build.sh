@@ -1,17 +1,17 @@
 #!/bin/sh
 mvn package -Dmaven.test.skip
-echo "#####################################SECURITY###########################################"
+echo "################################################################################"
 cd security
-docker build -t security . --network moodle-light-network
+docker build -t security .
 cd ..
-echo "########################################API#############################################"
+echo "################################################################################"
 cd api
-docker build -t api . --network moodle-light-network
+docker build -t api .
 cd ..
-echo "#######################################RUNNER###########################################"
+echo "################################################################################"
 cd runner
-docker build -t runner . --network moodle-light-network
+docker build -t runner .
 cd ..
-echo "########################################################################################"
-docker-compose up
+echo "################################################################################"
+docker-compose up --force-recreate --build
 
