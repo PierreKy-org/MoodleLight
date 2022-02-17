@@ -80,11 +80,11 @@ public class QuestionStepDefs {
     }
 
     @When("The user {string} try to {createOrDelete} the {question} {string}")
-    public void theUserTryToCreateTheQuestion(String userName,String addOrDelete, String question, String questionName) {
+    public void theUserTryToCreateTheQuestion(String userName,String addOrDelete, String questionType, String questionName) {
         User user = userRepository.findByUsername(userName).orElseThrow(() -> new RuntimeException("Error: User is not found."));
         String jwt = authController.generateJwt(user.getUsername(), PASSWORD);
 
-        String payload = switch (question) {
+        String payload = switch (questionType) {
             case "open" -> "{\"name\":\"" + questionName + "\",\"description\":\"test description\",\"answers\":[\"answer1\",\"answer2\",\"answer3\"]}";
             case "mqc" -> "{\"name\":\"" + questionName + "\",\"description\":\"test description\",\"correct\":" + 1 + ",\"answers\":[\"answer1\",\"answer2\",\"answer3\"]}";
             case "runner" -> "{\"name\":\"" + questionName + "\",\"description\":\"test description\",\"inputs\":[0,2,3,6,10],\"outputs\":[0,4,9,36,100]}";
@@ -92,9 +92,9 @@ public class QuestionStepDefs {
         };
         try {
             if (addOrDelete.equals("create")){
-                springIntegration.executePost("api/question/create/" + question, jwt, payload);
+                springIntegration.executePost("api/question/create/" + questionType, jwt, payload);
             }else{
-                springIntegration.executePost("api/question/delete/" + question, jwt, payload);
+                springIntegration.executePost("api/question/delete/" + questionType, jwt, payload);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -146,6 +146,18 @@ public class QuestionStepDefs {
         String jwt = authController.generateJwt(userName,PASSWORD);
         try{
             springIntegration.executePut("api/question/"+question.getId()+"/addInput",jwt,"{\"answer\":\"" + valueInput + "\"}");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @When("The user {string} try to create the runner {string} with output and input size not matching")
+    public void theUserTryToCreateTheRunnerWithOutputAndInputSizeNotMatching(String userName, String questionName) {
+        User user = userRepository.findByUsername(userName).orElseThrow(()->new RuntimeException("User is not found "));
+        String jwt = authController.generateJwt(userName,PASSWORD);
+        String payload="{\"name\":\"" + questionName + "\",\"description\":\"test description\",\"inputs\":[0,2,3,6],\"outputs\":[0,4,9,36,100]}";
+        try{
+            springIntegration.executePost("api/question/create/runner",jwt,payload);
         } catch (IOException e) {
             e.printStackTrace();
         }

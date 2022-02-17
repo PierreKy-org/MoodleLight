@@ -46,6 +46,7 @@ public class QuestionController {
     @PostMapping("/create/open")
     @PreAuthorize("hasRole('TEACHER')")
     public ResponseEntity<MessageResponse> createOpenQuestion(@RequestBody OpenQuestionRequest request) {
+
         if (questionRepository.findByName(request.getName()).isPresent()) {
             return ResponseEntity.badRequest().body(new MessageResponse("A question with this name already exists"));
         }
@@ -81,8 +82,17 @@ public class QuestionController {
         questionRepository.save(question);
         return ResponseEntity.ok().body(new MessageResponse("Runner question successfully created!"));
     }
-    /*@PostMapping("/delete/runner")
-    @PreAuthorize()*/
+    @PostMapping("/delete/{type}")
+    @PreAuthorize("hasRole('TEACHER')")
+    public ResponseEntity<MessageResponse> deleteOpen(@RequestBody RunnerRequest request){
+        Question question = questionRepository.findByName(request.getName()).orElse(null);
+        if (question==null){
+            return ResponseEntity.notFound().build();
+        }
+
+        questionRepository.delete(question);
+        return ResponseEntity.ok().body(new MessageResponse("Question successfully removed"));
+    }
 
     @PutMapping("/answer/{questionId}")
     public ResponseEntity<MessageResponse> answerQuestion(@PathVariable Long questionId, Authentication authentication, @RequestBody AnswerRequest request) {
