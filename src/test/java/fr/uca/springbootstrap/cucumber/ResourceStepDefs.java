@@ -47,6 +47,7 @@ public class ResourceStepDefs {
         return type;
     }
 
+
     @Given("a {typeResource} named {string}")
     public void aResourceNamed(String type, String resourceName) {
         Resource resource = resourceRepository.findByName(resourceName).orElse(type.equals("course") ? new Course(resourceName, "test description") : new Questioner(resourceName, "test description"));
@@ -87,6 +88,17 @@ public class ResourceStepDefs {
 
         try {
             springIntegration.executePost("api/resource/" + creation, jwt, "{\"name\":\"" + resourceName + "\",\"description\":\"test description\",\"type\":\"" + type + "\"}");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @When("{string} add {string} to the resource {string}")
+    public void addToTheResource(String userName, String role, String resourceName) {
+        User user = userRepository.findByUsername(userName).orElseThrow(() -> new RuntimeException("Error: User is not found."));
+        String jwt = authController.generateJwt(user.getUsername(), PASSWORD);
+        try {
+            springIntegration.executePut("api/resource/" + resourceName + "/visibility/add/" + role, jwt, "{}");
         } catch (IOException e) {
             e.printStackTrace();
         }

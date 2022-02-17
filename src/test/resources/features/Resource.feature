@@ -1,10 +1,16 @@
 Feature: Managing resources
 
   Scenario: Verifying that a resource is restricted to certain roles
-    Given TODO
+    Given a Student with the login "testStudent3"
+    And a course named "testResource1"
+    When "testStudent3" request the description of the resource "testResource1"
+    Then last request status is 403
 
   Scenario: Adding a role to the resourceVisibility of a resource
-    Given TODO
+    Given a Teacher with the login "testTeacher3"
+    And a course named "testResource1"
+    When "testTeacher3" add "student" to the resource "testResource1"
+    Then last request status is 200
 
   Scenario: Removing a role to the resourceVisibility of a resource
     Given TODO

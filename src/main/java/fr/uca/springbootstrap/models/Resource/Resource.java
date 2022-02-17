@@ -73,6 +73,10 @@ public abstract class Resource {
         return visibility;
     }
 
+    public void addVisibility(Role r){
+        visibility.add(r);
+    }
+
     public void setVisibility(Set<Role> visibility) {
         this.visibility = visibility;
     }
