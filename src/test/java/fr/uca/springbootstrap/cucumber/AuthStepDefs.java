@@ -66,7 +66,7 @@ public class AuthStepDefs {
     public void theUserTryToHaveTheDescriptionOfTheResourceButHeDoesnTHaveTheVisibility(String userName, String resourceName) {
         User user = userRepository.findByUsername(userName).orElseThrow(()->new RuntimeException("User is not found"));
         Resource resource = resourceRepository.findByName(resourceName).orElseThrow(()-> new RuntimeException("Resource is not found"));
-        String jwt = authController.generateJwt(userName,user.getPassword());
+        String jwt = authController.generateJwt(userName,PASSWORD);
         try{
             springIntegration.executeGet("api/resource/"+resource.getId()+"/description",jwt);
         } catch (IOException e) {

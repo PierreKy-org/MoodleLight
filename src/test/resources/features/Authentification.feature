@@ -47,6 +47,6 @@ Feature: authentification
 
   Scenario: Request without the permission of visibility of request
     Given a Student with the login "testStudent"
-    And a course named "testResource1"
+    And a course named "testResource"
     And The user "testStudent" try to have the description of the resource "testResource1" but he doesn't have the visibility
     And last request status is 403
