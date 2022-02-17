@@ -61,7 +61,7 @@ public class QuestionStepDefs {
         User user = userRepository.findByUsername(userName).orElseThrow(() -> new RuntimeException("Error: User is not found."));
         String jwt = authController.generateJwt(user.getUsername(), PASSWORD);
         try {
-            springIntegration.executeGet("http://localhost/api/question/" + questionName + "/id", jwt);
+            springIntegration.executeGet("api/question/" + questionName + "/id", jwt);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -79,7 +79,7 @@ public class QuestionStepDefs {
             default -> throw new RuntimeException();
         };
         try {
-            springIntegration.executePost("http://localhost/api/question/create/" + question, jwt, payload);
+            springIntegration.executePost("api/question/create/" + question, jwt, payload);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -92,7 +92,7 @@ public class QuestionStepDefs {
         String jwt = authController.generateJwt(user.getUsername(), PASSWORD);
 
         try {
-            springIntegration.executeGet("http://localhost/api/question/" + question.getId() + "/" + data, jwt);
+            springIntegration.executeGet("api/question/" + question.getId() + "/" + data, jwt);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -105,7 +105,7 @@ public class QuestionStepDefs {
         String jwt = authController.generateJwt(user.getUsername(), PASSWORD);
 
         try {
-            springIntegration.executePut("http://localhost/api/question/answer/" + question.getId(), jwt, "{\"answer\":\"" + response + "\"}");
+            springIntegration.executePut("api/question/answer/" + question.getId(), jwt, "{\"answer\":\"" + response + "\"}");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -118,7 +118,7 @@ public class QuestionStepDefs {
         String jwt = authController.generateJwt(user.getUsername(), PASSWORD);
 
         try {
-            springIntegration.executePut("http://localhost/api/question/" + question.getId() + "/addAnswer", jwt, "{\"answer\":\"" + answer + "\"}");
+            springIntegration.executePut("api/question/" + question.getId() + "/addAnswer", jwt, "{\"answer\":\"" + answer + "\"}");
         } catch (IOException e) {
             e.printStackTrace();
         }
