@@ -18,7 +18,7 @@
     <article>
         <h1>/signup</h1>
         <h3>Allow the creation of a new user</h3>
-        <code>curl -X POST http://localhost:8080/api/auth/signup -H 'Content-Type: application/json' -d
+        <code>curl -X POST http://security:8080/authentication/signup -H 'Content-Type: application/json' -d
             '{"username":"admin","password":"abcdef1234","email":"admin@gmail.com"}'</code>
         <h3>Returns the following JSON</h3>
         <pre class="json">
@@ -34,7 +34,7 @@
     <article>
         <h1>/signin</h1>
         <h3>Allow the user to get his Authentication token</h3>
-        <code>curl -X POST http://localhost:8080/api/auth/signin -H 'Content-Type: application/json' -d
+        <code>curl -X POST http://security:8080/authentication/signin -H 'Content-Type: application/json' -d
             '{"username":"admin","password":"abcdef1234"'}</code>
         <h3>Returns the following JSON</h3>
         <pre class="json">

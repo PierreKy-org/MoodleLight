@@ -14,6 +14,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import java.io.IOException;
 
 import static fr.uca.springbootstrap.RunCucumberTest.PASSWORD;
+import static fr.uca.springbootstrap.SpringBootSecurityPostgresqlApplication.RUNNER;
+import static fr.uca.springbootstrap.SpringBootSecurityPostgresqlApplication.SECURITY;
 
 public class AuthStepDefs {
     private final SpringIntegration springIntegration = new SpringIntegration();
@@ -31,7 +33,7 @@ public class AuthStepDefs {
     @When("{string} try to SignUp with the email {string} and the password {string}")
     public void tryToSignUpWithTheEmailAndThePassword(String userName, String email, String password) {
         try {
-            springIntegration.executePost("api/auth/signup", "", "{\"username\":\""+userName+"\",\"email\":\""+email+"\",\"password\":\""+password+"\"}");
+            springIntegration.executePost("http://"+SECURITY+"/authentication/signup", "", "{\"username\":\""+userName+"\",\"email\":\""+email+"\",\"password\":\""+password+"\"}");
         } catch (IOException e) {
             e.printStackTrace();
         }

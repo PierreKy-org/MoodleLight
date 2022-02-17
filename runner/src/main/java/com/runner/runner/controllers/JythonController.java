@@ -25,7 +25,6 @@ public class JythonController {
                 pyInterp.exec(request.getCode());
             }
         } catch (Exception e) {
-            e.printStackTrace();
             return ResponseEntity.ok().body(new MessageResponse("Wrong answer"));
         }
         if (Arrays.equals(request.getOutputs().toArray(), output.toString().split("\n"))) {
