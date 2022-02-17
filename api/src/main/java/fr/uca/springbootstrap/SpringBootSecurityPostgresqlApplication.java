@@ -9,11 +9,13 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @SpringBootApplication
 public class SpringBootSecurityPostgresqlApplication {
+	public static String RUNNER = "runner";
+	public static String SECURITY = "security";
 
 	public static void main(String[] args) {
 		try{
 			SpringApplication.run(SpringBootSecurityPostgresqlApplication.class, args);
-			System.out.println("running on http://localhost:8080");
+			System.out.println("Running on http://localhost:8080");
 		}
 		catch (Exception e){
 			e.printStackTrace();
