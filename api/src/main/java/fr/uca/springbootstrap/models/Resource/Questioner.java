@@ -1,5 +1,7 @@
 package fr.uca.springbootstrap.models.Resource;
 
+import fr.uca.springbootstrap.models.User;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -39,5 +41,10 @@ public class Questioner extends Resource {
 
     public void setQuestions(Set<Question> questions) {
         this.questions = questions;
+    }
+
+    @Override
+    public String getContent() {
+        return "[" + this.getQuestions().stream().map(Question::toString).reduce("", (subtotal, element) -> subtotal + element + ",") + "]";
     }
 }

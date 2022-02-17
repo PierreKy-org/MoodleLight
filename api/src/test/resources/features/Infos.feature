@@ -69,8 +69,8 @@ Feature: Getting information
 
   Scenario: Getting the resourceVisibility from a resourceId
     Given a Teacher with the login "testTeacher1"
-    And a course named "testResource1"
-    When "testTeacher1" request the visibility of the resource "testResource1"
+    And a course named "testResource2"
+    When "testTeacher1" request the visibility of the resource "testResource2"
     Then the response is '^\[\{"id":[0-9]*, "name":ROLE_TEACHER\}]$'
 
   Scenario: Getting the questionId from a questionName
@@ -91,22 +91,21 @@ Feature: Getting information
     When "testStudent1" request the description of question "testQuestion1"
     Then the response is '^\{"description":test description\}$'
 
-  Scenario: Getting the answers for an open question from a questionName
+  Scenario: Getting the answers for a question from a questionName
     Given a Teacher with the login "testTeacher1"
     And a course named "testResource1"
-    When "testTeacher1" request the multiple answers of question "testQuestion1"
-    Then the response is '\[answer3, answer2, answer1\]'
-
-  Scenario: Getting the correct answer from a questionName
-    Given a Teacher with the login "testTeacher1"
-    And a course named "testResource1"
-    When "testTeacher1" request the mqc answer of question "testQuestion2"
-    Then the response is '\[answer2\]'
+    And a mqc named "testQuestion4"
+    When "testTeacher1" add the valid answer "'ab'" to the question "testQuestion4"
+    Then "testTeacher1" request the answers of question "testQuestion4"
+    And the response is "\['ab', 'AB'\]"
 
   Scenario: Getting the questions of a questioner
-    Given TODO
+    Given a Teacher with the login "testTeacher1"
+    And a questioner named "testQuestioner1"
+    When "testTeacher1" request the questions of the questioner "testQuestioner1"
+    Then the response is '\[\]'
 
-  Scenario: Getting the the answers from a user for a question
+  Scenario: Getting the answers from a user for a question
     Given TODO
 
   Scenario: Getting the score of a questioner

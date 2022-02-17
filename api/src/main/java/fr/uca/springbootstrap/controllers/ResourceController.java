@@ -6,10 +6,12 @@ import fr.uca.springbootstrap.models.Resource.Course;
 import fr.uca.springbootstrap.models.Resource.Questioner;
 import fr.uca.springbootstrap.models.Resource.Resource;
 import fr.uca.springbootstrap.models.Role;
+import fr.uca.springbootstrap.payload.request.ModuleRequest;
 import fr.uca.springbootstrap.payload.request.ResourceRequest;
 import fr.uca.springbootstrap.payload.response.MessageResponse;
 import fr.uca.springbootstrap.repository.ResourceRepository;
 import fr.uca.springbootstrap.repository.RoleRepository;
+import org.python.antlr.ast.Str;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -75,6 +77,19 @@ public class ResourceController {
         return ResponseEntity.ok().body(module == null ? "{}" : module.toString());
     }
 
+    @PutMapping("/{resourceName}/visibility/add/{role}")
+    @PreAuthorize("hasRole('TEACHER')")
+    public ResponseEntity<MessageResponse> addVisibility(@PathVariable String resourceName, @PathVariable String role) {
+        Resource resource = resourceRepository.findByName(resourceName).orElseThrow(() -> new RuntimeException("resource not found"));
+        Role r = roleRepository.findByName(ERole.convertStringToErol(role)).orElseThrow(() -> new RuntimeException("role not found"));
+        System.out.println(resourceName);
+        if (resource.getVisibility().contains(r))
+            return ResponseEntity.ok().body((new MessageResponse("this visibility was already here")));
+        resource.addVisibility(r);
+        resourceRepository.save(resource);
+        return ResponseEntity.ok().body((new MessageResponse("visibility successfully added")));
+    }
+
     @GetMapping("/{resourceId}/visibility")
     public ResponseEntity<String> getVisibility(@PathVariable Long resourceId) {
         Resource resource = resourceRepository.findById(resourceId).orElse(null);
@@ -119,5 +134,26 @@ public class ResourceController {
             case "course" -> ResponseEntity.ok(new MessageResponse("Course successfully deleted!"));
             default -> ResponseEntity.ok(new MessageResponse("Module successfully deleted!"));
         };
+    }
+
+    @DeleteMapping("/{resourceName}/visibility/remove/{role}")
+    @PreAuthorize("hasRole('TEACHER')")
+    public ResponseEntity<MessageResponse> removeVisibility(@PathVariable String resourceName, @PathVariable String role) {
+        Resource resource = resourceRepository.findByName(resourceName).orElseThrow(() -> new RuntimeException("resource not found"));
+        Role r = roleRepository.findByName(ERole.convertStringToErol(role)).orElseThrow(() -> new RuntimeException("role not found"));
+        if (!resource.getVisibility().contains(r))
+            return ResponseEntity.ok().body((new MessageResponse("visibility not in this resource")));
+        resource.getVisibility().remove(r);
+        resourceRepository.save(resource);
+        return ResponseEntity.ok().body((new MessageResponse("visibility successfully deleted")));
+    }
+
+    @GetMapping("/{resourceId}/questions")
+    public ResponseEntity<String> getQuestions(@PathVariable Long resourceId) {
+        Resource resource = resourceRepository.findById(resourceId).orElse(null);
+        if (resource == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok().body(resource.getContent());
     }
 }

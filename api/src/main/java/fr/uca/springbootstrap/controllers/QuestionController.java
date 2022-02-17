@@ -1,9 +1,6 @@
 package fr.uca.springbootstrap.controllers;
 
-import fr.uca.springbootstrap.models.Resource.Answer;
-import fr.uca.springbootstrap.models.Resource.MQC;
-import fr.uca.springbootstrap.models.Resource.Question;
-import fr.uca.springbootstrap.models.Resource.Runner;
+import fr.uca.springbootstrap.models.Resource.*;
 import fr.uca.springbootstrap.models.User;
 import fr.uca.springbootstrap.payload.request.AnswerRequest;
 import fr.uca.springbootstrap.payload.request.MQCRequest;
@@ -83,11 +80,14 @@ public class QuestionController {
         questionRepository.save(question);
         return ResponseEntity.ok().body(new MessageResponse("Runner question successfully created!"));
     }
+    /*@PostMapping("/delete/runner")
+    @PreAuthorize()*/
 
     @PutMapping("/answer/{questionId}")
     public ResponseEntity<MessageResponse> answerQuestion(@PathVariable Long questionId, Authentication authentication, @RequestBody AnswerRequest request) {
         Question question = questionRepository.findById(questionId).orElse(null);
         User user = userRepository.findByUsername(((UserDetailsImpl) authentication.getPrincipal()).getUsername()).get();
+
         if (question == null) {
             return ResponseEntity.badRequest().body(new MessageResponse("The question does not exists"));
         }
@@ -127,9 +127,8 @@ public class QuestionController {
         return ResponseEntity.ok().body("{\"description\":" + question.getDescription() + "}");
     }
 
-    @GetMapping("/{questionId}/answers")
-    @PreAuthorize("hasRole('TEACHER')")
-    public ResponseEntity<String> getAnswersofAquestion(@PathVariable Long questionId) {
+    @GetMapping("/allAnswers/{questionId}")
+    public ResponseEntity<String> getAnswersOfAQuestion(@PathVariable Long questionId) {//TODO ca boucle
         Question question = questionRepository.findById(questionId).orElse(null);
         if (question == null) {
             return ResponseEntity.notFound().build();
@@ -191,4 +190,19 @@ public class QuestionController {
             return ResponseEntity.badRequest().body(new MessageResponse("The question does not exists"));
         }
     }
+
+    @PutMapping("/{questionId}/addInput")
+    @PreAuthorize("hasRole('TEACHER')")
+    public ResponseEntity<MessageResponse> addInputToAResource(@PathVariable Long questionId, @RequestBody AnswerRequest request) {
+        Question question = questionRepository.findById(questionId).orElse(null);
+        if (question == null) {
+            return ResponseEntity.notFound().build();
+        }
+        if (question instanceof Runner) {
+            ((Runner) question).addInput(Integer.valueOf(request.getAnswer()));
+            return ResponseEntity.ok(new MessageResponse("Input added"));
+        }
+        return ResponseEntity.ok(new MessageResponse("The question doesn't exists"));
+    }
+
 }

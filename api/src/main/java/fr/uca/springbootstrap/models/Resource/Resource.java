@@ -73,6 +73,10 @@ public abstract class Resource {
         return visibility;
     }
 
+    public void addVisibility(Role r){
+        visibility.add(r);
+    }
+
     public void setVisibility(Set<Role> visibility) {
         this.visibility = visibility;
     }
@@ -85,6 +89,7 @@ public abstract class Resource {
         this.description = description;
     }
 
+    public abstract String getContent();
     @Override
     public String toString() {
         return "{\"id\":" + id + ", \"name\":" + name + "}";

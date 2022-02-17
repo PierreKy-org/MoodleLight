@@ -39,4 +39,9 @@ public class Course extends Resource {
     public void setTexts(Set<String> texts) {
         this.texts = texts;
     }
+
+    @Override
+    public String getContent() {
+        return "[" + this.getTexts().stream().reduce("", (subtotal, element) -> subtotal + element + ",") + "]";
+    }
 }
