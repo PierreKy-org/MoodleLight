@@ -83,6 +83,7 @@ public class ResourceController {
         Resource resource = resourceRepository.findByName(resourceName).orElseThrow(() -> new RuntimeException("resource not found"));
         Role r = roleRepository.findByName(ERole.convertStringToErol(role)).orElseThrow(() -> new RuntimeException("role not found"));
         System.out.println(resourceName);
+        if(resource.getVisibility().contains(r))return ResponseEntity.ok().body((new MessageResponse("this visibility was already here")));
         resource.addVisibility(r);
         resourceRepository.save(resource);
         return ResponseEntity.ok().body((new MessageResponse("visibility successfully added")));
@@ -139,9 +140,9 @@ public class ResourceController {
     public ResponseEntity<MessageResponse> removeVisibility(@PathVariable String resourceName, @PathVariable String role){
         Resource resource = resourceRepository.findByName(resourceName).orElseThrow(() -> new RuntimeException("resource not found"));
         Role r = roleRepository.findByName(ERole.convertStringToErol(role)).orElseThrow(() -> new RuntimeException("role not found"));
-        System.out.println(resourceName);
+        if(!resource.getVisibility().contains(r))return ResponseEntity.ok().body((new MessageResponse("visibility not in this resource")));
         resource.getVisibility().remove(r);
         resourceRepository.save(resource);
-        return ResponseEntity.ok().body((new MessageResponse("visibility successfully added")));
+        return ResponseEntity.ok().body((new MessageResponse("visibility successfully deleted")));
     }
 }

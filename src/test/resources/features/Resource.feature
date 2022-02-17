@@ -20,13 +20,17 @@ Feature: Managing resources
     Then last request status is 200
 
   Scenario: Trying to add a role if the role is already in the resourceVisibility of the resource
-    Given TODO
+    Given a Teacher with the login "testTeacher3"
+    And a course named "testResource1"
+    When "testTeacher3" add "student" to the resource "testResource1"
+    Then the response is '\{"message":"this visibility was already here"\}'
 
   Scenario: Trying to remove a role if the role not in the resourceVisibility of the resource
-    Given TODO
-
-  Scenario: Changing the name of a resource
-    Given TODO
+    Given a Teacher with the login "testTeacher3"
+    And a course named "testResource1"
+    When "testTeacher3" remove "student" to the resource "testResource1"
+    And "testTeacher3" remove "student" to the resource "testResource1"
+    Then the response is '\{"message":"visibility not in this resource"\}'
 
   Scenario: Changing the description of a resource
     Given TODO
