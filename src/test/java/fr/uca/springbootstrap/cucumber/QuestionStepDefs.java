@@ -46,7 +46,7 @@ public class QuestionStepDefs {
         return type;
     }
 
-    @ParameterType("name|description")
+    @ParameterType("id|name|description")
     public String questionData(String type) {
         return type;
     }
@@ -62,12 +62,18 @@ public class QuestionStepDefs {
         questionRepository.save(question);
     }
 
-    @When("{string} request the id of question {string}")
-    public void theUserRequestTheid(String userName, String questionName) {
+    @When("{string} request the {questionData} of question {string}")
+    public void theUserRequestTheid(String userName,String param, String questionName) {
         User user = userRepository.findByUsername(userName).orElseThrow(() -> new RuntimeException("Error: User is not found."));
+        Question question = questionRepository.findByName(questionName).orElseThrow(()->new RuntimeException("Error: Question is not found"));
         String jwt = authController.generateJwt(user.getUsername(), PASSWORD);
         try {
-            springIntegration.executeGet("api/question/" + questionName + "/id", jwt);
+            switch (param){
+                case "id"-> springIntegration.executeGet("api/question/" + questionName + "/id", jwt);
+                case "description" -> springIntegration.executeGet("api/question/" + question.getId() + "/description", jwt);
+                case "name" -> springIntegration.executeGet("api/question/" + question.getId() + "/name", jwt);
+            }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -101,7 +107,7 @@ public class QuestionStepDefs {
         Question question = questionRepository.findByName(questionName).orElseThrow(() -> new RuntimeException("Error: Question is not found."));
         String jwt = authController.generateJwt(user.getUsername(), PASSWORD);
         try {
-            springIntegration.executeGet("api/question/" + question.getId() + "/answers", jwt);
+            springIntegration.executeGet("api/question/allAnswers/" + question.getId(), jwt);
         } catch (IOException e) {
             e.printStackTrace();
         }

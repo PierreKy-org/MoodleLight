@@ -128,9 +128,8 @@ public class QuestionController {
         return ResponseEntity.ok().body("{\"description\":" + question.getDescription() + "}");
     }
 
-    @GetMapping("/{questionId}/answers")
-    @PreAuthorize("hasRole('TEACHER')")
-    public ResponseEntity<String> getAnswersofAquestion(@PathVariable Long questionId) {//TODO ca boucle
+    @GetMapping("/allAnswers/{questionId}")
+    public ResponseEntity<String> getAnswersOfAQuestion(@PathVariable Long questionId) {//TODO ca boucle
         Question question = questionRepository.findById(questionId).orElse(null);
         if (question == null) {
             return ResponseEntity.notFound().build();
@@ -196,9 +195,9 @@ public class QuestionController {
 
     @PutMapping("/{questionId}/addInput")
     @PreAuthorize("hasRole('TEACHER')")
-    public ResponseEntity<MessageResponse> addInputToAResource(@PathVariable Long questionId,@RequestBody AnswerRequest request){
+    public ResponseEntity<MessageResponse> addInputToAResource(@PathVariable Long questionId, @RequestBody AnswerRequest request) {
         Question question = questionRepository.findById(questionId).orElse(null);
-        if (question==null){
+        if (question == null) {
             return ResponseEntity.notFound().build();
         }
         if (question instanceof Runner) {

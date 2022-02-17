@@ -91,24 +91,17 @@ Feature: Getting information
     When "testStudent1" request the description of question "testQuestion1"
     Then the response is '^\{"description":test description\}$'
 
-  Scenario: Getting the answers for an open question from a questionName
+  Scenario: Getting the answers for a question from a questionName
     Given a Teacher with the login "testTeacher1"
     And a course named "testResource1"
-    And a mqc named "testQuestion1"
-    When "testTeacher1" add the valid answer ":)" to the question "testQuestion1"
-    And "testTeacher1" add the valid answer ":(" to the question "testQuestion1"
-    And "testTeacher1" request the answers of question "testQuestion1"
-    Then the response is '\[:), :(\]'
-
-  Scenario: Getting the correct answer from a questionName
-    Given a Teacher with the login "testTeacher1"
-    And a course named "testResource1"
-    When "testTeacher1" request the answers of question "testQuestion2"
-    Then the response is '\[answer2\]'
+    And a mqc named "testQuestion4"
+    When "testTeacher1" add the valid answer "'ab'" to the question "testQuestion4"
+    Then "testTeacher1" request the answers of question "testQuestion4"
+    And the response is "\['ab', 'AB'\]"
 
   Scenario: Getting the questions of a questioner
     Given a Teacher with the login "testTeacher1"
-    And a course named "testQuestioner1"
+    And a questioner named "testQuestioner1"
     When "testTeacher1" request the questions of the questioner "testQuestioner1"
     Then the response is '\[\]'
 
