@@ -1,13 +1,6 @@
 version: '3'
 
 services:
-  API:
-    image: 'api'
-    ports:
-      - "8080:8080"
-    depends_on:
-      - RUNNER
-      - AUTH
   RUNNER:
     image: 'runner'
   AUTH:

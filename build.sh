@@ -13,5 +13,7 @@ cd runner
 docker build -t runner .
 cd ..
 echo "########################################################################################"
-docker-compose up --force-recreate --build
+docker-compose up -d
+echo "########################################################################################"
+docker exec api mvn test
 

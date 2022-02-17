@@ -12,21 +12,28 @@ public class MQCRequest {
     private String description;
 
     @NotBlank
-    private int correct;
+    private List<String> choices;
 
     @NotEmpty
-    private List<String> answers;
+    private String answer;
 
 
     public MQCRequest() {
 
     }
 
-    public MQCRequest(String name, String description, int correct, List<String> answers) {
+    public MQCRequest(String name, String description, String answer, List<String> choices) {
         this.name = name;
         this.description = description;
-        this.correct = correct;
-        this.answers = answers;
+        this.choices = choices;
+        this.answer = answer;
+    }
+
+    public MQCRequest(List<String> choices) {
+        this.name = "";
+        this.description = "";
+        this.answer = "";
+        this.choices = choices;
     }
 
     public String getName() {
@@ -45,19 +52,19 @@ public class MQCRequest {
         this.description = description;
     }
 
-    public int getCorrect() {
-        return correct;
+    public List<String> getChoices() {
+        return choices;
     }
 
-    public void setCorrect(int correct) {
-        this.correct = correct;
+    public void setChoices(List<String> choices) {
+        this.choices = choices;
     }
 
-    public List<String> getAnswers() {
-        return answers;
+    public String getAnswer() {
+        return answer;
     }
 
-    public void setAnswers(List<String> answers) {
-        this.answers = answers;
+    public void setAnswer(String answer) {
+        this.answer = answer;
     }
 }

@@ -34,3 +34,6 @@ Feature: Creating and Deleting a new Question
 
   Scenario: Trying to delete a question when the question does not exists
     Given TODO
+
+  Scenario: Successful question deletion
+    Given TODO

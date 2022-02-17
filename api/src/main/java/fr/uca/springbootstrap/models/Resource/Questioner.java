@@ -40,4 +40,9 @@ public class Questioner extends Resource {
     public void setQuestions(Set<Question> questions) {
         this.questions = questions;
     }
+
+    @Override
+    public String getContent() {
+        return "[" + this.getQuestions().stream().map(Question::toString).reduce("", (subtotal, element) -> subtotal + element + ",") + "]";
+    }
 }

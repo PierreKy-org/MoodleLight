@@ -1,13 +1,14 @@
 package fr.uca.springbootstrap.models.Resource;
 
 
-import fr.uca.springbootstrap.models.Module;
 import fr.uca.springbootstrap.models.Role;
+import fr.uca.springbootstrap.models.Module;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.HashSet;
 import java.util.Set;
+
 
 @Entity
 @Table(name = "resource",
@@ -73,6 +74,10 @@ public abstract class Resource {
         return visibility;
     }
 
+    public void addVisibility(Role r){
+        visibility.add(r);
+    }
+
     public void setVisibility(Set<Role> visibility) {
         this.visibility = visibility;
     }
@@ -85,6 +90,7 @@ public abstract class Resource {
         this.description = description;
     }
 
+    public abstract String getContent();
     @Override
     public String toString() {
         return "{\"id\":" + id + ", \"name\":" + name + "}";
