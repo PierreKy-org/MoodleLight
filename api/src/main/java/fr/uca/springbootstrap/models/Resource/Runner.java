@@ -43,13 +43,14 @@ public class Runner extends Question {
     @Override
     public boolean validate(String answer) {
         CloseableHttpClient httpClient = HttpClients.createDefault();
-        HttpPost request = new HttpPost("http://localhost:8080/api/jython/run");
+        HttpPost request = new HttpPost("http://moodlelight_RUNNER_1:8080/jython/run");
         request.addHeader("content-type", "application/json");
         JythonRequest jythonRequest = new JythonRequest(inputs, getGood_answers(), answer);
         try {
             request.setEntity(new StringEntity(jythonRequest.toString()));
             HttpResponse latestHttpResponse = httpClient.execute(request);
             String response = EntityUtils.toString(latestHttpResponse.getEntity());
+            System.out.println(response);
             return response.equals("{\"message\":\"Good answer\"}");
         } catch (IOException e) {
             return false;

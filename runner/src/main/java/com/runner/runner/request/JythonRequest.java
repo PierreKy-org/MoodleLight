@@ -56,11 +56,11 @@ public class JythonRequest {
         StringBuilder sb = new StringBuilder();
         sb.append("{\"inputs\":[");
         sb.append(inputs.stream().map(Object::toString).reduce("", (subtotal, element) -> subtotal + element + ","));
-        sb.deleteCharAt(sb.length()-1);
+        sb.deleteCharAt(sb.length() - 1);
         sb.append("]").append(",\"outputs\":[");
         sb.append(outputs.stream().map(Object::toString).reduce("", (subtotal, element) -> subtotal + element + ","));
-        sb.deleteCharAt(sb.length()-1);
+        sb.deleteCharAt(sb.length() - 1);
         sb.append("],\"code\":\"").append(code).append("\"}");
-        return sb.toString().replace("\n", "\\n").replace("\t","\\t");
+        return sb.toString().replace("\n", "\\n").replace("\t", "\\t");
     }
 }

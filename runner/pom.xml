@@ -28,6 +28,11 @@
       <version>4.11</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>org.python</groupId>
+      <artifactId>jython-standalone</artifactId>
+      <version>2.7.1</version>
+    </dependency>
   </dependencies>
 
   <build>
@@ -71,6 +76,19 @@
         <plugin>
           <artifactId>maven-project-info-reports-plugin</artifactId>
           <version>3.0.0</version>
+        </plugin>
+        <plugin>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-maven-plugin</artifactId>
+          <configuration>
+            <requiresUnpack>
+              <dependency>
+                <groupId>org.python</groupId>
+                <artifactId>jython-standalone</artifactId>
+                <version>2.7.1</version>
+              </dependency>
+            </requiresUnpack>
+          </configuration>
         </plugin>
       </plugins>
     </pluginManagement>

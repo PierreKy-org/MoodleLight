@@ -14,17 +14,11 @@ import java.util.Arrays;
 @RequestMapping("/jython")
 public class JythonController {
 
-
-    @GetMapping("/oui")
-    public ResponseEntity<?> runCode() {
-        return ResponseEntity.ok(new MessageResponse("oui"));
-    }
     @PostMapping("/run")
     public ResponseEntity<?> runCode(@RequestBody JythonRequest request) {
         PythonInterpreter pyInterp = new PythonInterpreter();
         StringWriter output = new StringWriter();
         pyInterp.setOut(output);
-
         try {
             for (Integer i : request.getInputs()) {
                 pyInterp.set("runner_input", i);
