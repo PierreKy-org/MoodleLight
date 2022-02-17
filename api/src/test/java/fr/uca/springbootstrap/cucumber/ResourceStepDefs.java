@@ -61,7 +61,7 @@ public class ResourceStepDefs {
         String jwt = authController.generateJwt(user.getUsername(), PASSWORD);
 
         try {
-            springIntegration.executeGet("http://localhost/api/resource/" + resource.getName() + "/id", jwt);
+            springIntegration.executeGet("api/resource/" + resource.getName() + "/id", jwt);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -74,7 +74,7 @@ public class ResourceStepDefs {
         String jwt = authController.generateJwt(user.getUsername(), PASSWORD);
 
         try {
-            springIntegration.executeGet("http://localhost/api/resource/api/resource/" + resource.getId() + "/" + type, jwt);
+            springIntegration.executeGet("api/resource/api/resource/" + resource.getId() + "/" + type, jwt);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -86,7 +86,7 @@ public class ResourceStepDefs {
         String jwt = authController.generateJwt(user.getUsername(), PASSWORD);
 
         try {
-            springIntegration.executePost("http://localhost/api/resource/api/resource/" + creation, jwt, "{\"name\":\"" + resourceName + "\",\"description\":\"test description\",\"type\":\"" + type + "\"}");
+            springIntegration.executePost("api/resource/api/resource/" + creation, jwt, "{\"name\":\"" + resourceName + "\",\"description\":\"test description\",\"type\":\"" + type + "\"}");
         } catch (IOException e) {
             e.printStackTrace();
         }
