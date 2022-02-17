@@ -12,10 +12,4 @@ import org.springframework.test.context.ContextConfiguration;
 @CucumberOptions(plugin = {"pretty"}, features = "src/test/resources/features")
 public class RunCucumberTest extends SpringIntegration {
     public static final String PASSWORD = "password";
-
-    @BeforeClass
-    public static void dbSetup() {
-        System.out.println("SALUT");
-    }
-
 }
