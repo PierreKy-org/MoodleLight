@@ -97,7 +97,7 @@ r
     And a mqc named "testQuestion4"
     When "testTeacher1" add the valid answer "'ab'" to the question "testQuestion4"
     Then "testTeacher1" request the answers of question "testQuestion4"
-    And the response is "\['ab', 'AB'\]"
+    And the response is "\['ab'\]"
 
   Scenario: Getting the questions of a questioner
     Given a Teacher with the login "testTeacher1"

@@ -10,8 +10,8 @@ Feature: Creating and Deleting a new Resource
   Scenario: Successful questioner creation
     Given a Teacher with the login "testTeacher1"
     When The user "testTeacher1" try to delete the questioner "testQuestioner1"
-    When The user "testTeacher1" try to create the questioner "testQuestioner1"
-    And last request status is 200
+    And The user "testTeacher1" try to create the questioner "testQuestioner1"
+    Then last request status is 200
     And the response is '^\{"message":"Questioner successfully created!"\}$'
 
   Scenario: Successful course deletion
