@@ -105,9 +105,6 @@ Feature: Getting information
     When "testTeacher1" request the questions of the questioner "testQuestioner1"
     Then the response is '\[\]'
 
-  Scenario: Getting the questions of a questioner
-    Given TODO
-
   Scenario: Getting the the answers from a user for a question
     Given TODO
 
