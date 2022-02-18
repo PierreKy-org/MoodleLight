@@ -169,7 +169,6 @@ public class QuestionController {
         }
         question.getAnswers().add(request.getAnswer());
         questionRepository.save(question);
-
         return ResponseEntity.ok().body(new MessageResponse("The answer has been added to the question!"));
     }
 

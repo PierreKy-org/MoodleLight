@@ -77,4 +77,5 @@ public class AuthStepDefs {
     public void aTeacherWhoDoesnTExistsWithTheLogin(String userName) {
         userRepository.findByUsername(userName).ifPresent(user -> userRepository.delete(user));
     }
+
 }
