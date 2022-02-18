@@ -14,7 +14,6 @@ Feature: Managing a module
     Then the response is '^\{"message":"Resource successfully added"\}$'
 
 
-
   Scenario: Removing a resource from a module
     Given a Teacher with the login "testTeacher1"
     Given a Module named "Sport"
