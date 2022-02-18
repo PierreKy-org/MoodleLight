@@ -2,7 +2,7 @@ version: '3'
 
 services:
   API:
-    image: 'api'
+    image: 'wailram/api'
     container_name: api
     ports:
       - "8080:8080"

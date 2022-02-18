@@ -104,7 +104,3 @@ Feature: Getting information
     And a questioner named "testQuestioner1"
     When "testTeacher1" request the questions of the questioner "testQuestioner1"
     Then the response is '\[\]'
-
-  Scenario: Getting the the answers from a user for a question
-
-  Scenario: Getting the score of a questioner
