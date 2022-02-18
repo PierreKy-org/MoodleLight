@@ -112,4 +112,18 @@ public class ResourceStepDefs {
             e.printStackTrace();
         }
     }
+
+    @When("{string} request the questions of the questioner {string}")
+    public void requestTheQuestionsOfTheQuestioner(String user, String questioner) {
+        User user1 = userRepository.findByUsername(user).orElseThrow(() -> new RuntimeException("Error: User is not found."));
+        String jwt = authController.generateJwt(user1.getUsername(), PASSWORD);
+        Resource resource = resourceRepository.findByName(questioner).orElseThrow(() -> new RuntimeException("Error: Questioner is not found."));
+        try {
+            if(resource instanceof Questioner) {
+                springIntegration.executeGet("api/resource/" + resource.getId() + "/questions", jwt);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

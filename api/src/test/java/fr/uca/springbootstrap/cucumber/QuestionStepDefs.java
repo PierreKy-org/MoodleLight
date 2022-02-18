@@ -1,9 +1,7 @@
 package fr.uca.springbootstrap.cucumber;
 
 import fr.uca.springbootstrap.controllers.AuthController;
-import fr.uca.springbootstrap.models.Resource.MQC;
-import fr.uca.springbootstrap.models.Resource.Question;
-import fr.uca.springbootstrap.models.Resource.Runner;
+import fr.uca.springbootstrap.models.Resource.*;
 import fr.uca.springbootstrap.models.User;
 import fr.uca.springbootstrap.repository.QuestionRepository;
 import fr.uca.springbootstrap.repository.UserRepository;
@@ -162,4 +160,6 @@ public class QuestionStepDefs {
             e.printStackTrace();
         }
     }
+
+
 }
