@@ -134,7 +134,7 @@ public class ResourceController {
         };
     }
 
-    @DeleteMapping("/{resourceName}/visibility/remove/{role}")
+    @PutMapping("/{resourceName}/visibility/remove/{role}")
     @PreAuthorize("hasRole('TEACHER')")
     public ResponseEntity<MessageResponse> removeVisibility(@PathVariable String resourceName, @PathVariable String role){
         Resource resource = resourceRepository.findByName(resourceName).orElseThrow(() -> new RuntimeException("resource not found"));
