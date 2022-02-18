@@ -1,5 +1,5 @@
 Feature: Getting information
-
+r
   Scenario: Getting the userId of an user
     Given a Student with the login "testStudent1"
     When the user "testStudent1" request his id
