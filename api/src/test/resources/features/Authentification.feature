@@ -43,5 +43,3 @@ Feature: authentification
     Given a Module named "Sport"
     When "testStudent3" renamed the module "Sport" in "AI"
     Then last request status is 403
-
-  Scenario: Request without the permission of visibility of module

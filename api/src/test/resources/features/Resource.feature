@@ -31,19 +31,3 @@ Feature: Managing resources
     When "testTeacher3" remove "student" to the resource "testResource1"
     And "testTeacher3" remove "student" to the resource "testResource1"
     Then the response is '\{"message":"visibility not in this resource"\}'
-
-  Scenario: Trying to remove a role if the role not in the resourceVisibility of the resource
-
-  Scenario: Changing the name of a resource
-
-  Scenario: Changing the description of a resource
-
-  Scenario: Adding the resource to a module
-
-  Scenario: Removing the resource from a module
-
-  Scenario: Trying to add to a module if the resource is already in a module
-
-  Scenario: Trying to remove from a module if the resource is not in the module
-
-  Scenario: Validating a questioner
