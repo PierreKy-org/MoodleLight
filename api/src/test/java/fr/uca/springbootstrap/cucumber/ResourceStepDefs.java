@@ -93,7 +93,7 @@ public class ResourceStepDefs {
         User user = userRepository.findByUsername(userName).orElseThrow(() -> new RuntimeException("Error: User is not found."));
         String jwt = authController.generateJwt(user.getUsername(), PASSWORD);
         try {
-            springIntegration.executePost("api/resource/" + resourceName + "/visibility/remove/" + role, jwt,"");
+            springIntegration.executePut("api/resource/" + resourceName + "/visibility/remove/" + role, jwt,"{}");
         } catch (IOException e) {
             e.printStackTrace();
         }
