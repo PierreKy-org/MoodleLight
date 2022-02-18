@@ -32,4 +32,10 @@ public class LoginRequest {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+
+	@Override
+	public String toString() {
+		String sb = "{\"username\": \"" + this.username + "\" ,\"password\": \"" + this.password + "\" }";
+		return sb.replace("\n", "\\n").replace("\t","\\t");
+	}
 }

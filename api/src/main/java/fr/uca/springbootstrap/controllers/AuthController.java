@@ -1,5 +1,6 @@
 package fr.uca.springbootstrap.controllers;
 
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -15,6 +16,12 @@ import fr.uca.springbootstrap.payload.request.SignupRequest;
 import fr.uca.springbootstrap.payload.response.JwtResponse;
 import fr.uca.springbootstrap.payload.response.MessageResponse;
 import fr.uca.springbootstrap.security.jwt.JwtUtils;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -60,17 +67,16 @@ public class AuthController {
 	//TODO ENVOYER UNE REQUETE AU CONTAINER JWT
 	@PostMapping("/signin")
 	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
-		String jwt = generateJwt(loginRequest.getUsername(), loginRequest.getPassword());
-		UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();		
-		List<String> roles = userDetails.getAuthorities().stream()
-				.map(GrantedAuthority::getAuthority)
-				.collect(Collectors.toList());
-
-		return ResponseEntity.ok(new JwtResponse(jwt,
-												 userDetails.getId(), 
-												 userDetails.getUsername(), 
-												 userDetails.getEmail(), 
-												 roles));
+		CloseableHttpClient httpClient = HttpClients.createDefault();
+		HttpPost request = new HttpPost("http://auth:8080/authentication/signin");
+		request.addHeader("Content-type", "application/json");
+		try {
+			request.setEntity(new StringEntity(loginRequest.toString()));
+			HttpResponse latestHttpResponse = httpClient.execute(request);
+			return ResponseEntity.ok().body(EntityUtils.toString(latestHttpResponse.getEntity()));
+		} catch (IOException e) {
+			return ResponseEntity.status(500).build();
+		}
 	}
 
 	User createUser(String userName, String email, String password, Set<String> strRoles) {
@@ -109,23 +115,15 @@ public class AuthController {
 	//TODO ENVOYER UNE REQUETE AU CONTAINER JWT
 	@PostMapping("/signup")
 	public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
-		if (userRepository.existsByUsername(signUpRequest.getUsername())) {
-			return ResponseEntity
-					.badRequest()
-					.body(new MessageResponse("Error: Username is already taken!"));
+		CloseableHttpClient httpClient = HttpClients.createDefault();
+		HttpPost request = new HttpPost("http://auth:8080/authentication/signup");
+		request.addHeader("Content-type", "application/json");
+		try {
+			request.setEntity(new StringEntity(signUpRequest.toString()));
+			HttpResponse latestHttpResponse = httpClient.execute(request);
+			return ResponseEntity.ok().body(EntityUtils.toString(latestHttpResponse.getEntity()));
+		} catch (IOException e) {
+			return ResponseEntity.status(500).build();
 		}
-
-		if (userRepository.existsByEmail(signUpRequest.getEmail())) {
-			return ResponseEntity
-					.badRequest()
-					.body(new MessageResponse("Error: Email is already in use!"));
-		}
-
-		// Create new user's account
-		User user = createUser(signUpRequest.getUsername(),
-							 signUpRequest.getEmail(),
-							 encoder.encode(signUpRequest.getPassword()), signUpRequest.getRole());
-		userRepository.save(user);
-		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
 	}
 }

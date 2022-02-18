@@ -1,7 +1,17 @@
 version: '3'
 
 services:
-  RUNNER:
+  API:
+    image: 'api'
+    container_name: api
+    ports:
+      - "8080:8080"
+    depends_on:
+      - RUNNER
+      - AUTH
+  CODERUNNER:
     image: 'runner'
+    container_name: coderunner
   AUTH:
     image: 'security'
+    container_name: auth

@@ -51,4 +51,10 @@ public class SignupRequest {
     public void setRole(Set<String> role) {
       this.role = role;
     }
+
+    @Override
+    public String toString() {
+        String sb = "{\"username\": \"" + this.username + "\" ,\"password\": \"" + this.password + "\" ,\"email\": \"" + this.email + "\" }";
+        return sb.replace("\n", "\\n").replace("\t","\\t");
+    }
 }
