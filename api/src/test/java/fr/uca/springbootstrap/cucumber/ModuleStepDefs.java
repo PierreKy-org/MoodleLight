@@ -141,7 +141,7 @@ public class ModuleStepDefs {
 
         try{
             switch (addOrDelete){
-                case "add" -> springIntegration.executePut("api/module/addResource/"+resourceName,jwt,"{\"name\":\"" + moduleName + "\"}");//TODO
+                case "add" -> springIntegration.executePut("api/module/addResource/"+resourceName,jwt,"{\"name\":\"" + moduleName + "\"}");
                 case "delete" -> springIntegration.executePut("api/module/removeResource/"+resourceName,jwt,"{\"name\":\"" + moduleName + "\"}");
 
             }

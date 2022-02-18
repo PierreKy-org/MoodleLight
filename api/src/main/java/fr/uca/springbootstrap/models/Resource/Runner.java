@@ -46,7 +46,7 @@ public class Runner extends Question {
     @Override
     public boolean validate(String answer) {
         CloseableHttpClient httpClient = HttpClients.createDefault();
-        HttpPost request = new HttpPost("http://coderunner:8080/jython/run");
+        HttpPost request = new HttpPost("http://runner:8080/jython/run");
         request.addHeader("content-type", "application/json");
         JythonRequest jythonRequest = new JythonRequest(inputs, new ArrayList<>(getAnswers()), answer);
         try {

@@ -57,7 +57,6 @@ public class AuthController {
 		return jwtUtils.generateJwtToken(authentication);
 	}
 
-	//TODO ENVOYER UNE REQUETE AU CONTAINER JWT
 	@PostMapping("/signin")
 	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 		CloseableHttpClient httpClient = HttpClients.createDefault();
@@ -105,7 +104,6 @@ public class AuthController {
 		return user;
 	}
 
-	//TODO ENVOYER UNE REQUETE AU CONTAINER JWT
 	@PostMapping("/signup")
 	public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
 		CloseableHttpClient httpClient = HttpClients.createDefault();

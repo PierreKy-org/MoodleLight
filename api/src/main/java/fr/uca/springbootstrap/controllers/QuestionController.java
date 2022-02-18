@@ -141,7 +141,7 @@ public class QuestionController {
     }
 
     @GetMapping("/allAnswers/{questionId}")
-    public ResponseEntity<String> getAnswersOfAQuestion(@PathVariable Long questionId) {//TODO ca boucle
+    public ResponseEntity<String> getAnswersOfAQuestion(@PathVariable Long questionId) {
         Question question = questionRepository.findById(questionId).orElse(null);
         if (question == null) {
             return ResponseEntity.notFound().build();
