@@ -106,10 +106,7 @@ Feature: Getting information
     Then the response is '\[\]'
 
   Scenario: Getting the questions of a questioner
-    Given TODO
 
   Scenario: Getting the the answers from a user for a question
-    Given TODO
 
   Scenario: Getting the score of a questioner
-    Given TODO

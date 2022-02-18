@@ -7,10 +7,7 @@ Feature: Managing Questions
     And the response is '^\{"message":"The answer has been added to the question!"\}$'
 
   Scenario: Removing a correct answer from a question
-    Given TODO
 
   Scenario: Changing the name of a question
-    Given TODO
 
   Scenario: Changing the description of a question
-    Given TODO

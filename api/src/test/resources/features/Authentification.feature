@@ -45,4 +45,3 @@ Feature: authentification
     Then last request status is 403
 
   Scenario: Request without the permission of visibility of module
-    Given TODO
