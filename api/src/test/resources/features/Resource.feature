@@ -4,7 +4,7 @@ Feature: Managing resources
     Given a Student with the login "testStudent3"
     And a course named "testResource1"
     When "testStudent3" request the description of the resource "testResource1"
-    Then last request status is 403
+    Then last request status is 404
 
   Scenario: Adding a role to the resourceVisibility of a resource
     Given a Teacher with the login "testTeacher3"
@@ -23,6 +23,7 @@ Feature: Managing resources
     Given a Teacher with the login "testTeacher3"
     And a course named "testResource1"
     When "testTeacher3" add "student" to the resource "testResource1"
+    And "testTeacher3" add "student" to the resource "testResource1"
     Then the response is '\{"message":"this visibility was already here"\}'
 
   Scenario: Trying to remove a role if the role not in the resourceVisibility of the resource
