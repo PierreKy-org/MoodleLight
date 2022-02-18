@@ -1,6 +1,5 @@
 package fr.uca.springbootstrap.models;
 
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;

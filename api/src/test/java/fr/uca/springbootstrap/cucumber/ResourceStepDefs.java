@@ -15,10 +15,7 @@ import io.cucumber.java.ParameterType;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.List;
 
 import static fr.uca.springbootstrap.RunCucumberTest.PASSWORD;
 

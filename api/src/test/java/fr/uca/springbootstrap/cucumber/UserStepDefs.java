@@ -15,13 +15,9 @@ import io.cucumber.java.en.When;
 import org.junit.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
 import static fr.uca.springbootstrap.RunCucumberTest.PASSWORD;
-import static org.junit.Assert.assertEquals;
-
 import java.io.IOException;
 import java.util.HashSet;
-import java.util.Optional;
 
 public class UserStepDefs {
     private final SpringIntegration springIntegration = new SpringIntegration();

@@ -5,16 +5,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-
 import javax.validation.Valid;
-
 import fr.uca.springbootstrap.models.ERole;
 import fr.uca.springbootstrap.models.Role;
 import fr.uca.springbootstrap.models.User;
 import fr.uca.springbootstrap.payload.request.LoginRequest;
 import fr.uca.springbootstrap.payload.request.SignupRequest;
-import fr.uca.springbootstrap.payload.response.JwtResponse;
-import fr.uca.springbootstrap.payload.response.MessageResponse;
 import fr.uca.springbootstrap.security.jwt.JwtUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -27,14 +23,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-
 import fr.uca.springbootstrap.repository.RoleRepository;
 import fr.uca.springbootstrap.repository.UserRepository;
-import fr.uca.springbootstrap.security.services.UserDetailsImpl;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController

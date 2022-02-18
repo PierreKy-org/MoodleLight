@@ -13,7 +13,6 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
 import java.io.IOException;
 
 import static fr.uca.springbootstrap.RunCucumberTest.PASSWORD;

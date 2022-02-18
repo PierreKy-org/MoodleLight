@@ -4,17 +4,12 @@ import fr.uca.springbootstrap.models.ERole;
 import fr.uca.springbootstrap.models.Module;
 import fr.uca.springbootstrap.models.Role;
 import fr.uca.springbootstrap.models.User;
-
-import fr.uca.springbootstrap.payload.request.ModuleRequest;
-import fr.uca.springbootstrap.payload.request.UserRequest;
-import fr.uca.springbootstrap.payload.response.MessageResponse;
 import fr.uca.springbootstrap.repository.ModuleRepository;
 import fr.uca.springbootstrap.repository.RoleRepository;
 import fr.uca.springbootstrap.repository.UserRepository;
 import fr.uca.springbootstrap.security.jwt.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
